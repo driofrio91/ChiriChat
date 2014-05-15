@@ -26,7 +26,9 @@ public class ListConversation extends Activity {
 
     private ArrayList<Mensajes> allMensajes;
 
-    private Activity activity = this;
+    //private Activity activity = this;
+
+    private Mensajes men;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +50,7 @@ public class ListConversation extends Activity {
 
         allMensajes.add(men);
 
-        adapterMensajes = new myAdapterMensajes(activity, allMensajes);
+        adapterMensajes = new myAdapterMensajes(this, allMensajes);
 
         lisViewMensajes.setAdapter(adapterMensajes);
 
@@ -57,11 +59,13 @@ public class ListConversation extends Activity {
 
     public void send(View view){
 
-        Mensajes men = new Mensajes(editText.getText().toString(),1);
+        men = new Mensajes(editText.getText().toString().trim(),1);
 
         allMensajes.add(men);
 
-        lisViewMensajes.setAdapter(adapterMensajes);
+        adapterMensajes.notifyDataSetChanged();
+
+        lisViewMensajes.setSelection(allMensajes.size()-1);
 
         editText.setText("");
     }
