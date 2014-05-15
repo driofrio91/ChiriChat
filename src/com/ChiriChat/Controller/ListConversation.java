@@ -59,8 +59,6 @@ public class ListConversation extends Activity {
 
         Mensajes men = new Mensajes(editText.getText().toString(),1);
 
-
-
         allMensajes.add(men);
 
         lisViewMensajes.setAdapter(adapterMensajes);
