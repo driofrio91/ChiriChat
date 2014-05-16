@@ -3,11 +3,13 @@ package com.ChiriChat.Controller;/**
  */
 
 import android.app.Activity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 import com.ChiriChat.R;
 import com.ChiriChat.model.Mensajes;
 
@@ -58,63 +60,54 @@ public class myAdapterMensajes extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View v = convertView;
-
         Mensajes men = (Mensajes) getItem(position);
 
-        //TODO cambiar esto por la comporbacion si es un mensaje local o de entrada
+        ViewHolder viewHolder = null;
+
+        if (v == null) {
+            v = inflater.inflate(R.layout.item_conversation, null);
+            holder = new ViewHolder();
+            holder.mensaje = (TextView) v.findViewById(R.id.textViewMensaje);
+            //holder.mensajeRemoto = (TextView) v.findViewById(R.id.textViewRemoto);
+            v.setTag(holder);
+        } else {
+            holder = (ViewHolder) v.getTag();
+        }
+
+        holder.mensaje.setText(men.toString());
+
+        LayoutParams lp = (LayoutParams) holder.mensaje.getLayoutParams();
+
+        //TODO cambiar esto por la comprobacion si es un mensaje local o de entrada
 
         if (men.getCadena().equals("1")) {
 
-            if (v == null) {
+            lp.gravity = Gravity.LEFT;
 
-                v = inflater.inflate(R.layout.item_conversation, null);
 
-               // v.findViewById(R.id.textView2).setVisibility(View.GONE);
-                // v.findViewById(R.id.textView1).setVisibility(View.INVISIBLE);
+        } else {
 
-                holder = new ViewHolder();
-                holder.mensaje = (TextView) v.findViewById(R.id.textView2);
-                v.setTag(holder);
-
-            } else {
-
-                v.setTag(holder);
-
-            }
-            holder.mensaje.setText(men.toString());
-
-        } else if(!men.getCadena().equals("1")) {
-
-            if (v == null) {
-
-                v = inflater.inflate(R.layout.item_conversation, null);
-
-                // v.findViewById(R.id.textView1).setVisibility(View.INVISIBLE);
-               // v.findViewById(R.id.textView1).setVisibility(View.GONE);
-
-                holder = new ViewHolder();
-                holder.mensaje = (TextView) v.findViewById(R.id.textView1);
-                v.setTag(holder);
-
-            } else {
-
-                v.setTag(holder);
-
-            }
-
-            holder.mensaje.setText(men.getCadena());
+            lp.gravity = Gravity.RIGHT;
         }
 
-        men=null;
-
+        holder.mensaje.setLayoutParams(lp);
         return v;
     }
 
 
     class ViewHolder {
-
-        TextView mensaje;
-
+        TextView mensaje, mensajeRemoto;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        //if mensaje recivido
+
+        return super.getItemViewType(position);
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
 }
