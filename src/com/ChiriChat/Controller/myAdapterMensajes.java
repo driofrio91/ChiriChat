@@ -83,7 +83,7 @@ public class myAdapterMensajes extends BaseAdapter {
             }
             holder.mensaje.setText(men.toString());
 
-        } else {
+        } else if(!men.getCadena().equals("1")) {
 
             if (v == null) {
 
@@ -104,6 +104,8 @@ public class myAdapterMensajes extends BaseAdapter {
 
             holder.mensaje.setText(men.getCadena());
         }
+
+        men=null;
 
         return v;
     }

@@ -46,10 +46,6 @@ public class ListConversation extends Activity {
 
         allMensajes = new ArrayList<Mensajes>();
 
-        Mensajes men = new Mensajes("fdfas",1);
-
-        allMensajes.add(men);
-
         adapterMensajes = new myAdapterMensajes(this, allMensajes);
 
         lisViewMensajes.setAdapter(adapterMensajes);
@@ -68,5 +64,7 @@ public class ListConversation extends Activity {
         lisViewMensajes.setSelection(allMensajes.size()-1);
 
         editText.setText("");
+
+        men=null;
     }
 }
