@@ -1,6 +1,5 @@
 package com.ChiriChat.Controller;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.ChiriChat.R;
 import com.ChiriChat.model.Contactos;
@@ -60,7 +58,7 @@ public class ListContacts extends Activity {
 
         MenuInflater inflater = getMenuInflater();
 
-        inflater.inflate(R.menu.menu, menu);
+        inflater.inflate(R.menu.menu_activity_contacts, menu);
 
         return super.onCreateOptionsMenu(menu);
     }

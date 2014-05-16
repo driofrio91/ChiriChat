@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">ChiriChat</string>
     <string name="bt_Send">Enviar</string>
+    <string name="ver">Ver</string>
 </resources>
