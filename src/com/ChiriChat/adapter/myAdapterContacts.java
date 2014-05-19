@@ -1,4 +1,4 @@
-package com.ChiriChat.Controller;/**
+package com.ChiriChat.adapter;/**
  * Created by neosistec on 13/05/2014.
  */
 

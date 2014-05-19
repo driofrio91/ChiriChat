@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import com.ChiriChat.R;
+import com.ChiriChat.adapter.myAdapterContacts;
 import com.ChiriChat.model.Contactos;
 
 import java.util.ArrayList;

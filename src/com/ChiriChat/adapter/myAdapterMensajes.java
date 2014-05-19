@@ -1,8 +1,9 @@
-package com.ChiriChat.Controller;/**
+package com.ChiriChat.adapter;/**
  * Created by neosistec on 13/05/2014.
  */
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,37 +61,34 @@ public class myAdapterMensajes extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View v = convertView;
+
         Mensajes men = (Mensajes) getItem(position);
+        Log.d("Mesaje -> ",men.toString());
+        BaseHolder baseHolder = null;
 
-        ViewHolder viewHolder = null;
+        if (v == null){
+            baseHolder = new BaseHolder();
+            switch (getItemViewType(position)){
 
-        if (v == null) {
-            v = inflater.inflate(R.layout.item_conversation, null);
-            holder = new ViewHolder();
-            holder.mensaje = (TextView) v.findViewById(R.id.textViewMensaje);
-            //holder.mensajeRemoto = (TextView) v.findViewById(R.id.textViewRemoto);
-            v.setTag(holder);
-        } else {
-            holder = (ViewHolder) v.getTag();
+                case 0:
+                    v = inflater.inflate(R.layout.item_conversation_local, null);
+                    baseHolder.text = (TextView) v.findViewById(R.id.MensajeLocal);
+                    break;
+                case 1:
+                    v = inflater.inflate(R.layout.item_conversation_remoto, null);
+                    baseHolder.text = (TextView) v.findViewById(R.id.MensajeRemoto);
+                    break;
+            }
+
+            v.setTag(baseHolder);
+
+        }else {
+
+            baseHolder = (BaseHolder) v.getTag();
+            Log.d("reciblar","raciclado");
         }
 
-        holder.mensaje.setText(men.toString());
-
-        LayoutParams lp = (LayoutParams) holder.mensaje.getLayoutParams();
-
-        //TODO cambiar esto por la comprobacion si es un mensaje local o de entrada
-
-        if (men.getCadena().equals("1")) {
-
-            lp.gravity = Gravity.LEFT;
-
-
-        } else {
-
-            lp.gravity = Gravity.RIGHT;
-        }
-
-        holder.mensaje.setLayoutParams(lp);
+        baseHolder.text.setText(men.toString());
         return v;
     }
 
@@ -99,11 +97,23 @@ public class myAdapterMensajes extends BaseAdapter {
         TextView mensaje, mensajeRemoto;
     }
 
+    /**
+     * Condicion para saber que vista se debe inflar en que momento
+     * @param position
+     * @return
+     */
     @Override
     public int getItemViewType(int position) {
         //if mensaje recivido
+        if (itemMensajes.get(position).getCadena().contains("1")){
 
-        return super.getItemViewType(position);
+            return 0;
+
+        }else{
+
+            return 1;
+        }
+
     }
 
     @Override

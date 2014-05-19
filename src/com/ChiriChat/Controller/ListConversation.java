@@ -3,14 +3,13 @@ package com.ChiriChat.Controller;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import com.ChiriChat.R;
+import com.ChiriChat.adapter.myAdapterMensajes;
 import com.ChiriChat.model.Mensajes;
 
-import java.io.Console;
 import java.util.ArrayList;
 
 /**
