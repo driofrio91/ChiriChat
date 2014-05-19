@@ -57,6 +57,16 @@ public class myAdapterMensajes extends BaseAdapter {
         return itemMensajes.get(position).getIdMensaje();
     }
 
+    /**
+     * Metodo que nos devolvera la vista para ese momento.
+     * Comprobara que tipo de vista es la que tiene que inflar, segun el metodo @see getItemViewType
+     *
+     *
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -67,7 +77,9 @@ public class myAdapterMensajes extends BaseAdapter {
         BaseHolder baseHolder = null;
 
         if (v == null){
+
             baseHolder = new BaseHolder();
+
             switch (getItemViewType(position)){
 
                 case 0:
@@ -89,6 +101,7 @@ public class myAdapterMensajes extends BaseAdapter {
         }
 
         baseHolder.text.setText(men.toString());
+
         return v;
     }
 
@@ -98,13 +111,15 @@ public class myAdapterMensajes extends BaseAdapter {
     }
 
     /**
-     * Condicion para saber que vista se debe inflar en que momento
+     * Condicion para saber que vista queremos.
      * @param position
      * @return
      */
     @Override
     public int getItemViewType(int position) {
-        //if mensaje recivido
+        
+        //TODO sustituir por la condicion de que los mensajes sean de locales o remotos
+
         if (itemMensajes.get(position).getCadena().contains("1")){
 
             return 0;
@@ -116,6 +131,10 @@ public class myAdapterMensajes extends BaseAdapter {
 
     }
 
+    /**
+     * Metodo que nos devuelve el numero de total de vistas que tenemos.
+     * @return
+     */
     @Override
     public int getViewTypeCount() {
         return 2;
