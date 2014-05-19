@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 import com.ChiriChat.R;
 import com.ChiriChat.model.Mensajes;
 
@@ -22,8 +21,6 @@ public class myAdapterMensajes extends BaseAdapter {
     private Activity activity;
     private ArrayList<Mensajes> itemMensajes;
     private LayoutInflater inflater;
-    //////////////////////////////////////////
-    private ViewHolder holder = null;
 
     public myAdapterMensajes(Activity activity, ArrayList<Mensajes> itemMensajes) {
 
@@ -56,14 +53,14 @@ public class myAdapterMensajes extends BaseAdapter {
     }
 
     /**
-     * Metodo que nos devolvera la vista para ese momento.
-     * Comprobara que tipo de vista es la que tiene que inflar, segun el metodo @see getItemViewType
-     *
+     * Metodo que nos devolvera la vista que necesitamos en ese momento.
+     * Comprobara que tipo de vista es la que tiene que inflar, segun el metodo @see getItemViewType().
      *
      * @param position
      * @param convertView
      * @param parent
-     * @return
+     *
+     * @return View -> vista que necesita el ListView
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -96,15 +93,11 @@ public class myAdapterMensajes extends BaseAdapter {
             Log.d("reciclar","reciclado");
         }
 
-        baseHolder.serContent(men);
+        baseHolder.setContent(men);
 
         return v;
     }
 
-
-    class ViewHolder {
-        TextView mensaje, mensajeRemoto;
-    }
 
     /**
      * Condicion para saber que vista queremos.
@@ -126,6 +119,7 @@ public class myAdapterMensajes extends BaseAdapter {
         }
 
     }
+
 
     /**
      * Metodo que nos devuelve el numero de total de vistas que tenemos.

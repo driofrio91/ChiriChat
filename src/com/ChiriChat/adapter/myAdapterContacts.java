@@ -22,7 +22,6 @@ public class myAdapterContacts extends BaseAdapter {
     private Activity activity;
     private ArrayList<Contactos> itemContactos;
     private LayoutInflater inflater;
-    //////////////////////////////////////////
     private ViewHolder holder = null;
 
 
@@ -57,10 +56,7 @@ public class myAdapterContacts extends BaseAdapter {
         if ( v == null ){
 
             v = inflater.inflate(R.layout.item_contact, null);
-            holder = new ViewHolder();
-            holder.nombre = ( TextView ) v.findViewById(R.id.nombre);
-            holder.estado = (TextView) v.findViewById(R.id.estado);
-            holder.image = (ImageView) v.findViewById(R.id.image);
+            holder = new ViewHolder(v);
             v.setTag(holder);
 
         }else {
@@ -69,20 +65,11 @@ public class myAdapterContacts extends BaseAdapter {
 
         }
 
-        holder.nombre.setText(contact.getNombre());
-        holder.estado.setText(contact.getEstado());
+        holder.setContent(contact);
 
         return v;
     }
 
 
-    /**
-     *
-     */
-    class ViewHolder {
 
-        ImageView image;
-        TextView nombre, estado;
-
-    }
 }

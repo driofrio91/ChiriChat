@@ -12,5 +12,5 @@ import android.widget.TextView;
 public interface BaseHolder {
 
     public void getView(View v);
-    public void serContent(Object o);
+    public void setContent(Object o);
 }

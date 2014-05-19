@@ -1,5 +1,7 @@
 package com.ChiriChat.Controller;
 
+
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,6 +37,12 @@ public class ListContacts extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_contacts);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setNavigationMode(ActionBar.DISPLAY_SHOW_TITLE);
+      actionBar.setDisplayShowTitleEnabled(false);
+
+
 
         listContacts = (ListView) findViewById(R.id.listView_Contacts);
 

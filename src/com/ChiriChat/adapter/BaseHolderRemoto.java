@@ -11,15 +11,24 @@ import com.ChiriChat.model.Mensajes;
 /**
  * @author Danny Riofrio Jimenez
  */
-public class BaseHolderRemoto implements BaseHolder{
+public class BaseHolderRemoto implements BaseHolder {
 
     private ImageView image;
     private TextView textView;
 
+    /**
+     * El constructor llamara al metodo @see getView() para inicializar las vistas.
+     *
+     * @param v
+     */
     public BaseHolderRemoto(View v) {
         getView(v);
     }
 
+    /**
+     * Metodo que nos inicializara las vista.
+     * @param v
+     */
     @Override
     public void getView(View v) {
 
@@ -28,8 +37,12 @@ public class BaseHolderRemoto implements BaseHolder{
 
     }
 
+    /**
+     * Metodo que modificara el contenido de layout
+     * @param o
+     */
     @Override
-    public void serContent(Object o) {
+    public void setContent(Object o) {
         Mensajes mensaje = (Mensajes) o;
         //si los contactos tiene imagen editarla aqui
         textView.setText(mensaje.toString());
