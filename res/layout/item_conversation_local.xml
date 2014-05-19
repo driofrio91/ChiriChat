@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
     <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
-            android:id="@+id/imageLocal"
-            android:src="@android:color/holo_blue_light"/>
+            android:layout_alignParentRight="true"
+            android:id="@+id/imagenRemoto"
+            android:src="@android:color/holo_orange_light"/>
 
     <LinearLayout
-                  android:orientation="vertical"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_margin="10dp"
-                  android:layout_toRightOf="@+id/imageLocal">
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@+id/imagenRemoto">
 
         <TextView
                 android:layout_width="wrap_content"
@@ -25,9 +23,8 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Medium Text"
                 android:layout_margin="10dp"
-                android:id="@+id/MensajeLocal"/>
-
-
+                android:layout_gravity="right"
+                android:id="@+id/MensajeRemoto"/>
 
     </LinearLayout>
 

@@ -3,6 +3,7 @@ package com.ChiriChat.adapter;/**
  */
 
 import android.view.View;
+
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.ChiriChat.R;
@@ -11,21 +12,20 @@ import com.ChiriChat.model.Mensajes;
 /**
  * @author Danny Riofrio Jimenez
  */
-public class BaseHolderRemoto implements BaseHolder{
+public class BaseHolderLocal implements BaseHolder {
 
     private ImageView image;
     private TextView textView;
 
-    public BaseHolderRemoto(View v) {
+    public BaseHolderLocal(View v) {
         getView(v);
+
     }
 
     @Override
     public void getView(View v) {
-
-        image = (ImageView) v.findViewById(R.id.imagenRemoto);
-        textView = (TextView) v.findViewById(R.id.MensajeRemoto);
-
+        image = (ImageView) v.findViewById(R.id.imageLocal);
+        textView = (TextView) v.findViewById(R.id.MensajeLocal);
     }
 
     @Override
@@ -33,7 +33,6 @@ public class BaseHolderRemoto implements BaseHolder{
         Mensajes mensaje = (Mensajes) o;
         //si los contactos tiene imagen editarla aqui
         textView.setText(mensaje.toString());
-
     }
 
     public ImageView getImage() {
@@ -44,12 +43,11 @@ public class BaseHolderRemoto implements BaseHolder{
         this.image = image;
     }
 
-    public TextView getTextView() {
+    public TextView gettextView() {
         return textView;
     }
 
-    public void setTextView(TextView textView) {
+    public void settextView(TextView textView) {
         this.textView = textView;
     }
 }
-

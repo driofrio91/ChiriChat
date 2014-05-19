@@ -4,13 +4,11 @@ package com.ChiriChat.adapter;/**
 
 import android.app.Activity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
 import com.ChiriChat.R;
 import com.ChiriChat.model.Mensajes;
 
@@ -78,17 +76,15 @@ public class myAdapterMensajes extends BaseAdapter {
 
         if (v == null){
 
-            baseHolder = new BaseHolder();
-
             switch (getItemViewType(position)){
 
                 case 0:
-                    v = inflater.inflate(R.layout.item_conversation_local, null);
-                    baseHolder.text = (TextView) v.findViewById(R.id.MensajeLocal);
+                    v = inflater.inflate(R.layout.item_conversation_remoto, null);
+                    baseHolder = new BaseHolderLocal(v);
                     break;
                 case 1:
-                    v = inflater.inflate(R.layout.item_conversation_remoto, null);
-                    baseHolder.text = (TextView) v.findViewById(R.id.MensajeRemoto);
+                    v = inflater.inflate(R.layout.item_conversation_local, null);
+                    baseHolder = new BaseHolderRemoto(v);
                     break;
             }
 
@@ -97,10 +93,10 @@ public class myAdapterMensajes extends BaseAdapter {
         }else {
 
             baseHolder = (BaseHolder) v.getTag();
-            Log.d("reciblar","raciclado");
+            Log.d("reciclar","reciclado");
         }
 
-        baseHolder.text.setText(men.toString());
+        baseHolder.serContent(men);
 
         return v;
     }
@@ -117,7 +113,7 @@ public class myAdapterMensajes extends BaseAdapter {
      */
     @Override
     public int getItemViewType(int position) {
-        
+
         //TODO sustituir por la condicion de que los mensajes sean de locales o remotos
 
         if (itemMensajes.get(position).getCadena().contains("1")){
