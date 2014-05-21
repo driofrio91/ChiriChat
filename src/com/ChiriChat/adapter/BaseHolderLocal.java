@@ -12,7 +12,7 @@ import com.ChiriChat.model.Mensajes;
 /**
  * @author Danny Riofrio Jimenez
  */
-public class BaseHolderLocal implements BaseHolder {
+public class BaseHolderLocal extends BaseHolder {
 
     private ImageView image;
     private TextView textView;

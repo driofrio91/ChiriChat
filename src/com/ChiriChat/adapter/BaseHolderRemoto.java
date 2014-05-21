@@ -11,7 +11,7 @@ import com.ChiriChat.model.Mensajes;
 /**
  * @author Danny Riofrio Jimenez
  */
-public class BaseHolderRemoto implements BaseHolder {
+public class BaseHolderRemoto extends BaseHolder {
 
     private ImageView image;
     private TextView textView;

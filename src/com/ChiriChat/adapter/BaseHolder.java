@@ -9,8 +9,8 @@ import android.widget.TextView;
 /**
  * @author Danny Riofrio Jimenez
  */
-public interface BaseHolder {
+public abstract class BaseHolder {
 
-    public void getView(View v);
-    public void setContent(Object o);
+    public void getView(View v){};
+    public void setContent(Object o){};
 }

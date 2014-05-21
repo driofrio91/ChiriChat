@@ -62,15 +62,7 @@ public class ListContacts extends Activity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
 
-        MenuInflater inflater = getMenuInflater();
-
-        inflater.inflate(R.menu.menu_activity_contacts, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
 
     public void lanza(String nombre) {
         Intent i = new Intent(this, ListConversation.class);

@@ -2,6 +2,8 @@ package com.ChiriChat.Controller;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,9 +27,7 @@ public class ListConversation extends Activity {
 
     private ArrayList<Mensajes> allMensajes;
 
-    //private Activity activity = this;
 
-    private Mensajes men;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,11 +37,15 @@ public class ListConversation extends Activity {
         buttonSend = (Button) findViewById(R.id.bt_sent_msg);
         lisViewMensajes = (ListView) findViewById(android.R.id.list);
 
+
         //Recupero el nombre del contacto
         Bundle extras = getIntent().getExtras();
-        String nombreContact = extras.getString("nombre");
-        //Cambiamos el titulo de la actividad
-        this.setTitle(nombreContact);
+
+        if (extras != null){
+            String nombreContact = extras.getString("nombre");
+            //Cambiamos el titulo de la actividad
+            this.setTitle(nombreContact);
+        }
 
         allMensajes = new ArrayList<Mensajes>();
 
@@ -50,20 +54,38 @@ public class ListConversation extends Activity {
         lisViewMensajes.setAdapter(adapterMensajes);
 
 
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+
+        inflater.inflate(R.menu.menu_activity_contacts, menu);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     public void send(View view){
 
-        men = new Mensajes(editText.getText().toString().trim(),1);
+        String cadena = editText.getText().toString().trim();
 
-        allMensajes.add(men);
+       if (!cadena.isEmpty()){
 
-        adapterMensajes.notifyDataSetChanged();
+          Mensajes men = new Mensajes(cadena,1);
 
-        lisViewMensajes.setSelection(allMensajes.size()-1);
+           allMensajes.add(men);
 
-        editText.setText("");
+           adapterMensajes.notifyDataSetChanged();
 
-        men=null;
+           lisViewMensajes.setSelection(allMensajes.size()-1);
+
+           editText.setText("");
+       }
+
     }
+
+
 }

@@ -68,7 +68,7 @@ public class myAdapterMensajes extends BaseAdapter {
         View v = convertView;
 
         Mensajes men = (Mensajes) getItem(position);
-        Log.d("Mesaje -> ",men.toString());
+
         BaseHolder baseHolder = null;
 
         if (v == null){
@@ -86,7 +86,7 @@ public class myAdapterMensajes extends BaseAdapter {
             }
 
             v.setTag(baseHolder);
-
+            Log.d("Nuevo","Vista nueva");
         }else {
 
             baseHolder = (BaseHolder) v.getTag();
