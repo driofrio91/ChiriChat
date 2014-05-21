@@ -54,16 +54,16 @@ public class ListConversation extends Activity {
 
     public void send(View view){
 
-        men = new Mensajes(editText.getText().toString().trim(),1);
+            men = new Mensajes(editText.getText().toString().trim(),1);
 
-        allMensajes.add(men);
+            allMensajes.add(men);
 
-        adapterMensajes.notifyDataSetChanged();
+            adapterMensajes.notifyDataSetChanged();
 
-        lisViewMensajes.setSelection(allMensajes.size()-1);
+            lisViewMensajes.setSelection(allMensajes.size()-1);
 
-        editText.setText("");
+            editText.setText("");
 
-        men=null;
+
     }
 }

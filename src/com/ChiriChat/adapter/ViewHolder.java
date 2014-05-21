@@ -11,7 +11,7 @@ import com.ChiriChat.model.Contactos;
 /**
  * @author Danny Riofrio Jimenez
  */
-public class ViewHolder implements BaseHolder{
+public class ViewHolder extends BaseHolder{
 
     ImageView image;
     TextView nombre, estado;
