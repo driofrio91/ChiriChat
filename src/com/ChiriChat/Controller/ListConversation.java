@@ -53,9 +53,6 @@ public class ListConversation extends Activity {
 
         lisViewMensajes.setAdapter(adapterMensajes);
 
-
-
-
     }
 
     @Override
