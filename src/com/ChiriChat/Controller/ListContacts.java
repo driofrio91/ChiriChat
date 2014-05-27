@@ -5,6 +5,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -47,7 +48,9 @@ public class ListContacts extends Activity {
         listContacts = (ListView) findViewById(R.id.listView_Contacts);
 
         allContactos.add(contacto1);
+        Log.d("contacto1",contacto1.toString());
         allContactos.add(contacto2);
+        Log.d("contacto2",contacto2.toString());
 
         adapterContacts = new myAdapterContacts(this, allContactos);
 
@@ -56,18 +59,26 @@ public class ListContacts extends Activity {
         listContacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                lanza(allContactos.get(position).getNombre());
+                lanza(allContactos.get(position));
             }
         });
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }
 
-
-    public void lanza(String nombre) {
+    public void lanza(Contactos contacto) {
         Intent i = new Intent(this, ListConversation.class);
-        i.putExtra("nombre",nombre);
+        Bundle b = new Bundle();
+        b.putParcelable("key",contacto);
+        Log.d("metodo Contacto",contacto.toString());
+        i.putExtras(b);
         startActivity(i);
 
     }
+
+
 }

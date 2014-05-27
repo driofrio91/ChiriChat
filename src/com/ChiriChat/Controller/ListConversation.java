@@ -1,7 +1,10 @@
 package com.ChiriChat.Controller;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import com.ChiriChat.R;
 import com.ChiriChat.adapter.myAdapterMensajes;
+import com.ChiriChat.model.Contactos;
 import com.ChiriChat.model.Mensajes;
 
 import java.util.ArrayList;
@@ -28,10 +32,10 @@ public class ListConversation extends Activity {
     private ArrayList<Mensajes> allMensajes;
 
 
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_conversation);
+
 
         editText = (EditText) findViewById(R.id.text_sent_msg);
         buttonSend = (Button) findViewById(R.id.bt_sent_msg);
@@ -41,10 +45,15 @@ public class ListConversation extends Activity {
         //Recupero el nombre del contacto
         Bundle extras = getIntent().getExtras();
 
+        Contactos c ;
+
         if (extras != null){
-            String nombreContact = extras.getString("nombre");
+            c = getIntent().getParcelableExtra("key");
+
             //Cambiamos el titulo de la actividad
-            this.setTitle(nombreContact);
+            this.setTitle(c.getNombre());
+            Log.d("ID", c.toString());
+
         }
 
         allMensajes = new ArrayList<Mensajes>();
@@ -52,6 +61,25 @@ public class ListConversation extends Activity {
         adapterMensajes = new myAdapterMensajes(this, allMensajes);
 
         lisViewMensajes.setAdapter(adapterMensajes);
+       // setRetainInstance(true);
+        if (allMensajes.size() > 0){
+            lisViewMensajes.setSelection(allMensajes.size()-1);
+        }
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (allMensajes.size() > 0){
+            lisViewMensajes.setSelection(allMensajes.size()-1);
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
 
     }
 
@@ -60,7 +88,7 @@ public class ListConversation extends Activity {
 
         MenuInflater inflater = getMenuInflater();
 
-        inflater.inflate(R.menu.menu_activity_contacts, menu);
+        inflater.inflate(R.menu.menu_activity_conversation, menu);
 
         return super.onCreateOptionsMenu(menu);
     }

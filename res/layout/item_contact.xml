@@ -9,7 +9,7 @@
             android:layout_height="80dp"
             android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_launcher"
+            android:src="@drawable/icon_contacto"
             android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
@@ -20,7 +20,7 @@
            android:layout_height="match_parent"
            android:orientation="vertical"
            android:layout_centerVertical="true"
-           android:layout_toRightOf="@+id/imageContact">
+           android:layout_toRightOf="@+id/imageContact" android:id="@+id/linearLayout">
 
 
        <TextView
@@ -44,5 +44,6 @@
                android:textSize="12sp" />
 
    </LinearLayout>
+
 
 </RelativeLayout>
