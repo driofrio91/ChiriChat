@@ -1,4 +1,4 @@
-package com.ChiriChat.adapter;/**
+package com.ChiriChat.Adapter;/**
  * Created by neosistec on 13/05/2014.
  */
 
@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 import com.ChiriChat.R;
 import com.ChiriChat.model.Contactos;
 

@@ -1,8 +1,6 @@
 package com.ChiriChat.Controller;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import com.ChiriChat.R;
-import com.ChiriChat.adapter.myAdapterMensajes;
+import com.ChiriChat.Adapter.myAdapterMensajes;
 import com.ChiriChat.model.Contactos;
 import com.ChiriChat.model.Mensajes;
 
@@ -56,6 +54,12 @@ public class ListConversation extends Activity {
 
         }
 
+        if (savedInstanceState != null){
+
+            Log.d("Saved instance---------------", savedInstanceState.toString());
+
+        }
+
         allMensajes = new ArrayList<Mensajes>();
 
         adapterMensajes = new myAdapterMensajes(this, allMensajes);
@@ -78,8 +82,27 @@ public class ListConversation extends Activity {
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+       // = lisViewMensajes.onSaveInstanceState();
+
+        outState.putParcelableArrayList("ListMensajes",allMensajes);
+    }
+
+    @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        allMensajes = savedInstanceState.getParcelableArrayList("ListMensajes");
+        Log.d("onREstore", allMensajes.get(0).toString() );
+
+        /*adapterMensajes = new myAdapterMensajes(this, allMensajes);
+
+        lisViewMensajes.setAdapter(adapterMensajes);
+        // setRetainInstance(true);
+        if (allMensajes.size() > 0){
+            lisViewMensajes.setSelection(allMensajes.size()-1);
+        }*/
 
     }
 

@@ -1,4 +1,4 @@
-package com.ChiriChat.adapter;/**
+package com.ChiriChat.Adapter;/**
  * Created by neosistec on 13/05/2014.
  */
 
@@ -86,11 +86,11 @@ public class myAdapterMensajes extends BaseAdapter {
             }
 
             v.setTag(baseHolder);
-            Log.d("Nuevo","Vista nueva");
+           // Log.d("Nuevo","Vista nueva");
         }else {
 
             baseHolder = (BaseHolder) v.getTag();
-            Log.d("reciclar","reciclado");
+           // Log.d("reciclar","reciclado");
         }
 
         baseHolder.setContent(men);

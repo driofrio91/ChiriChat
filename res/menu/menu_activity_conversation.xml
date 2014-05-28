@@ -10,7 +10,7 @@
     <item
             android:id="@+id/perfil"
             android:showAsAction="ifRoom"
-            android:icon="@drawable/perfil_prueba"
+            android:icon="@android:drawable/ic_menu_agenda"
             android:title="PerfilContacto"
             />
 
