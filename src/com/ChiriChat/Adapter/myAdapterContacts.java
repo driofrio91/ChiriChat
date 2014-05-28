@@ -47,17 +47,18 @@ public class myAdapterContacts extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         View v = convertView;
 
-        Contactos contact = ( Contactos ) getItem(position);
+        Contactos contact = (Contactos) getItem(position);
 
-        if ( v == null ){
+        if (v == null) {
 
             v = inflater.inflate(R.layout.item_contact, null);
             holder = new ViewHolder(v);
             v.setTag(holder);
 
-        }else {
+        } else {
 
             v.setTag(holder);
 
@@ -67,7 +68,6 @@ public class myAdapterContacts extends BaseAdapter {
 
         return v;
     }
-
 
 
 }

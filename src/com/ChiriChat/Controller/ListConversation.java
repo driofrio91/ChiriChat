@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import com.ChiriChat.R;
 import com.ChiriChat.Adapter.myAdapterMensajes;
+import com.ChiriChat.R;
 import com.ChiriChat.model.Contactos;
 import com.ChiriChat.model.Mensajes;
 
@@ -54,11 +54,7 @@ public class ListConversation extends Activity {
 
         }
 
-        if (savedInstanceState != null){
 
-            Log.d("Saved instance---------------", savedInstanceState.toString());
-
-        }
 
         allMensajes = new ArrayList<Mensajes>();
 
@@ -68,6 +64,13 @@ public class ListConversation extends Activity {
        // setRetainInstance(true);
         if (allMensajes.size() > 0){
             lisViewMensajes.setSelection(allMensajes.size()-1);
+        }
+        Log.d("SAved instance", String.valueOf(savedInstanceState));
+        if (savedInstanceState != null){
+
+            allMensajes = savedInstanceState.getParcelableArrayList("list");
+
+            adapterMensajes.notifyDataSetChanged();
         }
 
 
@@ -86,25 +89,25 @@ public class ListConversation extends Activity {
         super.onSaveInstanceState(outState);
 
        // = lisViewMensajes.onSaveInstanceState();
-
-        outState.putParcelableArrayList("ListMensajes",allMensajes);
+        ArrayList<Mensajes> valores = adapterMensajes.getItemMensajes();
+        outState.putParcelableArrayList("list",valores);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        allMensajes = savedInstanceState.getParcelableArrayList("ListMensajes");
-        Log.d("onREstore", allMensajes.get(0).toString() );
+        allMensajes = savedInstanceState.getParcelableArrayList("list");
+        Log.d("onREstoreIn", allMensajes.get(allMensajes.size()-1).toString() );
 
-        /*adapterMensajes = new myAdapterMensajes(this, allMensajes);
-
-        lisViewMensajes.setAdapter(adapterMensajes);
+        adapterMensajes.setItemMensajes(allMensajes);
+        adapterMensajes.notifyDataSetChanged();
         // setRetainInstance(true);
         if (allMensajes.size() > 0){
             lisViewMensajes.setSelection(allMensajes.size()-1);
-        }*/
+        }
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -115,6 +118,8 @@ public class ListConversation extends Activity {
 
         return super.onCreateOptionsMenu(menu);
     }
+
+
 
     public void send(View view){
 
