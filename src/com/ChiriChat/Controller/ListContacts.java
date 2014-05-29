@@ -2,11 +2,8 @@ package com.ChiriChat.Controller;
 
 
 import android.app.Activity;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,13 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.ShareActionProvider;
 import com.ChiriChat.Adapter.myAdapterContacts;
 import com.ChiriChat.R;
 import com.ChiriChat.model.Contactos;
 
-import java.security.Provider;
 import java.util.ArrayList;
 
 public class ListContacts extends Activity {
@@ -32,7 +27,7 @@ public class ListContacts extends Activity {
 
     private Menu optionsMenu;
     private ShareActionProvider provider;
-    SearchView searchView;
+
     /////////////////////////////
     ////////Ejemplos/////////////
     /////////////////////////////
@@ -70,6 +65,11 @@ public class ListContacts extends Activity {
 
     }
 
+    /**
+     * Metodo que crea las aopciones de menu, aqui inflamos el layout del menu.
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -79,13 +79,20 @@ public class ListContacts extends Activity {
 
         inflater.inflate(R.menu.menu_activity_contacts, menu);
         //Boton de compartir
-        provider = (ShareActionProvider) menu.findItem(R.id.menu_share)
+        provider = (ShareActionProvider) menu.findItem(R.id.menu_share_contactos)
                 .getActionProvider();
+
+        provider.setShareIntent(doShare());
 
 
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Metodo que controla que opcion de menu pulsamos
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -94,9 +101,7 @@ public class ListContacts extends Activity {
             case R.id.menuBar_Refresh:
                 setRefreshActionButtonState(true);
                 break;
-            case R.id.menu_share:
-                doShare();
-                break;
+
             default:
                 setRefreshActionButtonState(false);
                 break;
@@ -106,6 +111,10 @@ public class ListContacts extends Activity {
     }
 
 
+    /**
+     * Metodo que sustituira el boton de actualizar por una ProgresBar
+     * @param refreshing
+     */
     public void setRefreshActionButtonState(final boolean refreshing) {
         if (optionsMenu != null) {
             final MenuItem refreshItem = optionsMenu
@@ -120,18 +129,27 @@ public class ListContacts extends Activity {
         }
     }
 
-    public void doShare() {
+    /**+
+     * Metodo que devolvera un intent para compartir.
+     * Lo usa el ActioProvider
+     * @return
+     */
+    public Intent doShare() {
         // populate the share intent with data
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, "This is a message for you");
-        provider.setShareIntent(intent);
+        return intent;
     }
 
+    /**
+     * Metodo que abre una conversacion con el objeto obtenido de la lista.
+     * @param contacto
+     */
     public void lanza(Contactos contacto) {
         Intent i = new Intent(this, ListConversation.class);
         Bundle b = new Bundle();
-        b.putParcelable("key", contacto);
+        b.putParcelable("contacto", contacto);
         Log.d("metodo Contacto", contacto.toString());
         i.putExtras(b);
         startActivity(i);

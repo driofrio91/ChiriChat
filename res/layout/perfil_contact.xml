@@ -46,7 +46,7 @@
                   android:layout_height="match_parent"
                   android:id="@+id/contact_Telefono"
                   android:inputType="number"
-                  android:text="696869696"
+                  android:text="000000000"
                   android:textSize="25sp"/>
 
     </LinearLayout>
@@ -67,7 +67,7 @@
 
         <TextView android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:id="@+id/textView_Estado"
+                  android:id="@+id/contact_Estado"
                   android:textSize="25sp"/>
 
 
