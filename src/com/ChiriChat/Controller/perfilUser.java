@@ -3,6 +3,8 @@ package com.ChiriChat.Controller;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.ChiriChat.R;
@@ -38,5 +40,12 @@ public class perfilUser extends Activity {
             textEstado.setText(contacto.getEstado());
             this.setTitle(contacto.getNombre());
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_activity_perfil, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }

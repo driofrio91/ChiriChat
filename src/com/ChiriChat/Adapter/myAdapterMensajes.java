@@ -1,6 +1,4 @@
-package com.ChiriChat.Adapter;/**
- * Created by neosistec on 13/05/2014.
- */
+package com.ChiriChat.Adapter;
 
 import android.app.Activity;
 import android.view.LayoutInflater;

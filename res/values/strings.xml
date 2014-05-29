@@ -3,4 +3,5 @@
     <string name="app_name">ChiriChat</string>
     <string name="bt_Send">Enviar</string>
     <string name="ver">Ver</string>
+    <string name="menuitem_refresh">Actualizar</string>
 </resources>
