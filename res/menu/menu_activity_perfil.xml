@@ -2,9 +2,9 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item   android:id="@+id/menu_editar"
-            android:showAsAction="ifRoom"
-            android:icon="@android:drawable/ic_menu_edit"
-            android:title="menus"/>
+    <item android:id="@+id/menu_eliminar"
+          android:showAsAction="ifRoom"
+          android:icon="@android:drawable/ic_menu_delete"
+          android:title="menus"/>
 
 </menu>

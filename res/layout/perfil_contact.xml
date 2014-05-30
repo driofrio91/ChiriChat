@@ -1,76 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+        >
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
 
-    <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:id="@+id/imageView_Contact"
-            android:layout_marginTop="40dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="40dp"
-            android:layout_below="@+id/linearLayout"
-            android:layout_alignParentStart="true"
-            android:src="@drawable/ic_launcher"
-            />
+        <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:id="@+id/imageView_Contact"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="40dp"
+                android:layout_below="@+id/linearLayout"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/ic_launcher"
+                />
 
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="vertical"
-                  android:layout_toRightOf="@+id/imageView_Contact"
-                  android:layout_marginTop="40dp"
-                  android:id="@+id/data_users">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:layout_toRightOf="@+id/imageView_Contact"
+                      android:layout_marginTop="40dp"
+                      android:id="@+id/data_users">
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:id="@+id/contact_NombreEtiqueta"
-                  android:text="Nombre"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/contact_NombreEtiqueta"
+                      android:text="Nombre"/>
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:id="@+id/contact_nombre"
-                  android:text="Danny"
-                  android:textSize="25sp"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/contact_nombre"
+                      android:text="Danny"
+                      android:textSize="25sp"/>
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginTop="15dp"
-                  android:id="@+id/contact_TelefonoEtiqueta"
-                  android:text="Telefono"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="15dp"
+                      android:id="@+id/contact_TelefonoEtiqueta"
+                      android:text="Telefono"/>
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="match_parent"
-                  android:id="@+id/contact_Telefono"
-                  android:inputType="number"
-                  android:text="000000000"
-                  android:textSize="25sp"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:id="@+id/contact_Telefono"
+                      android:inputType="number"
+                      android:text="000000000"
+                      android:textSize="25sp"/>
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:layout_toStartOf="@id/data_users"
-                  android:layout_below="@+id/imageView_Contact"
-                  android:layout_alignEnd="@+id/data_users"
-                  android:layout_margin="15dp"
-                  android:orientation="vertical">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_toStartOf="@id/data_users"
+                      android:layout_below="@+id/imageView_Contact"
+                      android:layout_alignEnd="@+id/data_users"
+                      android:layout_margin="15dp"
+                      android:orientation="vertical">
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_margin="15dp"
-                  android:id="@+id/contact_EstadoEtiqueta"
-                  android:text="Estado"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_margin="15dp"
+                      android:id="@+id/contact_EstadoEtiqueta"
+                      android:text="Estado"/>
 
-        <TextView android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:id="@+id/contact_Estado"
-                  android:textSize="25sp"/>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:id="@+id/contact_Estado"
+                      android:textSize="25sp"/>
 
 
-    </LinearLayout>
+        </LinearLayout>
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>
+

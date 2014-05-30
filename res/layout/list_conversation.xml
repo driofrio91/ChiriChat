@@ -38,11 +38,12 @@
                 android:gravity="center"
                 android:onClick="send"
                 android:textColor="#330000"
-                android:background="#FFFFFF"
+                android:background="@drawable/send_button_selector"
                 android:text="@string/bt_Send"
                 android:textStyle="bold"
                 android:layout_marginLeft="6dp"
                 android:alpha="0.75"
+
                 />
 
     </LinearLayout>

@@ -6,6 +6,7 @@
     <uses-sdk android:minSdkVersion="18"/>
     <application android:label="@string/app_name"
                  android:icon="@drawable/ic_launcher"
+                 android:configChanges = "locale|orientation"
             >
         <activity android:name=".Controller.ListContacts"
                   android:label="@string/app_name"
@@ -22,8 +23,15 @@
         </activity>
         <activity
                 android:name=".Controller.ListConversation"
-
                 android:label="list_conversation"
-                />
+                android:windowSoftInputMode="stateHidden"
+                /><!-- "stateHiden" -> Evita que reiba el foto el EditText al habri la actividad-->
+
+        <activity android:name=".Controller.PerfilUser"
+                  android:label="perfil_contact"/>
+        <activity android:name=".Controller.EditMyPerfilUser"
+                  android:label="edit_perfil_user"/>
+        <activity android:name=".Controller.Opciones"
+                  android:label="Opciones"/>
     </application>
 </manifest>
