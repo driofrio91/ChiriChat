@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_margin="30dp"
+                  android:orientation="horizontal"
+                  android:layout_alignParentBottom="true"
+                  android:layout_alignParentLeft="true">
+
+        <Button android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Registrar"
+                android:id="@+id/login_registrar"
+                android:onClick="registrar"/>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="100dp"
+                  android:orientation="vertical">
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textAlignment="center"
+                  android:gravity="center"
+                  android:text="Login"
+                  android:textSize="40dp"
+                  android:id="@+id/login_Login"/>
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_margin="10dp"
+                      android:orientation="horizontal"
+                      android:layout_gravity="center"
+
+                >
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textAlignment="center"
+                      android:gravity="center"
+                      android:text="Usuario: "
+                      android:textSize="18dp"
+                      android:id="@+id/login_usuario_etiqueta"/>
+
+            <EditText android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:textAlignment="center"
+                      android:gravity="center"
+                      android:inputType="text"
+                      android:text="Usuario"
+                      android:id="@+id/login_usuario_edit"/>
+
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_margin="10dp"
+                      android:orientation="horizontal"
+                      android:layout_gravity="center">
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textAlignment="center"
+                      android:gravity="center"
+                      android:text="Telefono: "
+                      android:textSize="18dp"
+                      android:id="@+id/login_telefono_etiqueta"/>
+
+            <EditText android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:textAlignment="center"
+                      android:gravity="center"
+                      android:inputType="number"
+                      android:maxLength="9"
+                      android:text="000000000"
+                      android:id="@+id/login_telefono_edit"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

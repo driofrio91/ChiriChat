@@ -14,7 +14,7 @@ import com.ChiriChat.model.Contactos;
 import java.util.zip.Inflater;
 
 /**
- * Created by neosistec on 30/05/2014.
+ * Created by danny on 30/05/2014.
  */
 public class EditMyPerfilUser extends Activity {
 

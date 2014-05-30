@@ -3,9 +3,7 @@ package com.ChiriChat.Controller;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,6 +37,8 @@ public class ListContacts extends Activity {
 
     Contactos contacto2 = new Contactos(1, "Alejandro", "Adios", 985698569);
 
+    Contactos thisContacto;
+
     /**
      * Called when the activity is first created.
      */
@@ -51,9 +51,9 @@ public class ListContacts extends Activity {
         listContacts = (ListView) findViewById(R.id.listView_Contacts);
 
         allContactos.add(contacto1);
-        Log.d("contacto1", contacto1.toString());
+
         allContactos.add(contacto2);
-        Log.d("contacto2", contacto2.toString());
+
 
         adapterContacts = new myAdapterContacts(this, allContactos);
 
@@ -67,9 +67,17 @@ public class ListContacts extends Activity {
         });
         listContacts.setTextFilterEnabled(true);
 
-        SharedPreferences sharedPrefs =
-                PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String idioma = sharedPrefs.getString("preferencia_idioma", "NULL");
+        //Recupero el nombre del contacto
+        Bundle extras = getIntent().getExtras();
+
+        //Recogemos el contacto que hemos pasabo poer bundle al hacer click en un contacto de la lista
+        if (extras != null){
+            thisContacto = getIntent().getParcelableExtra("thisContacto");
+            //Cambiamos el titulo de la actividad
+            this.setTitle(thisContacto.getNombre());
+            Log.d("ID", thisContacto.toString());
+
+        }
 
 
 
@@ -116,7 +124,7 @@ public class ListContacts extends Activity {
 
                 break;
             case R.id.menu_settings:
-                Intent i = new Intent(this, Opciones.class);
+                Intent i = new Intent(this, opciones.class);
                 startActivity(i);
                 break;
             default:
@@ -176,8 +184,8 @@ public class ListContacts extends Activity {
     public void openEditPerfil(){
         Intent i = new Intent(this, EditMyPerfilUser.class);
         Bundle b = new Bundle();
-        b.putParcelable("contacto", contacto1);
-        Log.d("metodo Contacto", contacto1.toString());
+        b.putParcelable("contacto", thisContacto);
+
         i.putExtras(b);
         startActivity(i);
     }

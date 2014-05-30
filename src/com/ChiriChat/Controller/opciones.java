@@ -1,28 +1,32 @@
 package com.ChiriChat.Controller;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import com.ChiriChat.R;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 /**
- * Created by neosistec on 30/05/2014.
+ * Created by danny on 30/05/2014.
  */
-public class Opciones extends Activity {
+public class opciones extends Activity {
+
+    private static final String LANGUAGE = "language";
+    private static final String ESPAÑOL = "es";
+    private static final String ENGLISH = "en";
 
     private ListView listview;
-    private CheckBox checkBox;
-    private String[] idiomas = new String[]{"Español","Ingles"};
+    private String[] idiomas = new String[]{"Idioma del sistema","Español","Ingles"};
     Locale myLocale;
 
     @Override
@@ -31,18 +35,38 @@ public class Opciones extends Activity {
         setContentView(R.layout.activity_opciones);
 
         listview = (ListView) findViewById(R.id.listView_Idiomas);
-        checkBox = (CheckBox) findViewById(R.id.checkBox_automatico);
+
 
         ArrayAdapter<String> adaptador =
                 new ArrayAdapter<String>(this,
-                        android.R.layout.simple_list_item_1, idiomas);
+                        android.R.layout.simple_selectable_list_item, idiomas);
 
         listview.setAdapter(adaptador);
 
-        listview.setEnabled(false);
-//        listview.set
+        listview.setEnabled(true);
+
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0:
+                        setLocal(Locale.getDefault().toString());
+                        break;
+                    case 1:
+                        setLocal(ESPAÑOL);
+                        break;
+                    case 2:
+                        setLocal(ENGLISH);
+                        break;
+                }
+            }
+        });
     }
 
+    /**
+     * Metodo que cambiara el leguaje actual de la app
+     * @param lang
+     */
     private void setLocal(String lang) {
         myLocale = new Locale(lang);
         Resources res = getResources();
@@ -50,8 +74,19 @@ public class Opciones extends Activity {
         Configuration conf = res.getConfiguration();
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
-        Intent refresh = new Intent(this, this.getClass());
+        Intent refresh = new Intent(this, ListContacts.class);
         startActivity(refresh);
+        setLanguage(lang);
+        finish();
 
+    }
+
+    private void setLanguage(String Languaje) {
+        SharedPreferences prefs = getSharedPreferences(
+                opciones.class.getSimpleName(),
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(LANGUAGE, Languaje);
+        editor.commit();
     }
 }
