@@ -175,7 +175,7 @@ public class ListConversation extends Activity  {
 
         switch (item.getItemId()){
             case R.id.perfil:
-                Intent i = new Intent(this, perfilUser.class);
+                Intent i = new Intent(this, PerfilUser.class);
                 Bundle b = new Bundle();
                 b.putParcelable("contacto" ,this.contacto);
                 i.putExtras(b);

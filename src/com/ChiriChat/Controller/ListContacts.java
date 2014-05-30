@@ -3,7 +3,9 @@ package com.ChiriChat.Controller;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +20,7 @@ import com.ChiriChat.model.Contactos;
 
 import java.util.ArrayList;
 
+
 public class ListContacts extends Activity {
 
     private ListView listContacts;
@@ -27,6 +30,7 @@ public class ListContacts extends Activity {
 
     private Menu optionsMenu;
     private ShareActionProvider provider;
+
 
     /////////////////////////////
     ////////Ejemplos/////////////
@@ -62,6 +66,12 @@ public class ListContacts extends Activity {
             }
         });
         listContacts.setTextFilterEnabled(true);
+
+        SharedPreferences sharedPrefs =
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String idioma = sharedPrefs.getString("preferencia_idioma", "NULL");
+
+
 
     }
 
@@ -101,7 +111,14 @@ public class ListContacts extends Activity {
             case R.id.menuBar_Refresh:
                 setRefreshActionButtonState(true);
                 break;
+            case R.id.menuBar_my_perfil:
+               openEditPerfil();
 
+                break;
+            case R.id.menu_settings:
+                Intent i = new Intent(this, Opciones.class);
+                startActivity(i);
+                break;
             default:
                 setRefreshActionButtonState(false);
                 break;
@@ -155,6 +172,16 @@ public class ListContacts extends Activity {
         startActivity(i);
 
     }
+
+    public void openEditPerfil(){
+        Intent i = new Intent(this, EditMyPerfilUser.class);
+        Bundle b = new Bundle();
+        b.putParcelable("contacto", contacto1);
+        Log.d("metodo Contacto", contacto1.toString());
+        i.putExtras(b);
+        startActivity(i);
+    }
+
 
 
 }

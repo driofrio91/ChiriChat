@@ -5,34 +5,38 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.ChiriChat.R;
 import com.ChiriChat.model.Contactos;
 
-/**
- * Created by danny on 29/05/14.
- */
-public class PerfilUser extends Activity {
+import java.util.zip.Inflater;
 
-    private TextView textNombre;
-    private TextView textTelefono;
-    private TextView textEstado;
-    private ImageView imagen;
+/**
+ * Created by neosistec on 30/05/2014.
+ */
+public class EditMyPerfilUser extends Activity {
+
+    private EditText textNombre;
+    private EditText textTelefono;
+    private EditText textEstado;
+    private ImageView image;
 
     private Bundle bundle;
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.perfil_contact);
+        setContentView(R.layout.edit_my_perfil_user);
 
-        textNombre = (TextView) findViewById(R.id.contact_nombre);
-        textTelefono = (TextView) findViewById(R.id.contact_Telefono);
-        textEstado = (TextView) findViewById(R.id.contact_Estado);
-        imagen = (ImageView) findViewById(R.id.imageView_Contact);
+        textNombre = (EditText) findViewById(R.id.contact_My_nombre);
+        textTelefono = (EditText) findViewById(R.id.contact_My_Telefono);
+        textEstado = (EditText) findViewById(R.id.contact_My_Estado);
+        image = (ImageView) findViewById(R.id.imageView_My_Contact);
 
         bundle = getIntent().getExtras();
-        if (bundle != null) {
+        if (bundle != null){
             Contactos contacto = getIntent().getParcelableExtra("contacto");
             Log.d("telefono", String.valueOf(contacto.getTelefono()));
             textNombre.setText(contacto.getNombre());
@@ -44,8 +48,11 @@ public class PerfilUser extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_activity_perfil, menu);
+
+        inflater.inflate(R.menu.mu_activity_edit_my_perfil, menu);
+
         return super.onCreateOptionsMenu(menu);
     }
 }

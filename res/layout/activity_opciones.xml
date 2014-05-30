@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:id="@+id/linearLayout">
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:text="Idioma"
+                  android:textSize="24dp"/>
+
+        <CheckBox android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:visibility="visible"
+                  android:checked="true"
+                  android:text="@string/Automatico"
+                android:id="@+id/checkBox_automatico"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:layout_below="@+id/linearLayout"
+                  android:layout_alignParentStart="true">
+
+        <ListView
+                android:id="@+id/listView_Idiomas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                >
+        </ListView>
+
+    </LinearLayout>
+
+</RelativeLayout>

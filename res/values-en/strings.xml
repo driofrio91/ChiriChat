@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ChiriChat</string>
+    <string name="bt_Send">Send</string>
+    <string name="ver">View</string>
+    <string name="menuitem_refresh">Update</string>
+    <string name="menuitem_edit_my_perfil">Edit Profile</string>
+    <string name="Automatico">Automatic</string>
+</resources>
