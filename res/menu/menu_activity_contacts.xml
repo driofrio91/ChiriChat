@@ -5,7 +5,7 @@
     <item   android:id="@+id/menu_settings"
             android:showAsAction="never"
             android:icon="@android:drawable/btn_plus"
-            android:title="menus"/>
+            android:title="Opciones"/>
 
     <item android:id="@+id/search"
           android:title="buscar"
@@ -26,5 +26,11 @@
           android:alphabeticShortcut="r"
           android:orderInCategory="1"
           android:showAsAction="always" />
+
+    <item android:id="@+id/menuBar_my_perfil"
+          android:title="@string/menuitem_edit_my_perfil"
+          android:alphabeticShortcut="r"
+          android:orderInCategory="1"
+          android:showAsAction="ifRoom" />
 
 </menu>
