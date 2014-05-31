@@ -93,7 +93,7 @@ public class ListContacts extends Activity {
                 Log.d("CONTACTO PULSADO", contacts.get(position).getNombre());
             }
         });
-        listContacts.setTextFilterEnabled(true);
+      //  listContacts.setTextFilterEnabled(true);
 
         //Recupero el nombre del contacto
         Bundle extras = getIntent().getExtras();

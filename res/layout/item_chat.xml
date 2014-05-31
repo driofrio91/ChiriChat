@@ -42,7 +42,7 @@
                 android:layout_margin="5dp"
                 android:singleLine="true"
                 android:text="Ultimo mensaje"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
     </LinearLayout>
 
