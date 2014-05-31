@@ -3,4 +3,7 @@
     <string name="app_name">ChiriChat</string>
     <string name="bt_Send">Enviar</string>
     <string name="ver">Ver</string>
+    <string name="menuitem_refresh">Actualizar</string>
+    <string name="menuitem_edit_my_perfil">Editar perfil</string>
+    <string name="Idioma">Seleciona el idioma deseado</string>
 </resources>

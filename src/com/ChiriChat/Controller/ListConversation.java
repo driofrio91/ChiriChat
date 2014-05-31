@@ -1,17 +1,25 @@
 package com.ChiriChat.Controller;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.*;
 import com.ChiriChat.Adapter.myAdapterMensajes;
 import com.ChiriChat.R;
+import com.ChiriChat.SQLiteDataBaseModel.BDSQLite;
+import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosContactos;
+import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosConversaciones;
+import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosMensajes;
 import com.ChiriChat.model.Contactos;
+import com.ChiriChat.model.Conversaciones;
 import com.ChiriChat.model.Mensajes;
 
 import java.util.ArrayList;
@@ -19,7 +27,7 @@ import java.util.ArrayList;
 /**
  * Created by neosistec on 13/05/2014.
  */
-public class ListConversation extends Activity {
+public class ListConversation extends Activity  {
 
     private EditText editText;
     private Button buttonSend;
@@ -29,29 +37,51 @@ public class ListConversation extends Activity {
 
     private ArrayList<Mensajes> allMensajes;
 
+    private Contactos contacto;
+
+    private ShareActionProvider provider;
+
+    // Instancias del modelo (Gestores de base de datos).
+    private GestionBaseDatosConversaciones GBDConversacion = new GestionBaseDatosConversaciones();
+    private GestionBaseDatosContactos GBDContactos = new GestionBaseDatosContactos();
+    private GestionBaseDatosMensajes GBDMensaje = new GestionBaseDatosMensajes();
+
+    private BDSQLite bd; // Instancia de la base de datos
+    private SQLiteDatabase baseDatos; // Instancia de la base de datos escritura
+    private SQLiteDatabase baseDatosL;// Instancia de la base de datos lectura
+    //Numero de mensajes para el bundle.
+    int numeroMensajes;
+
+    private Bundle extras;
+    private Conversaciones conv;
+
+    public ListConversation() {
+    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_conversation);
-
 
         editText = (EditText) findViewById(R.id.text_sent_msg);
         buttonSend = (Button) findViewById(R.id.bt_sent_msg);
         lisViewMensajes = (ListView) findViewById(android.R.id.list);
 
 
+
+        bd = new BDSQLite(this, null);
+        baseDatos = bd.getWritableDatabase();
+        baseDatosL = bd.getReadableDatabase();
+
+
         //Recupero el nombre del contacto
-        Bundle extras = getIntent().getExtras();
+        extras = getIntent().getExtras();
 
-        Contactos c ;
-
+        //Recogemos el contacto que hemos pasabo poer bundle al hacer click en un contacto de la lista
         if (extras != null){
-            c = getIntent().getParcelableExtra("key");
-
+            contacto = getIntent().getParcelableExtra("contacto");
             //Cambiamos el titulo de la actividad
-            this.setTitle(c.getNombre());
-            Log.d("ID", c.toString());
-
+            this.setTitle(contacto.getNombre());
+            Log.d("ID", contacto.toString());
         }
 
 
@@ -73,7 +103,18 @@ public class ListConversation extends Activity {
             adapterMensajes.notifyDataSetChanged();
         }
 
+        lisViewMensajes.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
+        lisViewMensajes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            // setting onItemLongClickListener and passing the position to the function
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           int position, long arg3) {
+                removeItemFromList(position);
+
+                return true;
+            }
+        });
     }
 
     @Override
@@ -84,11 +125,42 @@ public class ListConversation extends Activity {
         }
     }
 
+   protected void removeItemFromList(int position) {
+       final int deletePosition = position;
+
+       AlertDialog.Builder alert = new AlertDialog.Builder(
+               ListConversation.this);
+
+       alert.setTitle("Delete");
+       alert.setMessage("Do you want delete this item?");
+       alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+           @Override
+           public void onClick(DialogInterface dialog, int which) {
+               // TOD O Auto-generated method stub
+
+               // main code on after clicking yes
+               allMensajes.remove(deletePosition);
+               adapterMensajes.notifyDataSetChanged();
+               adapterMensajes.notifyDataSetInvalidated();
+
+           }
+       });
+       alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+           @Override
+           public void onClick(DialogInterface dialog, int which) {
+
+               dialog.dismiss();
+           }
+       });
+
+       alert.show();
+
+   }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-       // = lisViewMensajes.onSaveInstanceState();
         ArrayList<Mensajes> valores = adapterMensajes.getItemMensajes();
         outState.putParcelableArrayList("list",valores);
     }
@@ -97,7 +169,7 @@ public class ListConversation extends Activity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         allMensajes = savedInstanceState.getParcelableArrayList("list");
-        Log.d("onREstoreIn", allMensajes.get(allMensajes.size()-1).toString() );
+//        Log.d("onREstoreIn", allMensajes.get(allMensajes.size()-1).toString() );
 
         adapterMensajes.setItemMensajes(allMensajes);
         adapterMensajes.notifyDataSetChanged();
@@ -116,18 +188,94 @@ public class ListConversation extends Activity {
 
         inflater.inflate(R.menu.menu_activity_conversation, menu);
 
+        provider = (ShareActionProvider) menu.findItem(R.id.menu_share_conversacion).getActionProvider();
+
+        provider.setShareIntent(doShare());
+
+
+
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.perfil:
+                Intent i = new Intent(this, PerfilUser.class);
+                Bundle b = new Bundle();
+                b.putParcelable("contacto" ,this.contacto);
+                i.putExtras(b);
+                startActivity(i);
+                break;
+
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 
 
     public void send(View view){
-
+        ArrayList<Contactos> listaContactos = new ArrayList<Contactos>();
         String cadena = editText.getText().toString().trim();
+        if (!cadena.isEmpty()){
+      /*  // Log.d("CONTAR CONVERSACIONES",
+        // ""+GBDConversacion.contarConversaciones(baseDatosL));
 
-       if (!cadena.isEmpty()){
+        // Obtiene el id de nuestro contacto.
+        // Creamos dos objetos java que nos van a servir como origen y destino.
+        // El nuestro que no cambia nunca, y el contacto destino que es el que
+        // va a cambiar
 
-          Mensajes men = new Mensajes(cadena,1);
+		*//*
+		 * Este se pedirá a través de una pantalla de configuración.(De momento
+		 * al ser usuarios fijos, deberiamos de usar un telefono ya existente.)
+		 * Creamos un objto contacto origen y uno destino. Y los obtenemos de
+		 * Base de datos filtrando por telefono.
+		 *//*
+        Contactos contactoOrigen = GBDContactos.contactoPorTelefono(baseDatosL,
+                679965326);
+
+		*//*
+		 * El origen destino será el que hayamos seleccionado del arrayLis la
+		 * lista de contactos
+		 *//*
+        Contactos contactoDestino = new Contactos(contacto.getId(),
+                contacto.getNombre(), contacto.getEstado(),
+                contacto.getTelefono());
+
+        // Comprobamos los datos de los contactos.
+        Log.d("Contacto origen******************", contactoOrigen.toString());
+        Log.d("Contacto destino******************", contactoDestino.toString());
+
+        // Comprobamos si la conversación existe(Si existe no la creamos de nuevo.)
+        if	(GBDConversacion.existeConversacion(baseDatos, contactoDestino.getNombre())==false){
+            // Creamos la conversacion en baseDatos.
+            GBDConversacion.crearConversacion(baseDatos,
+                    contactoDestino.getNombre());
+
+            listaContactos.add(contactoOrigen);
+            listaContactos.add(contactoDestino);
+            Log.d("*********************************",
+                    "Usuarios añadidos al ArrayList");
+        }
+
+        // Aqui recupero la conversación de base de datos, pasandole la lista de
+        // contactos.
+         conv = GBDConversacion.recuperarConversacion(baseDatosL,
+                listaContactos);
+        Log.d("DATOS OBJETO CONVERSACION", conv.toString());
+
+            GBDMensaje.insertarMensaje(baseDatos, cadena, contactoOrigen.getId(),
+                    conv.getId_conversacion());
+
+            Log.d("Nº MEN de la conversacion: "+ conv.getId_conversacion(),""+ GBDMensaje.contarMensajes(baseDatosL,
+                    contactoOrigen.getId(),
+                    conv.getId_conversacion()));*/
+
+            Mensajes men= new Mensajes(1,cadena,1,1);
 
            allMensajes.add(men);
 
@@ -139,6 +287,20 @@ public class ListConversation extends Activity {
        }
 
     }
+
+    /**+
+     * Metodo que devolvera un intent para compartir.
+     * Lo usa el ActioProvider
+     * @return
+     */
+    public Intent doShare() {
+        // populate the share intent with data
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, "This is a message for you");
+        return intent;
+    }
+
 
 
 }

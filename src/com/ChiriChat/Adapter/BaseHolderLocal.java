@@ -1,6 +1,4 @@
-package com.ChiriChat.Adapter;/**
- * Created by neosistec on 19/05/2014.
- */
+package com.ChiriChat.Adapter;
 
 import android.view.View;
 
