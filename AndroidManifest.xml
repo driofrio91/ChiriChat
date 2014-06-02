@@ -37,8 +37,6 @@
                   android:label="perfil_contact"/>
         <activity android:name=".Controller.EditMyPerfilUser"
                   android:label="edit_perfil_user"/>
-        <activity android:name=".Controller.opciones"
-                  android:label="Opciones"/>
 
     </application>
 </manifest>

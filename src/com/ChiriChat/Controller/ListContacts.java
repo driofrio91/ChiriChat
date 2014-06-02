@@ -124,7 +124,7 @@ public class ListContacts extends Activity {
 
                 break;
             case R.id.menu_settings:
-                Intent i = new Intent(this, opciones.class);
+                Intent i = new Intent(this, Opciones.class);
                 startActivity(i);
                 break;
             default:
