@@ -1,5 +1,4 @@
-package com.ChiriChat.model;
-/**
+package com.ChiriChat.model;/**
  * Created by danny on 13/05/2014.
  */
 
@@ -65,6 +64,19 @@ public class Mensajes implements Parcelable{
         this.idUsuario = idUsuario;
     }
 
+    ///////////////////////////////////
+    ///////////PARCELABLE//////////////
+    ///////////////////////////////////
+
+    public Mensajes(Parcel in) {
+        this.idMensaje = in.readInt();
+        this.idConversacion = in.readInt();
+        this.cadena = in.readString();
+        this.enviado = Boolean.parseBoolean(in.readString());
+        this.idUsuario = in.readInt();
+    }
+
+
     @Override
     public String toString() {
         return cadena;
@@ -78,7 +90,9 @@ public class Mensajes implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.idMensaje);
+        dest.writeInt(this.idConversacion);
         dest.writeString(this.cadena);
+//        dest.writeb
     }
 
     public void readFromParcerl(Parcel source){
