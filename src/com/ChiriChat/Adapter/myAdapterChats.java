@@ -8,21 +8,22 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import com.ChiriChat.R;
 import com.ChiriChat.model.Contactos;
+import com.ChiriChat.model.Conversaciones;
 
 import java.util.ArrayList;
 
 /**
- * @author Danny Riofrio Jimenez
+ * Created by danny on 31/05/14.
  */
-public class myAdapterContacts extends BaseAdapter {
+public class myAdapterChats extends BaseAdapter {
 
     private Activity activity;
-    private ArrayList<Contactos> itemContactos;
+    private ArrayList<Conversaciones> itemContactos;
     private LayoutInflater inflater;
     private ViewHolder holder = null;
 
 
-    public myAdapterContacts(Activity activity, ArrayList<Contactos> itemContactos) {
+    public myAdapterChats(Activity activity, ArrayList<Conversaciones> itemContactos) {
         this.activity = activity;
         this.itemContactos = itemContactos;
         inflater = LayoutInflater.from(activity);
@@ -31,25 +32,24 @@ public class myAdapterContacts extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return itemContactos.size();
+        return 0;
     }
 
     @Override
     public Object getItem(int position) {
-        return itemContactos.get(position);
+        return null;
     }
 
     @Override
     public long getItemId(int position) {
-        return itemContactos.get(position).getId();
+        return 0;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         View v = convertView;
 
-        Contactos contact = (Contactos) getItem(position);
+        Conversaciones conver = (Conversaciones) getItem(position);
 
         if (v == null) {
 
@@ -63,9 +63,10 @@ public class myAdapterContacts extends BaseAdapter {
             Log.d("reciclar","reciclado");
         }
 
-        holder.setContent(contact);
+        holder.setContent(conver);
 
         return v;
     }
+
 
 }

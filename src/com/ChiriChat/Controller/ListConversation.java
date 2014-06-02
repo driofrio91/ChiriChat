@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -13,7 +14,12 @@ import android.view.View;
 import android.widget.*;
 import com.ChiriChat.Adapter.myAdapterMensajes;
 import com.ChiriChat.R;
+import com.ChiriChat.SQLiteDataBaseModel.BDSQLite;
+import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosContactos;
+import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosConversaciones;
+import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosMensajes;
 import com.ChiriChat.model.Contactos;
+import com.ChiriChat.model.Conversaciones;
 import com.ChiriChat.model.Mensajes;
 
 import java.util.ArrayList;
@@ -35,18 +41,40 @@ public class ListConversation extends Activity  {
 
     private ShareActionProvider provider;
 
+    // Instancias del modelo (Gestores de base de datos).
+    private GestionBaseDatosConversaciones GBDConversacion = new GestionBaseDatosConversaciones();
+    private GestionBaseDatosContactos GBDContactos = new GestionBaseDatosContactos();
+    private GestionBaseDatosMensajes GBDMensaje = new GestionBaseDatosMensajes();
+
+    private BDSQLite bd; // Instancia de la base de datos
+    private SQLiteDatabase baseDatos; // Instancia de la base de datos escritura
+    private SQLiteDatabase baseDatosL;// Instancia de la base de datos lectura
+    //Numero de mensajes para el bundle.
+    int numeroMensajes;
+
+    private Bundle extras;
+    private Conversaciones conv;
+
+    public ListConversation() {
+    }
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_conversation);
-
 
         editText = (EditText) findViewById(R.id.text_sent_msg);
         buttonSend = (Button) findViewById(R.id.bt_sent_msg);
         lisViewMensajes = (ListView) findViewById(android.R.id.list);
 
 
+
+        bd = new BDSQLite(this, null);
+        baseDatos = bd.getWritableDatabase();
+        baseDatosL = bd.getReadableDatabase();
+
+
         //Recupero el nombre del contacto
-        Bundle extras = getIntent().getExtras();
+        extras = getIntent().getExtras();
 
         //Recogemos el contacto que hemos pasabo poer bundle al hacer click en un contacto de la lista
         if (extras != null){
@@ -54,7 +82,6 @@ public class ListConversation extends Activity  {
             //Cambiamos el titulo de la actividad
             this.setTitle(contacto.getNombre());
             Log.d("ID", contacto.toString());
-
         }
 
 
@@ -191,12 +218,64 @@ public class ListConversation extends Activity  {
 
 
     public void send(View view){
-
+        ArrayList<Contactos> listaContactos = new ArrayList<Contactos>();
         String cadena = editText.getText().toString().trim();
+        if (!cadena.isEmpty()){
+      /*  // Log.d("CONTAR CONVERSACIONES",
+        // ""+GBDConversacion.contarConversaciones(baseDatosL));
 
-       if (!cadena.isEmpty()){
+        // Obtiene el id de nuestro contacto.
+        // Creamos dos objetos java que nos van a servir como origen y destino.
+        // El nuestro que no cambia nunca, y el contacto destino que es el que
+        // va a cambiar
 
-          Mensajes men = new Mensajes(cadena,1);
+		*//*
+		 * Este se pedirá a través de una pantalla de configuración.(De momento
+		 * al ser usuarios fijos, deberiamos de usar un telefono ya existente.)
+		 * Creamos un objto contacto origen y uno destino. Y los obtenemos de
+		 * Base de datos filtrando por telefono.
+		 *//*
+        Contactos contactoOrigen = GBDContactos.contactoPorTelefono(baseDatosL,
+                679965326);
+
+		*//*
+		 * El origen destino será el que hayamos seleccionado del arrayLis la
+		 * lista de contactos
+		 *//*
+        Contactos contactoDestino = new Contactos(contacto.getId(),
+                contacto.getNombre(), contacto.getEstado(),
+                contacto.getTelefono());
+
+        // Comprobamos los datos de los contactos.
+        Log.d("Contacto origen******************", contactoOrigen.toString());
+        Log.d("Contacto destino******************", contactoDestino.toString());
+
+        // Comprobamos si la conversación existe(Si existe no la creamos de nuevo.)
+        if	(GBDConversacion.existeConversacion(baseDatos, contactoDestino.getNombre())==false){
+            // Creamos la conversacion en baseDatos.
+            GBDConversacion.crearConversacion(baseDatos,
+                    contactoDestino.getNombre());
+
+            listaContactos.add(contactoOrigen);
+            listaContactos.add(contactoDestino);
+            Log.d("*********************************",
+                    "Usuarios añadidos al ArrayList");
+        }
+
+        // Aqui recupero la conversación de base de datos, pasandole la lista de
+        // contactos.
+         conv = GBDConversacion.recuperarConversacion(baseDatosL,
+                listaContactos);
+        Log.d("DATOS OBJETO CONVERSACION", conv.toString());
+
+            GBDMensaje.insertarMensaje(baseDatos, cadena, contactoOrigen.getId(),
+                    conv.getId_conversacion());
+
+            Log.d("Nº MEN de la conversacion: "+ conv.getId_conversacion(),""+ GBDMensaje.contarMensajes(baseDatosL,
+                    contactoOrigen.getId(),
+                    conv.getId_conversacion()));*/
+
+            Mensajes men= new Mensajes(1,cadena,1,1);
 
            allMensajes.add(men);
 

@@ -83,7 +83,7 @@ public class Opciones extends Activity {
 
     private void setLanguage(String Languaje) {
         SharedPreferences prefs = getSharedPreferences(
-                opciones.class.getSimpleName(),
+                Opciones.class.getSimpleName(),
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(LANGUAGE, Languaje);

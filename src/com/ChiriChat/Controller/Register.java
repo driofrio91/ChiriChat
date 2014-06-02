@@ -36,11 +36,16 @@ public class Register extends Activity {
     }
 
     public void registrar(View v){
-        String nombe = nombre.getText().toString();
-        int telef = Integer.parseInt(telefono.getText().toString());
-        saveUsuario(1,nombe,telef,":)");
 
-        iniciarActividadPrincipal();
+        if (nombre.getText().length() >= 0 && telefono.getText().length() == 9){
+
+            String nombe = nombre.getText().toString();
+            int telef = Integer.parseInt(telefono.getText().toString());
+            saveUsuario(1,nombe,telef,":)");
+
+            iniciarActividadPrincipal();
+        }
+
     }
 
     private void saveUsuario(int idUsuario, String nombre, int telefono, String estado) {
@@ -83,7 +88,7 @@ public class Register extends Activity {
 
         Contactos contacto = getUsuario();
         if (contacto instanceof Contactos){
-            Intent intent = new Intent(this, ListContacts.class);
+            Intent intent = new Intent(this, ListChats.class);
             Bundle b = new Bundle();
             b.putParcelable("thisContacto", contacto);
             intent.putExtras(b);

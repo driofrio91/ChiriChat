@@ -4,7 +4,7 @@
           android:versionCode="1"
           android:versionName="1.0">
     <uses-sdk android:minSdkVersion="18"/>
-    <application android:label="@string/app_name"
+    <application android:label="ChiriChat"
                  android:icon="@drawable/ic_launcher"
                  android:configChanges = "locale|orientation"
             >
@@ -15,7 +15,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Controller.ListContacts"
-                  android:label="@string/app_name"
+                  android:label="ChiriChat"
                 >
 
            <!-- <intent-filter>
@@ -37,6 +37,14 @@
                   android:label="perfil_contact"/>
         <activity android:name=".Controller.EditMyPerfilUser"
                   android:label="edit_perfil_user"/>
+        <activity android:name=".Controller.Opciones"
+                  android:label="Opciones"/>
+        <activity android:name=".Controller.ListChats" android:label="Conversacion">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
 
     </application>
 </manifest>

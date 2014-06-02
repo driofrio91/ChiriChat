@@ -7,6 +7,8 @@ import android.view.View;
  */
 public abstract class BaseHolder {
 
+
+
     public void getView(View v){};
     public void setContent(Object o){};
 }
