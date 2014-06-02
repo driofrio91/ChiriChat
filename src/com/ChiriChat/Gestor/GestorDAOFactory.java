@@ -1,6 +1,6 @@
 package com.ChiriChat.Gestor;
 
-import com.ChiriChat.Factory.Factories.ChiriChatServerFactoryDAO;
+import com.ChiriChat.Factory.ChiriChatServerFactoryDAO;
 import com.ChiriChat.Factory.FactoryDAO;
 
 /**

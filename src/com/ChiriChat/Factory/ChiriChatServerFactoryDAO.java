@@ -1,4 +1,4 @@
-package com.ChiriChat.Factory.Factories;
+package com.ChiriChat.Factory;
 
 import com.ChiriChat.DataAccessObject.InterfacesDAO.IContactosDAO;
 import com.ChiriChat.DataAccessObject.InterfacesDAO.IConversacioneDAO;
