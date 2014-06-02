@@ -75,6 +75,10 @@ public class Conversaciones implements Parcelable{
                 + ", contactos=" + contactos + ", ocultar=" + ocultar + "]";
     }
 
+    /**
+     * Constructor que recibe un objeto Parcel y construye una instancia de la clase
+     * @param parcel
+     */
     public Conversaciones(Parcel parcel) {
         this.id_conversacion = parcel.readInt();
         this.nombre = parcel.readString();
@@ -84,13 +88,22 @@ public class Conversaciones implements Parcelable{
         this.ocultar = parcel.readInt();
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
+    public void writeToParcel(Parcel dest, int i) {
+        dest.writeInt(this.id_conversacion);
+        dest.writeString(this.nombre);
+        dest.writeLong(this.version);
+        dest.writeList(this.contactos);
+        dest.writeInt(this.ocultar);
 
     }
 

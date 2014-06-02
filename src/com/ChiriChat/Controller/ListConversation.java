@@ -33,11 +33,13 @@ public class ListConversation extends Activity  {
     private Button buttonSend;
     private ListView lisViewMensajes;
 
+    private Mensajes men;
+
     private myAdapterMensajes adapterMensajes;
 
     private ArrayList<Mensajes> allMensajes;
 
-    private Contactos contacto;
+    private Contactos contacto, contactoPrueba;
 
     private ShareActionProvider provider;
 
@@ -79,6 +81,7 @@ public class ListConversation extends Activity  {
         //Recogemos el contacto que hemos pasabo poer bundle al hacer click en un contacto de la lista
         if (extras != null){
             contacto = getIntent().getParcelableExtra("contacto");
+            contactoPrueba = getIntent().getParcelableExtra("contactoPrueba");
             //Cambiamos el titulo de la actividad
             this.setTitle(contacto.getNombre());
             Log.d("Contacto pasado por bunble", contacto.toString());
@@ -205,6 +208,8 @@ public class ListConversation extends Activity  {
                 Intent i = new Intent(this, PerfilUser.class);
                 Bundle b = new Bundle();
                 b.putParcelable("contacto" ,this.contacto);
+                b.putParcelable("conver", this.conv);
+                b.putParcelable("mensaje", this.men);
                 i.putExtras(b);
                 startActivity(i);
                 break;
@@ -220,6 +225,7 @@ public class ListConversation extends Activity  {
     public void onBackPressed() {
         Intent intent = new Intent(this, ListChats.class);
         startActivity(intent);
+        this.finish();
     }
 
     public void send(View view){
@@ -280,7 +286,12 @@ public class ListConversation extends Activity  {
                     contactoOrigen.getId(),
                     conv.getId_conversacion()));*/
 
-            Mensajes men= new Mensajes(1,cadena,1,1);
+            ArrayList<Contactos> contactoses = new ArrayList<Contactos>();
+            contactoses.add(contactoPrueba);
+            contactoses.add(contacto);
+
+             men= new Mensajes(1,cadena,1,1);
+            conv = new Conversaciones(1,contacto.getNombre(),1,contactoses,1);
 
            allMensajes.add(men);
 

@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -12,6 +15,10 @@ import com.ChiriChat.R;
 import com.ChiriChat.model.Contactos;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by danny on 30/05/2014.
@@ -22,6 +29,9 @@ public class Register extends Activity {
     private static final String NOMBRE = "nombre";
     private static final String TELEFONO = "telefono";
     private static final String ESTADO = "estado";
+    //
+    private static final String LANGUAGE = "language";
+    private Locale myLocale;
 
     private EditText nombre;
     private EditText telefono;
@@ -30,6 +40,8 @@ public class Register extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        getLanguage();
+
 
         nombre = (EditText) findViewById(R.id.login_usuario_edit);
         telefono = (EditText) findViewById(R.id.login_telefono_edit);
@@ -84,6 +96,8 @@ public class Register extends Activity {
 
     /**
      * Metodo que me devuelve el usuario registrado.
+     * El usuario se almaceno en el fichero de propiedades en formato JSON. Primero recuperamos el JSON y a partir
+     * de el objeto JSON construimos el objeto.
      * @return
      */
     private Contactos getUsuario(){
@@ -121,6 +135,40 @@ public class Register extends Activity {
             startActivity(intent);
             this.finish();
         }
+
+    }
+
+    public void getLanguage(){
+        SharedPreferences prefs = getSharedPreferences(
+                Register.class.getSimpleName(),
+                Context.MODE_PRIVATE);
+        String language = prefs.getString(LANGUAGE,"");
+
+        Map map =  prefs.getAll();
+/*
+        for (int i = 0; i <map.size() ; i++) {
+            Log.d("Mapa",map.get(i).toString());
+        }*/
+
+        Log.d("PREFERS", prefs.getAll().toString());
+        Log.d("Idioma ---->", language);
+        setLocal(language);
+        startActivity(this.getIntent());
+
+
+    }
+
+    /**
+     * Metodo que cambiara el leguaje actual de la app
+     * @param lang
+     */
+    private void setLocal(String lang) {
+        myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
 
     }
 

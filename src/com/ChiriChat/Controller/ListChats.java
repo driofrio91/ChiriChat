@@ -75,6 +75,7 @@ public class ListChats extends Activity {
             case R.id.menu_settings:
                 Intent i = new Intent(this, Opciones.class);
                 startActivity(i);
+                this.finish();
                 break;
             case R.id.menuBar_my_perfil:
                 openEditPerfil();
@@ -86,11 +87,6 @@ public class ListChats extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-
-   /* @Override
-    public void onBackPressed() {
-        finish();
-    }*/
 
     /**
      * +
@@ -111,5 +107,6 @@ public class ListChats extends Activity {
     public void openEditPerfil() {
         Intent i = new Intent(this, EditMyPerfilUser.class);
         startActivity(i);
+
     }
 }

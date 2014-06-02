@@ -61,10 +61,25 @@ public class Contactos implements Parcelable{
         this.telefono = telefono;
     }
 
+
+    @Override
+    public String toString() {
+        return "Contactos{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", estado='" + estado + '\'' +
+                ", telefono=" + telefono +
+                '}';
+    }
+
     ////////////////////////////////////////////
     ///////////////PARCELABLE///////////////////
     ////////////////////////////////////////////
 
+    /**
+     * Constructor que recibe un objeto Parcel y construye una instancia de la clase
+     * @param in
+     */
     public Contactos(Parcel in){
 
         this.id = in.readInt();
@@ -74,6 +89,10 @@ public class Contactos implements Parcelable{
     }
 
 
+    /**
+     * Describir los tipos de objetos especiales contenidas en representación marshalled de este Parcelable.
+     * @return una máscara de bits que indica el conjunto de tipos de objetos especiales movilizados por el Parcelable.
+     */
     @Override
     public int describeContents() {
         return 0;
@@ -87,15 +106,19 @@ public class Contactos implements Parcelable{
         dest.writeInt(this.telefono);
     }
 
-    public void readFromParcerl(Parcel source){
+  /*  public void readFromParcerl(Parcel source){
         this.id = source.readInt();
         this.nombre = source.readString();
         this.estado = source.readString();
         this.telefono = source.readInt();
 
-    }
+    }*/
 
-
+    /**
+     * Crear un Array nueva de la clase Parcelable.
+     * @param size
+     * @return
+     */
     public static final Parcelable.Creator<Contactos> CREATOR = new Parcelable.Creator<Contactos>() {
 
         public Contactos createFromParcel(Parcel source) {
@@ -106,15 +129,7 @@ public class Contactos implements Parcelable{
         }
     };
 
-    @Override
-    public String toString() {
-        return "Contactos{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", estado='" + estado + '\'' +
-                ", telefono=" + telefono +
-                '}';
-    }
+
 
     ///////////////////////////////////
     //////Constructor JSON/////////////

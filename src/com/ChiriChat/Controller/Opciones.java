@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,7 +28,7 @@ public class Opciones extends Activity {
 
     private ListView listview;
     private String[] idiomas = new String[]{"Idioma del sistema","Español","Ingles"};
-    Locale myLocale;
+    private Locale myLocale;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class Opciones extends Activity {
      * @param lang
      */
     private void setLocal(String lang) {
+        Log.d("LANG",lang);
         myLocale = new Locale(lang);
         Resources res = getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
@@ -83,10 +85,11 @@ public class Opciones extends Activity {
 
     private void setLanguage(String Languaje) {
         SharedPreferences prefs = getSharedPreferences(
-                Opciones.class.getSimpleName(),
+                Register.class.getSimpleName(),
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(LANGUAGE, Languaje);
+        Log.d(LANGUAGE, Languaje);
         editor.commit();
     }
 }

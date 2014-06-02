@@ -6,7 +6,7 @@
     <uses-sdk android:minSdkVersion="18"/>
     <application android:label="ChiriChat"
                  android:icon="@drawable/ic_launcher"
-                 android:configChanges = "locale|orientation"
+                 android:configChanges="locale|orientation"
             >
         <activity android:name=".Controller.Register" android:label="Chirichat">
             <intent-filter>
@@ -16,22 +16,24 @@
         </activity>
         <activity android:name=".Controller.ListContacts"
                   android:label="ChiriChat"
+
                 >
 
-           <!-- <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>-->
-           <!-- <meta-data
-                    android:name="android.app.searchable"
-                    android:resource="@xml/searchable" />-->
+            <!-- <intent-filter>
+                 <action android:name="android.intent.action.MAIN"/>
+                 <category android:name="android.intent.category.LAUNCHER"/>
+                 <action android:name="android.intent.action.SEARCH" />
+             </intent-filter>-->
+            <!-- <meta-data
+                     android:name="android.app.searchable"
+                     android:resource="@xml/searchable" />-->
         </activity>
         <activity
                 android:name=".Controller.ListConversation"
                 android:label="list_conversation"
                 android:windowSoftInputMode="stateHidden"
-                /><!-- "stateHiden" -> Evita que reiba el foto el EditText al habri la actividad-->
+                />
+        <!-- "stateHiden" -> Evita que reciba el foco el EditText al habrir la actividad-->
 
         <activity android:name=".Controller.PerfilUser"
                   android:label="perfil_contact"/>
@@ -39,10 +41,12 @@
                   android:label="Perfil"/>
         <activity android:name=".Controller.Opciones"
                   android:label="Opciones"/>
-        <activity android:name=".Controller.ListChats" android:label="Conversacion">
+        <activity android:name=".Controller.ListChats"
+                  android:label="Conversacion"
+                 >
             <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--<action android:name="android.intent.action.MAIN"/>-->
+            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
             <!--</intent-filter>-->
         </activity>
 
