@@ -19,7 +19,7 @@ import java.util.Locale;
 /**
  * Created by danny on 30/05/2014.
  */
-public class opciones extends Activity {
+public class Opciones extends Activity {
 
     private static final String LANGUAGE = "language";
     private static final String ESPAÑOL = "es";
