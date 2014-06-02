@@ -1,6 +1,8 @@
 package com.ChiriChat.Controller;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -10,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.ChiriChat.R;
 import com.ChiriChat.model.Contactos;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.zip.Inflater;
 
@@ -19,11 +23,11 @@ import java.util.zip.Inflater;
 public class EditMyPerfilUser extends Activity {
 
     private EditText textNombre;
-    private EditText textTelefono;
+    private TextView textTelefono;
     private EditText textEstado;
     private ImageView image;
 
-    private Bundle bundle;
+    private Contactos contacto;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,19 +35,17 @@ public class EditMyPerfilUser extends Activity {
         setContentView(R.layout.edit_my_perfil_user);
 
         textNombre = (EditText) findViewById(R.id.contact_My_nombre);
-        textTelefono = (EditText) findViewById(R.id.contact_My_Telefono);
+        textTelefono = (TextView) findViewById(R.id.contact_My_Telefono);
         textEstado = (EditText) findViewById(R.id.contact_My_Estado);
         image = (ImageView) findViewById(R.id.imageView_My_Contact);
 
-        bundle = getIntent().getExtras();
-        if (bundle != null){
-            Contactos contacto = getIntent().getParcelableExtra("contacto");
-            Log.d("telefono", String.valueOf(contacto.getTelefono()));
+        contacto = recuperarUsuario();
+        if (contacto instanceof Contactos){
             textNombre.setText(contacto.getNombre());
             textTelefono.setText(String.valueOf(contacto.getTelefono()));
             textEstado.setText(contacto.getEstado());
-            this.setTitle(contacto.getNombre());
         }
+
     }
 
     @Override
@@ -54,5 +56,30 @@ public class EditMyPerfilUser extends Activity {
         inflater.inflate(R.menu.mu_activity_edit_my_perfil, menu);
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    public Contactos recuperarUsuario(){
+
+        Contactos myContacto = null;
+        SharedPreferences prefs = getSharedPreferences(
+                Register.class.getSimpleName(),
+                Context.MODE_PRIVATE);
+
+        String json = prefs.getString("Usuario","");
+        JSONObject usuario;
+
+        try {
+            usuario = new JSONObject(json);
+            myContacto = new Contactos(usuario);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (myContacto instanceof Contactos) {
+            Log.d("Contacto recuperardo con JSON",myContacto.toString());
+            return myContacto;
+        }
+
+        return null;
     }
 }

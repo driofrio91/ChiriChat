@@ -81,7 +81,7 @@ public class ListConversation extends Activity  {
             contacto = getIntent().getParcelableExtra("contacto");
             //Cambiamos el titulo de la actividad
             this.setTitle(contacto.getNombre());
-            Log.d("ID", contacto.toString());
+            Log.d("Contacto pasado por bunble", contacto.toString());
         }
 
 
@@ -95,7 +95,7 @@ public class ListConversation extends Activity  {
         if (allMensajes.size() > 0){
             lisViewMensajes.setSelection(allMensajes.size()-1);
         }
-        Log.d("SAved instance", String.valueOf(savedInstanceState));
+        Log.d("Saved instance", String.valueOf(savedInstanceState));
         if (savedInstanceState != null){
 
             allMensajes = savedInstanceState.getParcelableArrayList("list");
@@ -131,12 +131,12 @@ public class ListConversation extends Activity  {
        AlertDialog.Builder alert = new AlertDialog.Builder(
                ListConversation.this);
 
-       alert.setTitle("Delete");
-       alert.setMessage("Do you want delete this item?");
-       alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+       alert.setTitle("Eliminar mensaje");
+       alert.setMessage("Quieres eliminar este mensaje?");
+       alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
            @Override
            public void onClick(DialogInterface dialog, int which) {
-               // TOD O Auto-generated method stub
+               // TODO llamada a la base de datos para que elimine este objeto
 
                // main code on after clicking yes
                allMensajes.remove(deletePosition);
@@ -145,7 +145,7 @@ public class ListConversation extends Activity  {
 
            }
        });
-       alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+       alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
            @Override
            public void onClick(DialogInterface dialog, int which) {
 
@@ -216,6 +216,11 @@ public class ListConversation extends Activity  {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, ListChats.class);
+        startActivity(intent);
+    }
 
     public void send(View view){
         ArrayList<Contactos> listaContactos = new ArrayList<Contactos>();

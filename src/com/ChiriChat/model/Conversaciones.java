@@ -1,14 +1,14 @@
 package com.ChiriChat.model;
 
 /**
- * Created by Alejandro on 30/05/2014.
+ * Created by danny on 30/05/2014.
  */
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-public class Conversaciones {
+public class Conversaciones implements Parcelable{
 
     private int id_conversacion;
     private String nombre;
@@ -75,12 +75,13 @@ public class Conversaciones {
                 + ", contactos=" + contactos + ", ocultar=" + ocultar + "]";
     }
 
-/*    public Conversaciones(Parcel parcel) {
+    public Conversaciones(Parcel parcel) {
         this.id_conversacion = parcel.readInt();
         this.nombre = parcel.readString();
         this.version = parcel.readLong();
-        this.contactos = parcel.readArrayList(contactos);
-        this.ocultar = ocultar;
+        contactos = new ArrayList<Contactos>();
+        parcel.readList(contactos, Contactos.class.getClassLoader());
+        this.ocultar = parcel.readInt();
     }
 
     @Override
@@ -101,6 +102,6 @@ public class Conversaciones {
         public Conversaciones[] newArray(int size) {
             return new Conversaciones[size];
         }
-    };*/
+    };
 }
 

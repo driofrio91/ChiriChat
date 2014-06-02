@@ -43,7 +43,7 @@ public class BDSQLite extends SQLiteOpenHelper{
      */
     public BDSQLite(Context context, CursorFactory factory) {
         super(context, BD_NOMBRE, factory, BD_VERSION);
-        // TODO Auto-generated constructor stub
+
     }
     /**
      * Método que ejecuta la creación de las tablas.
@@ -65,7 +65,7 @@ public class BDSQLite extends SQLiteOpenHelper{
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // TODO Auto-generated method stub
+
 
         //Se elimina la versión anterior de la tabla
         db.execSQL("DROP TABLE IF EXISTS USUARIOS");

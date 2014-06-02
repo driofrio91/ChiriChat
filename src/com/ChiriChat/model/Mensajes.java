@@ -1,5 +1,6 @@
-package com.ChiriChat.model;/**
- * Created by neosistec on 13/05/2014.
+package com.ChiriChat.model;
+/**
+ * Created by danny on 13/05/2014.
  */
 
 import android.os.Parcel;

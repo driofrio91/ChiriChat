@@ -70,6 +70,7 @@ public class GestionBaseDatosContactos {
             Contactos contactos = new Contactos(c.getInt(0), c.getString(1),
                     c.getString(2), c.getInt(3));
             lista_contactos.add(contactos);
+            Log.d("Contactos recuperado de DB", contactos.toString());
         } while (c.moveToNext());
         //baseDatos.close();
         c.close();
@@ -92,7 +93,7 @@ public class GestionBaseDatosContactos {
         if (c.moveToFirst()) {
             contacto = new Contactos(c.getInt(0), c.getString(1),
                     c.getString(2), c.getInt(3));
-            Log.d("MI CONTACTO", contacto.toString());
+            Log.d("Contacto recuperado por telefono", contacto.toString());
         }
         return contacto;
     }

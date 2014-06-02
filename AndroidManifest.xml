@@ -36,14 +36,14 @@
         <activity android:name=".Controller.PerfilUser"
                   android:label="perfil_contact"/>
         <activity android:name=".Controller.EditMyPerfilUser"
-                  android:label="edit_perfil_user"/>
+                  android:label="Perfil"/>
         <activity android:name=".Controller.Opciones"
                   android:label="Opciones"/>
         <activity android:name=".Controller.ListChats" android:label="Conversacion">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
         </activity>
 
     </application>

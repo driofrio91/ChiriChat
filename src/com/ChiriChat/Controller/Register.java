@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import com.ChiriChat.R;
 import com.ChiriChat.model.Contactos;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by danny on 30/05/2014.
@@ -31,7 +34,13 @@ public class Register extends Activity {
         nombre = (EditText) findViewById(R.id.login_usuario_edit);
         telefono = (EditText) findViewById(R.id.login_telefono_edit);
 
-      iniciarActividadPrincipal();
+        Contactos contacto = getUsuario();
+
+        if ((contacto instanceof Contactos) && contacto.getTelefono() != 0){
+            iniciarActividadPrincipal();
+        }
+
+
 
     }
 
@@ -53,10 +62,23 @@ public class Register extends Activity {
                 Register.class.getSimpleName(),
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(ID_USER, idUsuario);
-        editor.putString(NOMBRE, nombre);
-        editor.putInt(TELEFONO, telefono);
-        editor.putString(ESTADO, estado);
+
+        Contactos contacto = new Contactos(idUsuario,nombre,estado,telefono);
+
+        JSONObject json = new JSONObject();
+        try {
+            json.put("Id", contacto.getId());
+            json.put("Nombre", contacto.getNombre());
+            json.put("Estado", contacto.getEstado());
+            json.put("Telefono", contacto.getTelefono());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        editor.putString("Usuario", json.toString());
+
+        Log.d("JSON del usuario registrado", json.toString());
+
         editor.commit();
     }
 
@@ -65,20 +87,27 @@ public class Register extends Activity {
      * @return
      */
     private Contactos getUsuario(){
-        Contactos c = null;
+        Contactos myContacto = null;
             SharedPreferences prefs = getSharedPreferences(
                     Register.class.getSimpleName(),
                     Context.MODE_PRIVATE);
-        int idUsuario = prefs.getInt(ID_USER, 0);
-        String nombre = prefs.getString(NOMBRE, "");
-        int telefono = prefs.getInt(TELEFONO,0);
-        String estado = prefs.getString(ESTADO, "");
 
-        if (telefono != 0 || !nombre.equals("")) {
-            c = new Contactos(idUsuario, nombre, estado, telefono);
+        String json = prefs.getString("Usuario","");
+        JSONObject usuario;
+
+        try {
+            usuario = new JSONObject(json);
+            myContacto = new Contactos(usuario);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        return c;
+        if (myContacto instanceof Contactos) {
+            Log.d("Contacto recuperardo con JSON",myContacto.toString());
+           return myContacto;
+        }
+
+        return null;
     }
 
     /**
@@ -89,10 +118,8 @@ public class Register extends Activity {
         Contactos contacto = getUsuario();
         if (contacto instanceof Contactos){
             Intent intent = new Intent(this, ListChats.class);
-            Bundle b = new Bundle();
-            b.putParcelable("thisContacto", contacto);
-            intent.putExtras(b);
             startActivity(intent);
+            this.finish();
         }
 
     }

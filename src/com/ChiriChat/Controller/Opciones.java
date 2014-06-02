@@ -74,7 +74,7 @@ public class Opciones extends Activity {
         Configuration conf = res.getConfiguration();
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
-        Intent refresh = new Intent(this, ListContacts.class);
+        Intent refresh = new Intent(this, ListChats.class);
         startActivity(refresh);
         setLanguage(lang);
         finish();

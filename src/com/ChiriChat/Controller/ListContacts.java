@@ -2,12 +2,9 @@ package com.ChiriChat.Controller;
 
 
 import android.app.Activity;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,7 +45,6 @@ public class ListContacts extends Activity {
     private SQLiteDatabase baseDatos;
     private SQLiteDatabase baseDatosL;
 
-    Contactos thisContacto;
 
     /**
      * Called when the activity is first created.
@@ -86,8 +82,8 @@ public class ListContacts extends Activity {
         listContacts.setAdapter(adapterContacts);
 
         // Devueleve el numero de contactos
-        Log.d("NUMERO CONTACTOS", "" + contacts.size());
-        numeroContactos = contacts.size();
+//        Log.d("NUMERO CONTACTOS", "" + contacts.size());
+//        numeroContactos = contacts.size();
 
         listContacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -101,14 +97,6 @@ public class ListContacts extends Activity {
         //Recupero el nombre del contacto
         Bundle extras = getIntent().getExtras();
 
-        //Recogemos el contacto con el que nos hemos registrado
-        if (extras != null){
-            thisContacto = getIntent().getParcelableExtra("thisContacto");
-            //Cambiamos el titulo de la actividad
-          //  this.setTitle(thisContacto.getNombre());
-           // Log.d("ID", thisContacto.toString());
-
-        }
 
 
 
@@ -154,14 +142,6 @@ public class ListContacts extends Activity {
 
             case R.id.menuBar_Refresh:
                 setRefreshActionButtonState(true);
-                break;
-            case R.id.menuBar_my_perfil:
-               openEditPerfil();
-
-                break;
-            case R.id.menu_settings:
-                Intent i = new Intent(this, Opciones.class);
-                startActivity(i);
                 break;
             default:
                 setRefreshActionButtonState(false);
@@ -217,14 +197,6 @@ public class ListContacts extends Activity {
 
     }
 
-    public void openEditPerfil(){
-        Intent i = new Intent(this, EditMyPerfilUser.class);
-        Bundle b = new Bundle();
-        b.putParcelable("contacto", thisContacto);
-
-        i.putExtras(b);
-        startActivity(i);
-    }
 
 
 

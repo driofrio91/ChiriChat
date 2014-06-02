@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.ShareActionProvider;
 import com.ChiriChat.Adapter.myAdapterChats;
 import com.ChiriChat.R;
+import com.ChiriChat.model.Contactos;
 import com.ChiriChat.model.Conversaciones;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class ListChats extends Activity {
 
     private ArrayList<Conversaciones> allChats = null;
 
+    private Contactos thisContacto;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,23 +66,37 @@ public class ListChats extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
 
             case R.id.menu_contacts:
                 Intent intent = new Intent(this, ListContacts.class);
                 startActivity(intent);
                 break;
+            case R.id.menu_settings:
+                Intent i = new Intent(this, Opciones.class);
+                startActivity(i);
+                break;
+            case R.id.menuBar_my_perfil:
+                openEditPerfil();
+
+                break;
 
         }
-
 
 
         return super.onOptionsItemSelected(item);
     }
 
-    /**+
+   /* @Override
+    public void onBackPressed() {
+        finish();
+    }*/
+
+    /**
+     * +
      * Metodo que devolvera un intent para compartir.
      * Lo usa el ActioProvider
+     *
      * @return
      */
     public Intent doShare() {
@@ -89,5 +105,11 @@ public class ListChats extends Activity {
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, "This is a message for you");
         return intent;
+    }
+
+
+    public void openEditPerfil() {
+        Intent i = new Intent(this, EditMyPerfilUser.class);
+        startActivity(i);
     }
 }

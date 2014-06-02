@@ -1,10 +1,13 @@
-package com.ChiriChat.model;/**
- * Created by neosistec on 13/05/2014.
+package com.ChiriChat.model;
+/**
+ * Created by danny on 13/05/2014.
  */
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * @author Danny Riofrio Jimenez
@@ -93,7 +96,7 @@ public class Contactos implements Parcelable{
     }
 
 
-    public static final Parcelable.Creator<Contactos> CREATOR = new Creator<Contactos>() {
+    public static final Parcelable.Creator<Contactos> CREATOR = new Parcelable.Creator<Contactos>() {
 
         public Contactos createFromParcel(Parcel source) {
             return new Contactos(source);
@@ -112,4 +115,21 @@ public class Contactos implements Parcelable{
                 ", telefono=" + telefono +
                 '}';
     }
+
+    ///////////////////////////////////
+    //////Constructor JSON/////////////
+    ///////////////////////////////////
+
+    public Contactos(JSONObject json) {
+        try {
+            this.id = json.getInt("Id");
+            this.nombre = json.getString("Nombre");
+            this.estado = json.getString("Estado");
+            this.telefono = json.getInt("Telefono");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }
