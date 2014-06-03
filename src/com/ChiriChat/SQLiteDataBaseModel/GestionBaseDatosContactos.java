@@ -20,8 +20,8 @@ public class GestionBaseDatosContactos {
      */
     public void insertarUsuarios(SQLiteDatabase baseDatos) {
         if (baseDatos != null) {
-            String sql = "INSERT INTO USUARIOS (nombre, estado, telefono)"
-                    + "values ( 'Alejandro', 'Probando Contactos', 679965326)";
+        	/*String sql = "INSERT INTO USUARIOS (nombre, estado, telefono)"
+                    + "values ( 'Alejandro', 'Probando Contactos', 679965326)";*/
             String sql2 = "INSERT INTO USUARIOS (nombre, estado, telefono)"
                     + "values ( 'Danny', 'Probando Contactos2', 679965526)";
             String sql3 = "INSERT INTO USUARIOS (nombre, estado, telefono)"
@@ -38,7 +38,7 @@ public class GestionBaseDatosContactos {
                     + "values ( 'Toni', 'Probando Contactos8', 679965588)";
             String sql9 = "INSERT INTO USUARIOS (nombre, estado, telefono)"
                     + "values ( 'Maria', 'Probando Contactos9', 679965599)";
-            baseDatos.execSQL(sql);
+            //baseDatos.execSQL(sql);
             baseDatos.execSQL(sql2);
             baseDatos.execSQL(sql3);
             baseDatos.execSQL(sql4);
@@ -51,7 +51,25 @@ public class GestionBaseDatosContactos {
             //baseDatos.close();
         }
     }
+    
+    public void insertarMiUsuario(SQLiteDatabase baseDatos,String nombre, int telefono){
+    	String sql = "INSERT INTO USUARIOS (nombre, estado, telefono)"
+                + "values ('"+nombre+"', ' :) ', "+ telefono+")";
+    	baseDatos.execSQL(sql);
+    }
+    
+    public Contactos devolverMiContacto(SQLiteDatabase baseDatos){
+    	Contactos contacto= null;
+    	String sql = "SELECT * FROM USUARIOS WHERE id_usuario = 1";
+        Cursor c = baseDatos.rawQuery(sql, null);
 
+        if (c.moveToFirst()) {
+            contacto = new Contactos(c.getInt(0), c.getString(1),
+                    c.getString(2), c.getInt(3));
+            Log.w("Contacto recuperado por telefono", contacto.toString());
+        }
+    	return contacto;
+    }
     /**
      * Método que devuelve todos los contactos que estén en la tabla USUARIOS.
      *

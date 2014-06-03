@@ -8,6 +8,8 @@ import java.util.List;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
 import com.ChiriChat.model.Mensajes;
 
 
@@ -30,11 +32,9 @@ public class GestionBaseDatosMensajes {
                                 int id_usuario, int id_conversacion) {
         String sql = "INSERT INTO MENSAJES (texto, id_usuario, id_conversacion) "
                 + "values ('"
-                + texto
-                + "','"
-                + id_usuario
-                + "','"
-                + id_conversacion + "')";
+                + texto+ "',"
+                + id_usuario+ ","
+                + id_conversacion + ")";
         baseDatos.execSQL(sql);
     }
 
@@ -65,16 +65,17 @@ public class GestionBaseDatosMensajes {
         return lista_mensajes;
     }
 
-	public Mensajes recuperarMensaje(SQLiteDatabase baseDatos,int usuario,int conversacion) {
+	public Mensajes recuperarMensaje(SQLiteDatabase baseDatos,int conversacion) {
 		//int primermensaje=0;
 		Mensajes mensaje= null;
 		String[] valores_recuperar = { "id_mensaje", "texto", "id_usuario",
 				"id_conversacion" };
-		Cursor c = baseDatos.query("MENSAJES", valores_recuperar, "id_usuario="+usuario+" and id_conversacion="+conversacion, null,
+		Cursor c = baseDatos.query("MENSAJES", valores_recuperar, "id_conversacion= "+conversacion, null,
 				null, null, null, null);
 
 		c.moveToLast();
 		mensaje = new Mensajes(c.getInt(0),c.getString(1),c.getInt(2),c.getInt(3));
+		Log.d("MENSAJE RECUPERADO",""+mensaje.toString());
 
 		return mensaje;
 	}

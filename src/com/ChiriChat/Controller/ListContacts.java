@@ -46,7 +46,7 @@ public class ListContacts extends Activity {
     BDSQLite bd;
     private SQLiteDatabase baseDatos;
     private SQLiteDatabase baseDatosL;
-
+    private int numeroUsuarios;
 
     /**
      * Called when the activity is first created.
@@ -68,13 +68,12 @@ public class ListContacts extends Activity {
 		/*Como son usuarios fijos y solo se van a insertar una vez,
 		comprobamos antes de insertarlos que no existe ningun contacto
 		en la tabla usuarios*/
-
-        if (GBDCContactos.cuentaUsuarios(baseDatosL) != 0) {
-            // do nothing
-        } else {
-            // Insertamos usuarios fijos.
-            gb.insertarUsuarios(baseDatos);
-        }
+        
+        //numeroUsuarios = GBDCContactos.cuentaUsuarios(baseDatosL);
+        if (GBDCContactos.cuentaUsuarios(baseDatosL) <2) {
+        	
+        	gb.insertarUsuarios(baseDatos);
+        } 
 
         // Recuperamos todos los usuarios de la tablas usuarios.
         contacts = (ArrayList<Contactos>) gb.recuperarContactos(baseDatosL);

@@ -8,7 +8,7 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-public class Conversaciones implements Parcelable{
+public class Conversaciones extends ArrayList<Conversaciones> implements Parcelable{
 
     private int id_conversacion;
     private String nombre;
@@ -17,7 +17,8 @@ public class Conversaciones implements Parcelable{
     private int ocultar;
 
 
-    public Conversaciones() {
+    public Conversaciones(String nombre) {
+        this.nombre = nombre;
     }
 
     public Conversaciones(int id_conversacion, String nombre, long version, ArrayList<Contactos> contactos, int ocultar) {
