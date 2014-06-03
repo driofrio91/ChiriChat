@@ -83,6 +83,7 @@ public class Opciones extends Activity {
 
     }
 
+
     private void setLanguage(String Languaje) {
         SharedPreferences prefs = getSharedPreferences(
                 Register.class.getSimpleName(),
