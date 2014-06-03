@@ -97,6 +97,7 @@ public class ListChats extends Activity {
             case R.id.menu_contacts:
                 Intent intent = new Intent(this, ListContacts.class);
                 startActivity(intent);
+                this.finish();
                 break;
             case R.id.menu_settings:
                 Intent i = new Intent(this, Opciones.class);
@@ -105,13 +106,17 @@ public class ListChats extends Activity {
                 break;
             case R.id.menuBar_my_perfil:
                 openEditPerfil();
-
                 break;
 
         }
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.finish();
     }
 
     /**

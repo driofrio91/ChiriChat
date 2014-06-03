@@ -50,4 +50,9 @@ public class PerfilUser extends Activity {
         inflater.inflate(R.menu.menu_activity_perfil, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
+    @Override
+    public void onBackPressed() {
+        this.finish();
+    }
 }

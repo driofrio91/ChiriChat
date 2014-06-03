@@ -129,7 +129,7 @@ public class GestionBaseDatosConversaciones {
 //		baseDatosL.close();
             c.close();
         }
-        Log.d("numero de conversaciones", String.valueOf(conversacion.size()));
+//        Log.d("numero de conversaciones", String.valueOf(conversacion.size()));
         return conversaciones;
     }
 

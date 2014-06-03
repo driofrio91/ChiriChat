@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.ChiriChat.Language.Language;
 import com.ChiriChat.R;
 import com.ChiriChat.SQLiteDataBaseModel.BDSQLite;
 import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosContactos;
@@ -161,22 +162,16 @@ public class Register extends Activity {
                 Context.MODE_PRIVATE);
         String language = prefs.getString(LANGUAGE,"");
 
-        Map map =  prefs.getAll();
-/*
-        for (int i = 0; i <map.size() ; i++) {
-            Log.d("Mapa",map.get(i).toString());
-        }*/
-
         Log.d("PREFERS", prefs.getAll().toString());
         Log.d("Idioma ---->", language);
-        setLocal(language);
+//        setLocal(language);
+        Language.setLocal(language);
         startActivity(this.getIntent());
-
 
     }
 
     /**
-     * Metodo que cambiara el leguaje actual de la app
+     * Metodo que cambiara el leguage actual de la app
      * @param lang
      */
     private void setLocal(String lang) {

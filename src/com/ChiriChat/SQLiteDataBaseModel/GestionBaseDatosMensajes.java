@@ -31,9 +31,8 @@ public class GestionBaseDatosMensajes {
     public void insertarMensaje(SQLiteDatabase baseDatos, String texto,
                                 int id_usuario, int id_conversacion) {
         String sql = "INSERT INTO MENSAJES (texto, id_usuario, id_conversacion) "
-                + "values ('"
-                + texto+ "',"
-                + id_usuario+ ","
+                + "values ('"+ texto+ "',  "
+                + id_usuario+ ", "
                 + id_conversacion + ")";
         baseDatos.execSQL(sql);
     }

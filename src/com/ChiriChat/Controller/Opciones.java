@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import com.ChiriChat.Language.Language;
 import com.ChiriChat.R;
 
 import java.util.Locale;
@@ -78,12 +79,15 @@ public class Opciones extends Activity {
         res.updateConfiguration(conf, dm);
         Intent refresh = new Intent(this, ListChats.class);
         startActivity(refresh);
-        setLanguage(lang);
-        finish();
+        Language.setLocal(lang);
+        this.finish();
 
     }
 
-
+    /**
+     * Metodo que se le pasata un String Languaje, con la clave para que carge el idioma
+     * @param Languaje
+     */
     private void setLanguage(String Languaje) {
         SharedPreferences prefs = getSharedPreferences(
                 Register.class.getSimpleName(),
