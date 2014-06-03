@@ -36,7 +36,7 @@ public class PerfilUser extends Activity {
 //            Log.d("Mensaje enviado", getIntent().getParcelableExtra("mensaje").toString());
 //            Log.d("Conversacion", getIntent().getParcelableExtra("conver").toString());
             Contactos contacto = getIntent().getParcelableExtra("contacto");
-            Log.d("telefono", String.valueOf(contacto.getTelefono()));
+//            Log.d("telefono", String.valueOf(contacto.getTelefono()));
             textNombre.setText(contacto.getNombre());
             textTelefono.setText(String.valueOf(contacto.getTelefono()));
             textEstado.setText(contacto.getEstado());

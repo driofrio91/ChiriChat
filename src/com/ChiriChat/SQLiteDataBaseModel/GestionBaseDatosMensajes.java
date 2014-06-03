@@ -28,8 +28,7 @@ public class GestionBaseDatosMensajes {
      * @param id_usuario identificador del usuario que envía el mensaje.
      * @param id_conversacion conversación en la que se insertará el mensaje.
      */
-    public void insertarMensaje(SQLiteDatabase baseDatos, String texto,
-                                int id_usuario, int id_conversacion) {
+    public void insertarMensaje(SQLiteDatabase baseDatos, String texto, int id_usuario, int id_conversacion) {
         String sql = "INSERT INTO MENSAJES (texto, id_usuario, id_conversacion) "
                 + "values ('"+ texto+ "',  "
                 + id_usuario+ ", "

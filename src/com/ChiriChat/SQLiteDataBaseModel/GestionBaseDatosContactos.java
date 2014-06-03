@@ -52,7 +52,7 @@ public class GestionBaseDatosContactos {
         }
     }
     
-    public void insertarMiUsuario(SQLiteDatabase baseDatos,String nombre, int telefono){
+    public void insertarUsuario(SQLiteDatabase baseDatos, String nombre, int telefono){
     	String sql = "INSERT INTO USUARIOS (nombre, estado, telefono)"
                 + "values ('"+nombre+"', ' :) ', "+ telefono+")";
     	baseDatos.execSQL(sql);
@@ -81,7 +81,7 @@ public class GestionBaseDatosContactos {
         List<Contactos> lista_contactos = new ArrayList<Contactos>();
         String[] valores_recuperar = { "id_usuario", "nombre", "estado",
                 "telefono" };
-        Cursor c = baseDatos.query("USUARIOS", valores_recuperar, null, null,
+        Cursor c = baseDatos.query("USUARIOS", valores_recuperar, " id_usuario > 1", null,
                 null, null, null, null);
         c.moveToFirst();
         do {
@@ -115,6 +115,22 @@ public class GestionBaseDatosContactos {
         }
         return contacto;
     }
+
+    public static Contactos contactoPorID(SQLiteDatabase baseDatos, int id_usuario) {
+        Contactos contacto = null;
+        String sql = "SELECT * FROM USUARIOS WHERE id_usuario="+ id_usuario;
+        Cursor c = baseDatos.rawQuery(sql, null);
+
+        if (c.moveToFirst()) {
+            contacto = new Contactos(c.getInt(0), c.getString(1),
+                    c.getString(2), c.getInt(3));
+            Log.d("Contacto recuperado por telefono", contacto.toString());
+        }
+        return contacto;
+    }
+
+
+
 
 
     /**

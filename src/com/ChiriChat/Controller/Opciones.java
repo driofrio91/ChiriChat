@@ -84,17 +84,4 @@ public class Opciones extends Activity {
 
     }
 
-    /**
-     * Metodo que se le pasata un String Languaje, con la clave para que carge el idioma
-     * @param Languaje
-     */
-    private void setLanguage(String Languaje) {
-        SharedPreferences prefs = getSharedPreferences(
-                Register.class.getSimpleName(),
-                Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(LANGUAGE, Languaje);
-        Log.d(LANGUAGE, Languaje);
-        editor.commit();
-    }
 }

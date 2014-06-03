@@ -89,7 +89,7 @@ public class ListContacts extends Activity {
         listContacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                lanza(contacts.get(position), contacts.get(position + 1));
+                lanza(contacts.get(position));
                 Log.d("CONTACTO PULSADO", contacts.get(position).getNombre());
             }
         });
@@ -199,11 +199,10 @@ public class ListContacts extends Activity {
      *
      * @param contacto
      */
-    public void lanza(Contactos contacto, Contactos contact) {
+    public void lanza(Contactos contacto) {
         Intent i = new Intent(this, ListConversation.class);
         Bundle b = new Bundle();
         b.putParcelable("contacto", contacto);
-        b.putParcelable("contactoPrueba", contact);
         Log.d("metodo Contacto", contacto.toString());
         i.putExtras(b);
         startActivity(i);

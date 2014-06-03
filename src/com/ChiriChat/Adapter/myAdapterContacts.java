@@ -56,11 +56,11 @@ public class myAdapterContacts extends BaseAdapter {
             v = inflater.inflate(R.layout.item_contact, null);
             holder = new ViewHolder(v);
             v.setTag(holder);
-            Log.d("Nuevo", "Vista nueva");
+         //   Log.d("Nuevo", "Vista nueva");
         } else {
             holder = new ViewHolder(v);
             v.setTag(holder);
-            Log.d("reciclar","reciclado");
+          //  Log.d("reciclar","reciclado");
         }
 
         holder.setContent(contact);

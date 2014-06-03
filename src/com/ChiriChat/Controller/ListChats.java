@@ -37,7 +37,6 @@ public class ListChats extends Activity {
     private ShareActionProvider provider;
 
     private ArrayList<Conversaciones> allChats = new ArrayList<Conversaciones>();
-    private ArrayList<Contactos> usuariosConversacion = new ArrayList<Contactos>();
     private Contactos thisContacto;
 
     private BDSQLite bd; // Instancia de la base de datos
@@ -56,7 +55,7 @@ public class ListChats extends Activity {
         
         listViewChats = (ListView) findViewById(R.id.listView_Chats);
 
-        allChats = GBDConversaciones.recuperarConversaciones(baseDatosL,usuariosConversacion);
+        allChats = GBDConversaciones.recuperarConversaciones(baseDatosL);
 
         Log.d("Conversaciones Lista",""+allChats.toString());
 
@@ -67,7 +66,7 @@ public class ListChats extends Activity {
         listViewChats.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                openConversacion(allChats.get(position));
             }
         });
 
@@ -139,5 +138,21 @@ public class ListChats extends Activity {
         Intent i = new Intent(this, EditMyPerfilUser.class);
         startActivity(i);
 //        extra.putString(nombre, value);
+    }
+
+    /**
+     * Metodo que abre una conversacion con el objeto obtenido de la lista.
+     *
+     * @param conver
+     */
+    public void openConversacion(Conversaciones conver) {
+        Intent i = new Intent(this, ListConversation.class);
+        Bundle b = new Bundle();
+        b.putParcelable("conversacion", conver);
+
+        Log.d("metodo Conversacion", conver.toString());
+        i.putExtras(b);
+        startActivity(i);
+        this.finish();
     }
 }

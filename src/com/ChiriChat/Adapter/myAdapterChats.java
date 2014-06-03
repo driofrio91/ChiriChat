@@ -55,11 +55,11 @@ public class myAdapterChats extends BaseAdapter {
             v = inflater.inflate(R.layout.item_chat, null);
             holder = new ViewHolderConver(v);
             v.setTag(holder);
-            Log.d("Nuevo", "Vista nueva");
+         //   Log.d("Nuevo", "Vista nueva");
         } else {
             holder = new ViewHolderConver(v);
             v.setTag(holder);
-            Log.d("reciclar","reciclado");
+           // Log.d("reciclar","reciclado");
         }
 
         holder.setContent(conver);

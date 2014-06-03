@@ -19,12 +19,7 @@ import com.ChiriChat.SQLiteDataBaseModel.BDSQLite;
 import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosContactos;
 import com.ChiriChat.model.Contactos;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Created by danny on 30/05/2014.
@@ -81,7 +76,7 @@ public class Register extends Activity {
             String nombreUsuario = nombre.getText().toString();
             int telef = Integer.parseInt(telefono.getText().toString());
             //saveUsuario(1,nombe,telef,":)");
-            GBDContactos.insertarMiUsuario(baseDatos,nombreUsuario, telef);
+            GBDContactos.insertarUsuario(baseDatos, nombreUsuario, telef);
             iniciarActividadPrincipal();
         }
 
@@ -164,24 +159,11 @@ public class Register extends Activity {
 
         Log.d("PREFERS", prefs.getAll().toString());
         Log.d("Idioma ---->", language);
-//        setLocal(language);
         Language.setLocal(language);
         startActivity(this.getIntent());
 
     }
 
-    /**
-     * Metodo que cambiara el leguage actual de la app
-     * @param lang
-     */
-    private void setLocal(String lang) {
-        myLocale = new Locale(lang);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.locale = myLocale;
-        res.updateConfiguration(conf, dm);
 
-    }
 
 }

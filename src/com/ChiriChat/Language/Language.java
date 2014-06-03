@@ -11,7 +11,7 @@ import java.util.Locale;
 /**
  * @author Danny Riofrio Jimenez
  */
-public abstract class Language {
+public class Language {
 
     private static final String LANGUAGE = "language";
     private static Locale myLocale;

@@ -43,8 +43,8 @@ public class BDSQLite extends SQLiteOpenHelper {
             "(id_conversacion INTEGER NOT NULL, " +
             "id_usuario INTEGER  NULL, " +
             "PRIMARY KEY (id_conversacion, id_usuario)" +
-            "FOREIGN KEY (id_conversacion) REFERENCES CONVERSACION(id_conversacion)," +
-            "FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario))";
+            "FOREIGN KEY (id_conversacion) REFERENCES CONVERSACION(id_conversacion) ON DELETE CASCADE," +
+            "FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario) ON DELETE CASCADE)";
 
 
 
