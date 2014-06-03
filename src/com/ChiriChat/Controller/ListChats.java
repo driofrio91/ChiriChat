@@ -2,14 +2,21 @@ package com.ChiriChat.Controller;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ShareActionProvider;
+
 import com.ChiriChat.Adapter.myAdapterChats;
 import com.ChiriChat.R;
+import com.ChiriChat.SQLiteDataBaseModel.BDSQLite;
+import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosConversaciones;
 import com.ChiriChat.model.Contactos;
 import com.ChiriChat.model.Conversaciones;
 
@@ -21,7 +28,7 @@ import java.util.zip.Inflater;
  */
 public class ListChats extends Activity {
 
-
+    private GestionBaseDatosConversaciones GBDConversaciones = new GestionBaseDatosConversaciones();
     private ListView listViewChats;
 
     private myAdapterChats adapterChats;
@@ -29,21 +36,40 @@ public class ListChats extends Activity {
     private Menu optionsMenu;
     private ShareActionProvider provider;
 
-    private ArrayList<Conversaciones> allChats = null;
-
+    private ArrayList<Conversaciones> allChats = new ArrayList<Conversaciones>();
+    private ArrayList<Contactos> usuariosConversacion = new ArrayList<Contactos>();
     private Contactos thisContacto;
+
+    private BDSQLite bd; // Instancia de la base de datos
+    private SQLiteDatabase baseDatos; // Instancia de la base de datos escritura
+    private SQLiteDatabase baseDatosL;// Instancia de la base de datos lectura
+    
+    Bundle extra;
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_chats);
-
+        bd= new BDSQLite(this, null);
+        baseDatos = bd.getWritableDatabase();
+        baseDatosL = bd.getReadableDatabase();
+        
         listViewChats = (ListView) findViewById(R.id.listView_Chats);
 
-        allChats = new ArrayList<Conversaciones>();
+        allChats = GBDConversaciones.recuperarConversaciones(baseDatosL,usuariosConversacion);
+
+        Log.d("Conversaciones Lista",""+allChats.toString());
 
         adapterChats = new myAdapterChats(this, allChats);
 
         listViewChats.setAdapter(adapterChats);
+
+        listViewChats.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
 
         adapterChats.notifyDataSetChanged();
     }
@@ -107,6 +133,6 @@ public class ListChats extends Activity {
     public void openEditPerfil() {
         Intent i = new Intent(this, EditMyPerfilUser.class);
         startActivity(i);
-
+//        extra.putString(nombre, value);
     }
 }

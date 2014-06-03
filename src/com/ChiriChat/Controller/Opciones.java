@@ -23,7 +23,7 @@ import java.util.Locale;
 public class Opciones extends Activity {
 
     private static final String LANGUAGE = "language";
-    private static final String ESPAÑOL = "es";
+    private static final String ESPANOL = "es";
     private static final String ENGLISH = "en";
 
     private ListView listview;
@@ -54,7 +54,7 @@ public class Opciones extends Activity {
                         setLocal(Locale.getDefault().toString());
                         break;
                     case 1:
-                        setLocal(ESPAÑOL);
+                        setLocal(ESPANOL);
                         break;
                     case 2:
                         setLocal(ENGLISH);

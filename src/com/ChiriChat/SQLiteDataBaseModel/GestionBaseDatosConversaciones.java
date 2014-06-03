@@ -3,6 +3,7 @@ package com.ChiriChat.SQLiteDataBaseModel;
 /**
  * Created by Alejandro on 30/05/2014.
  */
+
 import java.util.ArrayList;
 
 import android.database.Cursor;
@@ -18,11 +19,11 @@ public class GestionBaseDatosConversaciones {
      * Método que crea una conversación y la inserta en base de datos.
      *
      * @param baseDatos Objeto SQLiteDatabase
-     * @param nombre Nombre de la conversación.(Será el nombre del usuario destino).
+     * @param nombre    Nombre de la conversación.(Será el nombre del usuario destino).
      */
-    public void crearConversacion(SQLiteDatabase baseDatos, String nombre){
+    public void crearConversacion(SQLiteDatabase baseDatos, String nombre) {
         String sql = "INSERT INTO CONVERSACION (nombre,version,ocultar)"
-                + " values ('"+nombre+"',0,'false')";
+                + " values ('" + nombre + "',0,'false')";
         baseDatos.execSQL(sql);
     }
 
@@ -41,7 +42,7 @@ public class GestionBaseDatosConversaciones {
      * @param baseDatos Objeto SQLiteDatabase
      * @return numero de conversaciones.
      */
-    public int contarConversaciones(SQLiteDatabase baseDatos){
+    public int contarConversaciones(SQLiteDatabase baseDatos) {
         int lineas;
         String sql = "SELECT COUNT(*) FROM CONVERSACION";
         Cursor c = baseDatos.rawQuery(sql, null);
@@ -54,16 +55,16 @@ public class GestionBaseDatosConversaciones {
      * Método que comprueba si existe conversación por nombre de usario.
      *
      * @param baseDatos Objeto SQLiteDatabase
-     * @param nombre Nombre de usuario destino.
+     * @param nombre    Nombre de usuario destino.
      * @return true si existe, false si no existe.
      */
-    public boolean existeConversacion(SQLiteDatabase baseDatos,String nombre){
-        String sql = "SELECT COUNT(*) FROM CONVERSACION WHERE NOMBRE='"+nombre+"'";
+    public boolean existeConversacion(SQLiteDatabase baseDatos, String nombre) {
+        String sql = "SELECT COUNT(*) FROM CONVERSACION WHERE NOMBRE='" + nombre + "'";
         Cursor c = baseDatos.rawQuery(sql, null);
         c.moveToNext();
-        if(c.getInt(0)<1){
+        if (c.getInt(0) < 1) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }
@@ -72,21 +73,21 @@ public class GestionBaseDatosConversaciones {
      * Método que devuelve el id de una conversación por nombre de la misma.
      *
      * @param baseDatosL Objeto SQLiteDatabase
-     * @param nombre Nombre de la conversación.
+     * @param nombre     Nombre de la conversación.
      * @return id de conversación.
      */
-    public int recuperarConversacion(SQLiteDatabase baseDatosL,String nombre){
+    public int recuperarConversacion(SQLiteDatabase baseDatosL, String nombre) {
         int id;
-        String sql = "SELECT id_conversacion FROM CONVERSACION WHERE NOMBRE ='"+ nombre+"'";
+        String sql = "SELECT id_conversacion FROM CONVERSACION WHERE NOMBRE ='" + nombre + "'";
         Cursor c = baseDatosL.rawQuery(sql, null);
         c.moveToNext();
         id = c.getInt(0);
         return id;
     }
 
-    public Conversaciones recuperarConversacion(SQLiteDatabase baseDatosL,ArrayList<Contactos> listacontactos){
-        Conversaciones conversacion= null;
-        String[] valores_recuperar = {"id_conversacion","nombre", "version", "ocultar"};
+    public Conversaciones recuperarConversacion(SQLiteDatabase baseDatosL, ArrayList<Contactos> listacontactos) {
+        Conversaciones conversacion = null;
+        String[] valores_recuperar = {"id_conversacion", "nombre", "version", "ocultar"};
 
         Cursor c = baseDatosL.query("CONVERSACION", valores_recuperar, null, null,
                 null, null, null, null);
@@ -95,13 +96,42 @@ public class GestionBaseDatosConversaciones {
         //Aqui hago un log de los datos de la conversación
 
         do {
-            conversacion = new Conversaciones(c.getInt(0), c.getString(1), c.getInt(2),listacontactos,c.getInt(3));
-            Log.d("DATOS DE LA CONVERSACION",""+c.getInt(0)+c.getString(1)+c.getInt(2)+c.getString(3));
+            conversacion = new Conversaciones(c.getInt(0), c.getString(1), c.getInt(2), listacontactos, c.getInt(3));
+            Log.d("DATOS DE LA CONVERSACION", "" + c.getInt(0) + c.getString(1) + c.getInt(2) + c.getString(3));
             //Log.d("",conversacion.toString());
         } while (c.moveToNext());
 //		baseDatosL.close();
         c.close();
 
         return conversacion;
-    };
+    }
+
+    ;
+
+    public ArrayList<Conversaciones> recuperarConversaciones(SQLiteDatabase baseDatosL, ArrayList<Contactos> listacontactos) {
+        ArrayList<Conversaciones> conversaciones = new ArrayList<Conversaciones>();
+        Conversaciones conversacion = null;
+        String[] valores_recuperar = {"id_conversacion", "nombre", "version", "ocultar"};
+
+        Cursor c = baseDatosL.query("CONVERSACION", valores_recuperar, null, null,
+                null, null, null, null);
+
+        if (c.moveToFirst()) {
+            Log.d("Datos de la conversacion", c.toString());
+
+
+            do {
+                conversacion = new Conversaciones(c.getInt(0), c.getString(1), c.getInt(2), listacontactos, c.getInt(3));
+                Log.d("Conversacion creada", "->"+ conversacion.toString());
+                Log.d("numero de conversaciones, ",String.valueOf(conversacion.size()));
+                conversaciones.add(conversacion);
+            } while (c.moveToNext());
+//		baseDatosL.close();
+            c.close();
+        }
+        Log.d("numero de conversaciones", String.valueOf(conversacion.size()));
+        return conversaciones;
+    }
+
+    ;
 }

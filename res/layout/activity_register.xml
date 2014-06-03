@@ -56,7 +56,7 @@
             <EditText android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:inputType="text"
-                      android:text="Usuario"
+                      android:hint="Usuario"
                       android:id="@+id/login_usuario_edit"/>
 
         </LinearLayout>
@@ -79,7 +79,7 @@
                       android:layout_height="wrap_content"
                       android:inputType="number"
                       android:maxLength="9"
-                      android:text="0"
+                      android:hint="000000000"
                       android:id="@+id/login_telefono_edit"/>
 
         </LinearLayout>

@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import com.ChiriChat.R;
-import com.ChiriChat.model.Contactos;
 import com.ChiriChat.model.Conversaciones;
 
 import java.util.ArrayList;
@@ -18,31 +17,31 @@ import java.util.ArrayList;
 public class myAdapterChats extends BaseAdapter {
 
     private Activity activity;
-    private ArrayList<Conversaciones> itemContactos;
+    private ArrayList<Conversaciones> itemConversaciones;
     private LayoutInflater inflater;
-    private ViewHolder holder = null;
+    private ViewHolderConver holder = null;
 
 
-    public myAdapterChats(Activity activity, ArrayList<Conversaciones> itemContactos) {
+    public myAdapterChats(Activity activity, ArrayList<Conversaciones> itemConversaciones) {
         this.activity = activity;
-        this.itemContactos = itemContactos;
+        this.itemConversaciones = itemConversaciones;
         inflater = LayoutInflater.from(activity);
 
     }
 
     @Override
     public int getCount() {
-        return 0;
+      return itemConversaciones.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return itemConversaciones.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return itemConversaciones.get(position).getId_conversacion();
     }
 
     @Override
@@ -53,12 +52,12 @@ public class myAdapterChats extends BaseAdapter {
 
         if (v == null) {
 
-            v = inflater.inflate(R.layout.item_contact, null);
-            holder = new ViewHolder(v);
+            v = inflater.inflate(R.layout.item_chat, null);
+            holder = new ViewHolderConver(v);
             v.setTag(holder);
             Log.d("Nuevo", "Vista nueva");
         } else {
-            holder = new ViewHolder(v);
+            holder = new ViewHolderConver(v);
             v.setTag(holder);
             Log.d("reciclar","reciclado");
         }
