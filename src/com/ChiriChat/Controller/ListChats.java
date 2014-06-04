@@ -49,7 +49,8 @@ public class ListChats extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_chats);
-        bd= new BDSQLite(this, null);
+        //bd= BDSQLite.getInstance(this);
+        bd= new BDSQLite(this);
         baseDatos = bd.getWritableDatabase();
         baseDatosL = bd.getReadableDatabase();
         
@@ -67,6 +68,7 @@ public class ListChats extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 openConversacion(allChats.get(position));
+                Log.d("CONVERSACIÓN SELECCIONADA", ""+allChats.get(position).getNombre());
             }
         });
 

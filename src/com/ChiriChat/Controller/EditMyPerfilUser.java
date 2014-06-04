@@ -49,7 +49,7 @@ public class EditMyPerfilUser extends Activity {
         textEstado = (EditText) findViewById(R.id.contact_My_Estado);
         image = (ImageView) findViewById(R.id.imageView_My_Contact);
 
-        bd = new BDSQLite(this, null);
+        bd = BDSQLite.getInstance(this);
         baseDatos = bd.getWritableDatabase();
         baseDatosL = bd.getReadableDatabase();
         

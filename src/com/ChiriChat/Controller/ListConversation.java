@@ -46,7 +46,7 @@ public class ListConversation extends Activity {
     private GestionBaseDatosConversaciones GBDConversacion = new GestionBaseDatosConversaciones();
     private GestionBaseDatosContactos GBDContactos = new GestionBaseDatosContactos();
     private GestionBaseDatosMensajes GBDMensaje = new GestionBaseDatosMensajes();
-    GestionBaseDatosUsu_Conv GBSUsu_Conv  = new GestionBaseDatosUsu_Conv();
+    GestionBaseDatosUsu_Conv GBSUsu_Conv = new GestionBaseDatosUsu_Conv();
 
     private BDSQLite bd; // Instancia de la base de datos
     private SQLiteDatabase baseDatos; // Instancia de la base de datos escritura
@@ -55,14 +55,12 @@ public class ListConversation extends Activity {
     int numeroMensajes;
 
     private Bundle extras;
-    private Conversaciones conversacion, conversacionBundle;
+    private Conversaciones conversacion;
 
 
     private Contactos contactoOrigen;
     private Contactos contactoDestino;
 
-    public ListConversation() {
-    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,39 +71,49 @@ public class ListConversation extends Activity {
         lisViewMensajes = (ListView) findViewById(android.R.id.list);
 
 
-        bd = new BDSQLite(this, null);
+        bd = BDSQLite.getInstance(this);
         baseDatos = bd.getWritableDatabase();
         baseDatosL = bd.getReadableDatabase();
-
+        contactoDestino = null;
 
         //Recupero el nombre del contacto
         extras = getIntent().getExtras();
 
         //Recogemos el contacto que hemos pasabo poer bundle al hacer click en un contacto de la lista
         if (extras != null) {
-            conversacionBundle = getIntent().getParcelableExtra("conversacion");
+            conversacion = getIntent().getParcelableExtra("conversacion");
 
-            if (conversacionBundle != null){
-                contactoDestino = conversacionBundle.getContactos().get(1);
+            if (conversacion != null) {
+                contactoDestino = conversacion.getContactos().get(1);
                 //Cambiamos el titulo de la actividad
                 this.setTitle(contactoDestino.getNombre());
-                  Log.d("conversacion pasada por bunble", conversacionBundle.toString());
 
-                allMensajes = GBDMensaje.recuperarMensajes(baseDatos,conversacionBundle.getId_conversacion());
+                Log.d("conversacion pasada por bunble", conversacion.toString());
+
+                allMensajes = GBDMensaje.recuperarMensajes(baseDatos, conversacion.getId_conversacion());
 
                 adapterMensajes = new myAdapterMensajes(this, allMensajes);
 
                 lisViewMensajes.setAdapter(adapterMensajes);
 
 
-            }else{
+            } else {
 
                 contactoDestino = getIntent().getParcelableExtra("contacto");
                 //Cambiamos el titulo de la actividad
                 this.setTitle(contactoDestino.getNombre());
                 Log.d("Contacto pasado por bunble", contactoDestino.toString());
+                //Comprovamos que el contacto pulsado no tenga conversacion
+                int idConver = GBDConversacion.recuperarIdConversacionNombre(baseDatosL, contactoDestino.getNombre());
 
-                allMensajes = new ArrayList<Mensajes>();
+                if (idConver != 0){
+
+                    allMensajes = GBDMensaje.recuperarMensajes(baseDatosL, idConver);
+
+                }else{
+
+                    allMensajes = new ArrayList<Mensajes>();
+                }
 
                 adapterMensajes = new myAdapterMensajes(this, allMensajes);
 
@@ -114,7 +122,6 @@ public class ListConversation extends Activity {
             }
 
         }
-
 
 
         // setRetainInstance(true);
@@ -129,7 +136,6 @@ public class ListConversation extends Activity {
             adapterMensajes.notifyDataSetChanged();
         }
 
-        lisViewMensajes.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         lisViewMensajes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             // setting onItemLongClickListener and passing the position to the function
@@ -253,12 +259,12 @@ public class ListConversation extends Activity {
         String cadena = editText.getText().toString().trim();
 
         if (!cadena.isEmpty()) {
+            contactoOrigen = GBDContactos.devolverMiContacto(baseDatosL);
 
-
-            if (conversacion == null) {
+            if (GBDConversacion.contarConversaciones(baseDatos, contactoDestino) == 0) {
 
                 //Contacto Origen, nuestro contacto, el que crea la conversacion
-                contactoOrigen = GBDContactos.devolverMiContacto(baseDatosL);
+
                 //Contacto destino, item del ListView donde hemos pinchado
                 //contactoDestino = conversacionBundle.getContactos().get(1);
 
@@ -270,16 +276,24 @@ public class ListConversation extends Activity {
 
 
                 //Le pasamos un objeto contacto destino que sera el otro usuario de la conversacion
-                conversacion = GBDConversacion.crearConversacion(baseDatos,contactoDestino,listaContactos);
+                conversacion = GBDConversacion.crearConversacion(baseDatos, contactoDestino, listaContactos);
+//                Log.w("",""+conversacion.toString());
 
+                GBDMensaje.insertarMensaje(baseDatos, cadena, contactoOrigen.getId(),
+                        GBDConversacion.recuperarIdConversacionNombre(baseDatosL, contactoDestino.getNombre()));
+                men = GBDMensaje.recuperarMensaje(baseDatos, conversacion.getId_conversacion());
+            } else {
+                Log.w("Texto del mensaje a insertar", "" + cadena);
+                //	Log.w("Conversacion a insertar en mensaje", ""+conversacionBundle.toString());
+
+                GBDMensaje.insertarMensaje(baseDatos, cadena, contactoOrigen.getId(),
+                        conversacion.getId_conversacion());
+                men = GBDMensaje.recuperarMensaje(baseDatos, conversacion.getId_conversacion());
             }
+            Log.w("ID de la conversacion", "" + GBDConversacion.recuperarIdConversacionNombre(baseDatosL, contactoDestino.getNombre()));
 
-            GBDMensaje.insertarMensaje(baseDatos, cadena, contactoOrigen.getId(), conversacion.getId_conversacion());
-
-            men = GBDMensaje.recuperarMensaje(baseDatos, conversacion.getId_conversacion());
 
             allMensajes.add(men);
-
 
             Log.d("Mensaje recuperado de la base de datos", allMensajes.toString());
 

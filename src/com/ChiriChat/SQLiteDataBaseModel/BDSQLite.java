@@ -17,7 +17,10 @@ public class BDSQLite extends SQLiteOpenHelper {
     private static final String BD_NOMBRE = "BDChiriChat";
     //Versión de la BD.
     private static final int BD_VERSION = 1;
-
+    private static BDSQLite mInstance = null;
+    
+    private Context mCxt;
+    
     //Sentencia SQL para crear la tabla de Usuarios
     private static final String SQL_CREATE_CONTACTOS = "CREATE TABLE IF NOT EXISTS USUARIOS"
             + "(id_usuario INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
@@ -48,7 +51,19 @@ public class BDSQLite extends SQLiteOpenHelper {
 
 
 
-
+    public static BDSQLite getInstance(Context ctx) {
+        /** 
+         * use the application context as suggested by CommonsWare.
+         * this will ensure that you dont accidentally leak an Activitys
+         * context (see this article for more information: 
+         * http://android-developers.blogspot.nl/2009/01/avoiding-memory-leaks.html)
+         */
+        if (mInstance == null) {
+            mInstance = new BDSQLite(ctx.getApplicationContext());
+        }
+        return mInstance;
+    }
+    
     /**
      * Constructor de la base de datos.
      *
@@ -56,9 +71,9 @@ public class BDSQLite extends SQLiteOpenHelper {
      *                //     * @param factory
      *                //     * @param BD_VERSION
      */
-    public BDSQLite(Context context, CursorFactory factory) {
-        super(context, BD_NOMBRE, factory, BD_VERSION);
-
+    public BDSQLite(Context context) {
+        super(context, BD_NOMBRE, null, BD_VERSION);
+        this.mCxt= context;
     }
 
     /**

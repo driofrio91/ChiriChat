@@ -58,7 +58,7 @@ public class ListContacts extends Activity {
 
         listContacts = (ListView) findViewById(R.id.listView_Contacts);
 //---------------------------------
-        bd = new BDSQLite(this, null);
+        bd = BDSQLite.getInstance(this);
         baseDatos = bd.getWritableDatabase();
         baseDatosL = bd.getReadableDatabase();
         String sql = "PRAGMA foreign_keys = ON";

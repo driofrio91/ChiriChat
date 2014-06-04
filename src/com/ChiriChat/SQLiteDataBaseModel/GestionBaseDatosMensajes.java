@@ -52,14 +52,14 @@ public class GestionBaseDatosMensajes {
                 "id_conversacion" };
         Cursor c = baseDatos.query("MENSAJES", valores_recuperar, "id_conversacion ="+conversacion, null,
                 null, null, null, null);
-        c.moveToFirst();
+        if(c.moveToFirst()){
         do {
             Mensajes mensajes = new Mensajes(c.getInt(0), c.getString(1),
                     c.getInt(2), c.getInt(3));
             lista_mensajes.add(mensajes);
         } while (c.moveToNext());
         //baseDatos.close();
-        c.close();
+        c.close();}
         return lista_mensajes;
     }
 
@@ -73,7 +73,7 @@ public class GestionBaseDatosMensajes {
 
 		c.moveToLast();
 		mensaje = new Mensajes(c.getInt(0),c.getString(1),c.getInt(2),c.getInt(3));
-		Log.d("MENSAJE RECUPERADO",""+mensaje.toString());
+		Log.w("MENSAJE RECUPERADO",""+mensaje.toString());
 
 		return mensaje;
 	}

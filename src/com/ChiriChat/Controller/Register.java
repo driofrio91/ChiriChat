@@ -53,7 +53,7 @@ public class Register extends Activity {
 
         nombre = (EditText) findViewById(R.id.login_usuario_edit);
         telefono = (EditText) findViewById(R.id.login_telefono_edit);
-        bd = new BDSQLite(this, null);
+        bd = BDSQLite.getInstance(this);
         baseDatos = bd.getWritableDatabase();
         baseDatosL = bd.getReadableDatabase();
         

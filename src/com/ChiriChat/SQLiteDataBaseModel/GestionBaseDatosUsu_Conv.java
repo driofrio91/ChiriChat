@@ -25,7 +25,7 @@ public class GestionBaseDatosUsu_Conv {
     public static ArrayList getUsuariosConversacion(SQLiteDatabase baseDatos, int id_conversacion) {
         ArrayList<Contactos> contactos = new ArrayList<Contactos>();
 
-        String sql = "SELECT DISTINCT(id_usuario) FROM USU_CONV WHERE id_conversacion = " + id_conversacion;
+        String sql = "SELECT id_usuario FROM USU_CONV WHERE id_conversacion = " + id_conversacion;
 
         Cursor c = baseDatos.rawQuery(sql, null);
 
