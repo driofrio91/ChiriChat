@@ -116,11 +116,11 @@ public class GestionBaseDatosConversaciones {
 //    public Conversaciones recuperarConversacionNombre(SQLiteDatabase baseDatosL, Contactos contacto) {
 //    	ArrayList <Contactos> contactos= new ArrayList<Contactos>();
 //        Conversaciones conversacion = null;
-//        String sql = "SELECT id_conversacion FROM CONVERSACION WHERE id_usuario ='" + contacto.getId() + "'";
+//        String sql = "SELECT * FROM CONVERSACION WHERE id_usuario ='" + contacto.getId() + "'";
 //        Cursor c = baseDatosL.rawQuery(sql, null);
 //        c.moveToFirst();
 //        conversacion= new Conversaciones(c.getInt(0), c.getString(1), 1,contactos , 1);
-//        
+//
 //        return conversacion;
 //    }
     

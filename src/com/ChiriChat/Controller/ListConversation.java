@@ -107,8 +107,9 @@ public class ListConversation extends Activity {
                 int idConver = GBDConversacion.recuperarIdConversacionNombre(baseDatosL, contactoDestino.getNombre());
 
                 if (idConver != 0){
-
+   //                 conversacion=GBDConversacion.recuperarConversacionNombre(baseDatosL, contactoDestino);
                     allMensajes = GBDMensaje.recuperarMensajes(baseDatosL, idConver);
+
 
                 }else{
 
@@ -263,10 +264,6 @@ public class ListConversation extends Activity {
 
             if (GBDConversacion.contarConversaciones(baseDatos, contactoDestino) == 0) {
 
-                //Contacto Origen, nuestro contacto, el que crea la conversacion
-
-                //Contacto destino, item del ListView donde hemos pinchado
-                //contactoDestino = conversacionBundle.getContactos().get(1);
 
                 Log.d("Contacto origen******************", contactoOrigen.toString());
                 Log.d("Contacto destino******************", contactoDestino.toString());

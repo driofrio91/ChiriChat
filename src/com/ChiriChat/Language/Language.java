@@ -1,5 +1,5 @@
 package com.ChiriChat.Language;/**
- * Created by neosistec on 03/06/2014.
+ * Created by danny on 03/06/2014.
  */
 
 import android.content.res.Configuration;
