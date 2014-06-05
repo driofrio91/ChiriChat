@@ -69,13 +69,14 @@ public class ListConversation extends Activity {
         editText = (EditText) findViewById(R.id.text_sent_msg);
         buttonSend = (Button) findViewById(R.id.bt_sent_msg);
         lisViewMensajes = (ListView) findViewById(android.R.id.list);
-
+        
 
         bd = BDSQLite.getInstance(this);
         baseDatos = bd.getWritableDatabase();
         baseDatosL = bd.getReadableDatabase();
         contactoDestino = null;
-
+        contactoOrigen = GBDContactos.devolverMiContacto(baseDatosL);
+        
         //Recupero el nombre del contacto
         extras = getIntent().getExtras();
 
@@ -103,11 +104,12 @@ public class ListConversation extends Activity {
                 //Cambiamos el titulo de la actividad
                 this.setTitle(contactoDestino.getNombre());
                 Log.d("Contacto pasado por bunble", contactoDestino.toString());
-                //Comprovamos que el contacto pulsado no tenga conversacion
+                //Comprobamos que el contacto pulsado tenga conversacion
                 int idConver = GBDConversacion.recuperarIdConversacionNombre(baseDatosL, contactoDestino.getNombre());
-
+                
                 if (idConver != 0){
-   //                 conversacion=GBDConversacion.recuperarConversacionNombre(baseDatosL, contactoDestino);
+                	
+                   conversacion=GBDConversacion.recuperarConversacionNombre(baseDatosL,contactoOrigen, contactoDestino);
                     allMensajes = GBDMensaje.recuperarMensajes(baseDatosL, idConver);
 
 
@@ -260,7 +262,6 @@ public class ListConversation extends Activity {
         String cadena = editText.getText().toString().trim();
 
         if (!cadena.isEmpty()) {
-            contactoOrigen = GBDContactos.devolverMiContacto(baseDatosL);
 
             if (GBDConversacion.contarConversaciones(baseDatos, contactoDestino) == 0) {
 

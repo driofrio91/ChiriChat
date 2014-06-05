@@ -25,6 +25,12 @@ public class Contactos implements Parcelable{
         this.estado = estado;
         this.telefono = telefono;
     }
+    
+    public Contactos( String nombre, String estado, int telefono) {
+        this.nombre = nombre;
+        this.estado = estado;
+        this.telefono = telefono;
+    }
 
     public Contactos() {
     }

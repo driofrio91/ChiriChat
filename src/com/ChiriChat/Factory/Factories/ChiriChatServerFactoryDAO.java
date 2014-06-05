@@ -1,5 +1,8 @@
 package com.ChiriChat.Factory.Factories;
 
+import com.ChiriChat.DataAccessObject.DAOWebServer.ChiriChatContactosDAO;
+import com.ChiriChat.DataAccessObject.DAOWebServer.ChiriChatConversacionesDAO;
+import com.ChiriChat.DataAccessObject.DAOWebServer.ChiriChatMensajesDAO;
 import com.ChiriChat.DataAccessObject.InterfacesDAO.IContactosDAO;
 import com.ChiriChat.DataAccessObject.InterfacesDAO.IConversacioneDAO;
 import com.ChiriChat.DataAccessObject.InterfacesDAO.IMensajesDAO;
@@ -10,17 +13,17 @@ import com.ChiriChat.Factory.FactoryDAO;
  */
 public class ChiriChatServerFactoryDAO implements FactoryDAO {
     @Override
-    public IMensajesDAO getMensajesDAO() {
-        return null;
+    public IMensajesDAO getMensajesDAO()throws Exception{
+        return new ChiriChatMensajesDAO();
     }
 
     @Override
-    public IConversacioneDAO getConversacionesDAO() {
-        return null;
+    public IConversacioneDAO getConversacionesDAO()throws Exception {
+        return new ChiriChatConversacionesDAO();
     }
 
     @Override
-    public IContactosDAO getContactosDAO() {
-        return null;
+    public IContactosDAO getContactosDAO()throws Exception{
+        return new ChiriChatContactosDAO();
     }
 }

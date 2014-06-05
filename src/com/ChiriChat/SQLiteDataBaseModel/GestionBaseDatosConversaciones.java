@@ -112,17 +112,19 @@ public class GestionBaseDatosConversaciones {
         return id;
     }
     
-//TODO FALTA RECUPERAR TODOS LOS DATOS
-//    public Conversaciones recuperarConversacionNombre(SQLiteDatabase baseDatosL, Contactos contacto) {
-//    	ArrayList <Contactos> contactos= new ArrayList<Contactos>();
-//        Conversaciones conversacion = null;
-//        String sql = "SELECT * FROM CONVERSACION WHERE id_usuario ='" + contacto.getId() + "'";
-//        Cursor c = baseDatosL.rawQuery(sql, null);
-//        c.moveToFirst();
-//        conversacion= new Conversaciones(c.getInt(0), c.getString(1), 1,contactos , 1);
-//
-//        return conversacion;
-//    }
+
+    public Conversaciones recuperarConversacionNombre(SQLiteDatabase baseDatosL,Contactos ContactoOrigen, Contactos contactoDestino) {
+    	ArrayList <Contactos> contactos= new ArrayList<Contactos>();
+    	contactos.add(ContactoOrigen);
+    	contactos.add(contactoDestino);
+        Conversaciones conversacion = null;
+        String sql = "SELECT id_conversacion, nombre  FROM CONVERSACION WHERE nombre ='" + contactoDestino.getNombre()+"'" ;
+        Cursor c = baseDatosL.rawQuery(sql, null);
+        c.moveToFirst();
+        conversacion= new Conversaciones(c.getInt(0), c.getString(1), 1,contactos , 1);
+
+        return conversacion;
+    }
     
     public Conversaciones recuperarConversacion(SQLiteDatabase baseDatosL, ArrayList<Contactos> listacontactos) {
         Conversaciones conversacion = null;
