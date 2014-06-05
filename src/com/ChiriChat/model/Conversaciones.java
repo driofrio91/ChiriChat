@@ -17,8 +17,9 @@ public class Conversaciones extends ArrayList<Conversaciones> implements Parcela
     private int ocultar;
 
 
-    public Conversaciones(String nombre) {
+    public Conversaciones(String nombre, ArrayList<Contactos> contactos) {
         this.nombre = nombre;
+        this.contactos = contactos;
     }
 
     public Conversaciones(int id_conversacion, String nombre, long version, ArrayList<Contactos> contactos, int ocultar) {

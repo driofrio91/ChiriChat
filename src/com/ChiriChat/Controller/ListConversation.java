@@ -15,6 +15,7 @@ import android.widget.*;
 
 import com.ChiriChat.Adapter.myAdapterContacts;
 import com.ChiriChat.Adapter.myAdapterMensajes;
+import com.ChiriChat.AsynTask.CrearConversacion;
 import com.ChiriChat.R;
 import com.ChiriChat.SQLiteDataBaseModel.*;
 import com.ChiriChat.model.Contactos;
@@ -271,34 +272,42 @@ public class ListConversation extends Activity {
 
                 listaContactos.add(contactoOrigen);
                 listaContactos.add(contactoDestino);
+                //CONVERASCION SERVER//////////////////////
 
+                Conversaciones c = new Conversaciones(contactoDestino.getNombre(),listaContactos);
+                Log.d("Conversacion",c.toString());
+                CrearConversacion crearConver = new CrearConversacion(this);
+                crearConver.execute(c);
+
+
+                //CONVERSACION LOCAL//////////////
 
                 //Le pasamos un objeto contacto destino que sera el otro usuario de la conversacion
-                conversacion = GBDConversacion.crearConversacion(baseDatos, contactoDestino, listaContactos);
-//                Log.w("",""+conversacion.toString());
+//                conversacion = GBDConversacion.crearConversacion(baseDatos, contactoDestino, listaContactos);
 
-                GBDMensaje.insertarMensaje(baseDatos, cadena, contactoOrigen.getId(),
-                        GBDConversacion.recuperarIdConversacionNombre(baseDatosL, contactoDestino.getNombre()));
-                men = GBDMensaje.recuperarMensaje(baseDatos, conversacion.getId_conversacion());
+
+              //  GBDMensaje.insertarMensaje(baseDatos, cadena, contactoOrigen.getId(),
+               //         GBDConversacion.recuperarIdConversacionNombre(baseDatosL, contactoDestino.getNombre()));
+              //  men = GBDMensaje.recuperarMensaje(baseDatos, conversacion.getId_conversacion());
             } else {
-                Log.w("Texto del mensaje a insertar", "" + cadena);
-                //	Log.w("Conversacion a insertar en mensaje", ""+conversacionBundle.toString());
-
-                GBDMensaje.insertarMensaje(baseDatos, cadena, contactoOrigen.getId(),
-                        conversacion.getId_conversacion());
-                men = GBDMensaje.recuperarMensaje(baseDatos, conversacion.getId_conversacion());
+//                Log.w("Texto del mensaje a insertar", "" + cadena);
+//                //	Log.w("Conversacion a insertar en mensaje", ""+conversacionBundle.toString());
+//
+//                GBDMensaje.insertarMensaje(baseDatos, cadena, contactoOrigen.getId(),
+//                        conversacion.getId_conversacion());
+//                men = GBDMensaje.recuperarMensaje(baseDatos, conversacion.getId_conversacion());
             }
-            Log.w("ID de la conversacion", "" + GBDConversacion.recuperarIdConversacionNombre(baseDatosL, contactoDestino.getNombre()));
+            //Log.w("ID de la conversacion", "" + GBDConversacion.recuperarIdConversacionNombre(baseDatosL, contactoDestino.getNombre()));
 
 
-            allMensajes.add(men);
-
-            Log.d("Mensaje recuperado de la base de datos", allMensajes.toString());
-
-            adapterMensajes.notifyDataSetChanged();
-
-
-            lisViewMensajes.setSelection(allMensajes.size() - 1);
+//            allMensajes.add(men);
+//
+//            Log.d("Mensaje recuperado de la base de datos", allMensajes.toString());
+//
+//            adapterMensajes.notifyDataSetChanged();
+//
+//
+//            lisViewMensajes.setSelection(allMensajes.size() - 1);
 
             editText.setText("");
         }

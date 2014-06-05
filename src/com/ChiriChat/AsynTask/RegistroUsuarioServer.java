@@ -48,7 +48,7 @@ public class RegistroUsuarioServer extends AsyncTask<Object, Integer, Object> {
     protected String doInBackground(Object... params) {
 
         try {
-            Thread.sleep(5000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -70,8 +70,8 @@ public class RegistroUsuarioServer extends AsyncTask<Object, Integer, Object> {
             int telef = contacto.getTelefono();
             GBDContactos.insertarUsuario(baseDatos, nombreUsuario, telef, ESTADO);
 
-        }else{
-            onCancelled();
+//        }else{
+//            onCancelled();
         }
 
         return null;
