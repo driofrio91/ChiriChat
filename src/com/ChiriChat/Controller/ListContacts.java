@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ShareActionProvider;
 import com.ChiriChat.Adapter.myAdapterContacts;
+import com.ChiriChat.AsynTask.ActualizarUsuarios;
 import com.ChiriChat.R;
 import com.ChiriChat.SQLiteDataBaseModel.BDSQLite;
 import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosContactos;
@@ -48,6 +49,7 @@ public class ListContacts extends Activity {
     private SQLiteDatabase baseDatosL;
     private int numeroUsuarios;
 
+    private ActualizarUsuarios actualizaUsuarios;
     /**
      * Called when the activity is first created.
      */
@@ -75,12 +77,7 @@ public class ListContacts extends Activity {
         	gb.insertarUsuarios(baseDatos);
         } 
 
-        // Recuperamos todos los usuarios de la tablas usuarios.
-        contacts = (ArrayList<Contactos>) gb.recuperarContactos(baseDatosL);
-
-        adapterContacts = new myAdapterContacts(this, contacts);
-
-        listContacts.setAdapter(adapterContacts);
+        recuperarListaContactos();
 
         // Devueleve el numero de contactos
 //        Log.d("NUMERO CONTACTOS", "" + contacts.size());
@@ -150,10 +147,11 @@ public class ListContacts extends Activity {
         switch (item.getItemId()) {
 
             case R.id.menuBar_Refresh:
-                setRefreshActionButtonState(true);
+                actualizaUsuarios = new ActualizarUsuarios(this,this);
+                actualizaUsuarios.execute();
                 break;
             default:
-                setRefreshActionButtonState(false);
+                //setRefreshActionButtonState(false);
                 break;
         }
 
@@ -194,6 +192,25 @@ public class ListContacts extends Activity {
         return intent;
     }
 
+
+    public void recuperarListaContactos(){
+
+        // Recuperamos todos los usuarios de la tablas usuarios.
+        contacts = (ArrayList<Contactos>) gb.recuperarContactos(baseDatosL);
+
+        if (contacts.isEmpty()){
+            actualizaUsuarios = new ActualizarUsuarios(this,this);
+            actualizaUsuarios.execute();
+            contacts = (ArrayList<Contactos>) gb.recuperarContactos(baseDatosL);
+        }
+
+        adapterContacts = new myAdapterContacts(this, contacts);
+
+        listContacts.setAdapter(adapterContacts);
+
+        adapterContacts.notifyDataSetChanged();
+    }
+
     /**
      * Metodo que abre una conversacion con el objeto obtenido de la lista.
      *
@@ -216,6 +233,7 @@ public class ListContacts extends Activity {
         startActivity(intent);
         this.finish();
     }
+
 
     protected void removeItemFromList(int position) {
         final int deletePosition = position;

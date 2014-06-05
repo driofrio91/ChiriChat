@@ -16,6 +16,7 @@ import com.ChiriChat.model.Conversaciones;
 
 public class GestionBaseDatosConversaciones {
 
+    private GestionBaseDatosUsu_Conv GBDUsuConversaciones = new GestionBaseDatosUsu_Conv();
     /**
      * Método que crea una conversación y la inserta en base de datos.
      *
@@ -165,7 +166,7 @@ public class GestionBaseDatosConversaciones {
             Log.d("Datos de la conversacion", c.toString());
 
             do {
-                listacontactos = GestionBaseDatosUsu_Conv.getUsuariosConversacion(baseDatosL,c.getInt(0));
+                listacontactos = GBDUsuConversaciones.getUsuariosConversacion(baseDatosL,c.getInt(0));
                 conversacion = new Conversaciones(c.getInt(0), c.getString(1), c.getInt(2), listacontactos, c.getInt(3));
 
                 Log.d("Conversacion creada", "->" + conversacion.toString());

@@ -15,13 +15,14 @@ public class ComprobarConexionInternet {
 		ConnectivityManager conex = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 		if(conex != null){
 			NetworkInfo[] info = conex.getAllNetworkInfo();
+
 			for (int i = 0; i < info.length; i++) {
 				if(info[i].getState() == NetworkInfo.State.CONNECTED && info[i].isConnectedOrConnecting()){
 					return true;
 				}
 			}			
 		}
-		Toast t= Toast.makeText(ctx, "No tenemos conexión", Toast.LENGTH_LONG);
+		Toast t= Toast.makeText(ctx, "No tenemos conexiï¿½n", Toast.LENGTH_LONG);
 		t.show();
 		return false;
 	}

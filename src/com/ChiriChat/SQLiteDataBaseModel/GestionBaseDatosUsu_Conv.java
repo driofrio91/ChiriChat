@@ -22,7 +22,7 @@ public class GestionBaseDatosUsu_Conv {
      * @param id_conversacion
      * @return
      */
-    public static ArrayList getUsuariosConversacion(SQLiteDatabase baseDatos, int id_conversacion) {
+    public  ArrayList getUsuariosConversacion(SQLiteDatabase baseDatos, int id_conversacion) {
         ArrayList<Contactos> contactos = new ArrayList<Contactos>();
 
         String sql = "SELECT id_usuario FROM USU_CONV WHERE id_conversacion = " + id_conversacion;

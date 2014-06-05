@@ -65,6 +65,14 @@ public class Opciones extends Activity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+
+        Intent intent = new Intent(this,ListChats.class);
+        startActivity(intent);
+        this.finish();
+    }
+
     /**
      * Metodo que cambiara el leguaje actual de la app
      * @param lang

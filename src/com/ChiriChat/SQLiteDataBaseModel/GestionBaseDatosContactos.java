@@ -39,23 +39,27 @@ public class GestionBaseDatosContactos {
             String sql9 = "INSERT INTO USUARIOS (nombre, estado, telefono)"
                     + "values ( 'Maria', 'Probando Contactos9', 679965599)";
             //baseDatos.execSQL(sql);
-            baseDatos.execSQL(sql2);
-            baseDatos.execSQL(sql3);
-            baseDatos.execSQL(sql4);
-            baseDatos.execSQL(sql5);
-            baseDatos.execSQL(sql6);
-            baseDatos.execSQL(sql7);
-            baseDatos.execSQL(sql8);
-            baseDatos.execSQL(sql9);
+//            baseDatos.execSQL(sql2);
+//            baseDatos.execSQL(sql3);
+//            baseDatos.execSQL(sql4);
+//            baseDatos.execSQL(sql5);
+//            baseDatos.execSQL(sql6);
+//            baseDatos.execSQL(sql7);
+//            baseDatos.execSQL(sql8);
+//            baseDatos.execSQL(sql9);
 
             //baseDatos.close();
         }
     }
     
-    public void insertarUsuario(SQLiteDatabase baseDatos, String nombre, int telefono){
-    	String sql = "INSERT INTO USUARIOS (nombre, estado, telefono)"
-                + "values ('"+nombre+"', ' :) ', "+ telefono+")";
-    	baseDatos.execSQL(sql);
+    public void insertarUsuario(SQLiteDatabase baseDatos, String nombre, int telefono, String estado){
+        Contactos c = contactoPorTelefono(baseDatos, telefono);
+        if (c == null){
+            String sql = "INSERT INTO USUARIOS (nombre, estado, telefono)"
+                    + "values ('"+nombre+"', '"+estado+"', "+ telefono+")";
+            baseDatos.execSQL(sql);
+        }
+
     }
     
     public Contactos devolverMiContacto(SQLiteDatabase baseDatos){
@@ -83,13 +87,14 @@ public class GestionBaseDatosContactos {
                 "telefono" };
         Cursor c = baseDatos.query("USUARIOS", valores_recuperar, " id_usuario > 1", null,
                 null, null, null, null);
-        c.moveToFirst();
-        do {
-            Contactos contactos = new Contactos(c.getInt(0), c.getString(1),
-                    c.getString(2), c.getInt(3));
-            lista_contactos.add(contactos);
-            Log.d("Contactos recuperado de DB", contactos.toString());
-        } while (c.moveToNext());
+        if (c.moveToFirst()) {
+            do {
+                Contactos contactos = new Contactos(c.getInt(0), c.getString(1),
+                        c.getString(2), c.getInt(3));
+                lista_contactos.add(contactos);
+                Log.d("Contactos recuperado de DB", contactos.toString());
+            } while (c.moveToNext());
+        }
         //baseDatos.close();
         c.close();
         return lista_contactos;
