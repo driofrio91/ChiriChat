@@ -59,6 +59,7 @@ public class RegistroUsuarioServer extends AsyncTask<Object, Integer, Object> {
         }
         contacto = (Contactos) params[0];
         try {
+            //Registro SERVER
          contacto =   contactoDAO.insert(contacto);
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,7 +69,8 @@ public class RegistroUsuarioServer extends AsyncTask<Object, Integer, Object> {
             //REGISTRO LOCAL
             String nombreUsuario = contacto.getNombre();
             int telef = contacto.getTelefono();
-            GBDContactos.insertarUsuario(baseDatos, nombreUsuario, telef, ESTADO);
+
+            GBDContactos.insertarUsuario(baseDatos, contacto, true);
 
 //        }else{
 //            onCancelled();

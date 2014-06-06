@@ -53,17 +53,26 @@ public class GestionBaseDatosContactos {
         }
     }
 
+    /**
+     * Metodo que insertara un usuario en la base de datos.
+     *
+     * @param baseDatos
+     * @param contacto
+     * @param isLocal
+     */
     public void insertarUsuario(SQLiteDatabase baseDatos, Contactos contacto, boolean isLocal) {
 
         int local = (isLocal) ? 1 : 0;
 
-        if (contacto == null) {
+        if (contacto != null) {
+            Log.d("Contacto a insertaner en el metodo de insertar", contacto.toString());
             String sql = "INSERT INTO USUARIOS (id_usuario, nombre, estado, telefono, islocal)" +
                     "values (" + contacto.getId() + ", " +
                     " '" + contacto.getNombre() + "', " +
                     " '" + contacto.getEstado() + "', " +
                     contacto.getTelefono() + ", " +
                     local + ")";
+            Log.d("Insertando","------------------------------------");
             baseDatos.execSQL(sql);
         }
 

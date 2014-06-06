@@ -47,7 +47,7 @@ public class ListConversation extends Activity {
     private GestionBaseDatosConversaciones GBDConversacion = new GestionBaseDatosConversaciones();
     private GestionBaseDatosContactos GBDContactos = new GestionBaseDatosContactos();
     private GestionBaseDatosMensajes GBDMensaje = new GestionBaseDatosMensajes();
-    GestionBaseDatosUsu_Conv GBSUsu_Conv = new GestionBaseDatosUsu_Conv();
+
 
     private BDSQLite bd; // Instancia de la base de datos
     private SQLiteDatabase baseDatos; // Instancia de la base de datos escritura

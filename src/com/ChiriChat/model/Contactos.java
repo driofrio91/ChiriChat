@@ -70,7 +70,7 @@ public class Contactos implements Parcelable{
 
     @Override
     public String toString() {
-        return "Contactos{" +
+        return "{" +
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", estado='" + estado + '\'' +
@@ -143,10 +143,10 @@ public class Contactos implements Parcelable{
 
     public Contactos(JSONObject json) {
         try {
-            this.id = json.getInt("Id");
-            this.nombre = json.getString("Nombre");
-            this.estado = json.getString("Estado");
-            this.telefono = json.getInt("Telefono");
+            this.id = json.getInt("id_usuario");
+            this.nombre = json.getString("nombre");
+            this.estado = json.getString("estado");
+            this.telefono = json.getInt("telefono");
         } catch (JSONException e) {
             e.printStackTrace();
         }

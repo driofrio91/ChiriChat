@@ -3,6 +3,7 @@ package com.ChiriChat.DataAccessObject.DAOWebServer;
 import com.ChiriChat.DataAccessObject.InterfacesDAO.IMensajesDAO;
 import com.ChiriChat.model.Mensajes;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -31,6 +32,11 @@ public class ChiriChatMensajesDAO implements IMensajesDAO {
 
     @Override
     public List<Mensajes> getAll() throws Exception {
+        return null;
+    }
+
+    @Override
+    public String StreamToString(InputStream is) {
         return null;
     }
 }

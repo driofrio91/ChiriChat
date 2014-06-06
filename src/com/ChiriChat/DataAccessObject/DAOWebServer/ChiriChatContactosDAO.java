@@ -46,9 +46,9 @@ public class ChiriChatContactosDAO implements IContactosDAO {
         //Creo el objeto Jason con los datos del contacto que se registra en la app.
         JSONObject newUsuario = new JSONObject();
         try {
-            newUsuario.put("Nombre", dto.getNombre());
-            newUsuario.put("Telefono", dto.getTelefono());
-            newUsuario.put("Estado", dto.getEstado());
+            newUsuario.put("nombre", dto.getNombre());
+            newUsuario.put("telefono", dto.getTelefono());
+            newUsuario.put("estado", dto.getEstado());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -71,7 +71,24 @@ public class ChiriChatContactosDAO implements IContactosDAO {
         Log.w("Respueta", "" + respuesta);
         //Si respuesta 200 devuelvo mi usuario , si no devolvere null
         if (respuesta == 200) {
-            return dto;
+
+
+            //Nos conectamos para recibir los datos de respuesta
+            HttpEntity entity = response.getEntity();
+            //Creamos el InputStream
+            InputStream is = entity.getContent();
+            //Leemos el inputStream
+            String temp = StreamToString(is);
+            //Creamos el JSON con la cadena del inputStream
+            Log.d("Cadena JSON", temp.toString());
+            JSONObject jsonRecibido = new JSONObject(temp);
+
+            Log.d("InputStreamReader", temp.toString());
+            Log.d("JSON ==>", jsonRecibido.toString());
+
+            Contactos c = new Contactos(jsonRecibido);
+
+            return c;
         }
         return null;
     }
@@ -125,12 +142,13 @@ public class ChiriChatContactosDAO implements IContactosDAO {
 
                 for (int i = 0; i < jsonRecibido.length(); i++) {
                     Log.d("Item de la array", jsonRecibido.get(i).toString());
+
                     JSONObject jo = (JSONObject) jsonRecibido.get(i);
-                    Contactos us = new Contactos();
-                    us.setNombre(jo.getString("nombre"));
-                    us.setEstado(jo.getString("estado"));
-                    us.setTelefono(jo.getInt("telefono"));
+
+                    Contactos us = new Contactos(jo);
+
                     Log.d("Datos del usuario", us.toString());
+
                     allContacts.add(us);
                 }
             }
@@ -148,25 +166,19 @@ public class ChiriChatContactosDAO implements IContactosDAO {
     public List getAllSinMiContacto(Contactos dto) throws Exception {
         List<Contactos> contactos = new ArrayList<Contactos>();
 
-            contactos = getAll();
-            for (int i = 0; i < contactos.size() ; i++) {
-                if (contactos.get(i).getTelefono() == dto.getTelefono()){
-                    Log.d("Contacto eliminado",contactos.get(i).toString());
-                    contactos.remove(i);
-                }
+        contactos = getAll();
+        for (int i = 0; i < contactos.size(); i++) {
+            if (contactos.get(i).getTelefono() == dto.getTelefono()) {
+                Log.d("Contacto eliminado", contactos.get(i).toString());
+                contactos.remove(i);
             }
+        }
 
 
         return contactos;
     }
 
-
-    /**
-     * Metodo para conbertir el InputStream a cadena.
-     *
-     * @param is InputStream
-     * @return String
-     */
+    @Override
     public String StreamToString(InputStream is) {
         //Creamos el Buffer
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -191,5 +203,6 @@ public class ChiriChatContactosDAO implements IContactosDAO {
         //retornamos el codigo limpio
         return sb.toString();
     }
+
 
 }

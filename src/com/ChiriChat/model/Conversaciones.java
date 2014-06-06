@@ -5,6 +5,9 @@ package com.ChiriChat.model;
  */
 import android.os.Parcel;
 import android.os.Parcelable;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -118,5 +121,30 @@ public class Conversaciones extends ArrayList<Conversaciones> implements Parcela
             return new Conversaciones[size];
         }
     };
+
+
+    //////////////////////////////
+    //////////JSON///////////////
+    ////////////////////////////
+    public Conversaciones(JSONObject json) {
+        try {
+            this.id_conversacion = json.getInt("id_conver");
+
+            this.nombre = json.getString("nombre");
+
+            this.contactos = new ArrayList<Contactos>();
+
+            JSONArray JSONArrayContactos = json.getJSONArray("participantes");
+
+            for (int i = 0; i < JSONArrayContactos.length(); i++) {
+
+                Contactos contacto = new Contactos(JSONArrayContactos.getJSONObject(i));
+                contactos.add(contacto);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
 

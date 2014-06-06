@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import com.ChiriChat.Language.Language;
 import com.ChiriChat.R;
 
 import java.util.Locale;
@@ -24,12 +23,12 @@ import java.util.Locale;
 public class Opciones extends Activity {
 
     private static final String LANGUAGE = "language";
-    private static final String ESPANOL = "es";
+    private static final String ESPAÑOL = "es";
     private static final String ENGLISH = "en";
 
     private ListView listview;
     private String[] idiomas = new String[]{"Idioma del sistema","Español","Ingles"};
-    private Locale myLocale;
+    Locale myLocale;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,7 +54,7 @@ public class Opciones extends Activity {
                         setLocal(Locale.getDefault().toString());
                         break;
                     case 1:
-                        setLocal(ESPANOL);
+                        setLocal(ESPAÑOL);
                         break;
                     case 2:
                         setLocal(ENGLISH);
@@ -85,11 +84,19 @@ public class Opciones extends Activity {
         Configuration conf = res.getConfiguration();
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
-        Intent refresh = new Intent(this, ListChats.class);
+        Intent refresh = new Intent(this, ListContacts.class);
         startActivity(refresh);
-        Language.setLocal(lang);
-        this.finish();
+        setLanguage(lang);
+        finish();
 
     }
 
+    private void setLanguage(String Languaje) {
+        SharedPreferences prefs = getSharedPreferences(
+                Opciones.class.getSimpleName(),
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(LANGUAGE, Languaje);
+        editor.commit();
+    }
 }

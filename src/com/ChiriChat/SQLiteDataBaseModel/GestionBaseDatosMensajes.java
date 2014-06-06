@@ -63,6 +63,12 @@ public class GestionBaseDatosMensajes {
         return lista_mensajes;
     }
 
+    /**
+     * Metodo que me recuperara el ultimo mensaje insertado.
+     * @param baseDatos
+     * @param conversacion
+     * @return
+     */
 	public Mensajes recuperarMensaje(SQLiteDatabase baseDatos,int conversacion) {
 		//int primermensaje=0;
 		Mensajes mensaje= null;
@@ -70,10 +76,9 @@ public class GestionBaseDatosMensajes {
 				"id_conversacion" };
 		Cursor c = baseDatos.query("MENSAJES", valores_recuperar, "id_conversacion= "+conversacion, null,
 				null, null, null, null);
-
 		c.moveToLast();
 		mensaje = new Mensajes(c.getInt(0),c.getString(1),c.getInt(2),c.getInt(3));
-		Log.w("MENSAJE RECUPERADO",""+mensaje.toString());
+		Log.w("MENSAJE RECUPERADO, metodo recuperarMensaje ",mensaje.toString());
 
 		return mensaje;
 	}

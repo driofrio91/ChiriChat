@@ -3,6 +3,7 @@ package com.ChiriChat.DataAccessObject.InterfacesDAO;
 import com.ChiriChat.DataAccessObject.DataAccessObject;
 import com.ChiriChat.model.Contactos;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -10,4 +11,5 @@ import java.util.List;
  */
 public interface IContactosDAO extends DataAccessObject<Contactos> {
     public List getAllSinMiContacto(Contactos dto) throws Exception;
+    public String StreamToString(InputStream is);
 }

@@ -72,7 +72,7 @@ public class ActualizarUsuarios extends AsyncTask<Object, Integer, Object> {
 
             Contactos c = (Contactos) allContacts.get(i);
 
-            GBDContactos.insertarUsuario(baseDatos, c.getNombre(), c.getTelefono(), c.getEstado());
+            GBDContactos.insertarUsuario(baseDatos, c,false);
         }
 
         return allContacts;

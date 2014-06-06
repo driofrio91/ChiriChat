@@ -16,7 +16,7 @@ import com.ChiriChat.model.Conversaciones;
 
 public class GestionBaseDatosConversaciones {
 
-    private GestionBaseDatosUsu_Conv GBDUsuConversaciones = new GestionBaseDatosUsu_Conv();
+    private GestionBaseDatosUsu_Conv GBDUsuConversaciones = new GestionBaseDatosUsu_Conv(this);
     /**
      * Método que crea una conversación y la inserta en base de datos.
      *
