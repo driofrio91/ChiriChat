@@ -7,6 +7,7 @@ import com.ChiriChat.model.Conversaciones;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -14,10 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +29,11 @@ public class ChiriChatConversacionesDAO implements IConversacioneDAO{
     @Override
     public Conversaciones insert(Conversaciones dto) throws Exception {
         //Enviamos una peticion post al insert de conversacion.
-        HttpPost httpPostNuevoUsuario = new HttpPost("http://chirichatserver.noip.me:85/ws/CreateConversacion");
+        HttpPost httPostNuevaConver = new HttpPost("http://chirichatserver.noip.me:85/ws/CreateConversacion");
 
         //Creo el objeto Jason con los datos del contacto que se registra en la app.
         JSONObject newConver = new JSONObject();
-        Log.d("","-.--------------------------------------------------------");
+        Log.d("Insert Conversacones DAO","-.--------------------------------------------------------");
         try {
             newConver.put("nombre", dto.getNombre());
             newConver.put("owner", dto.getNombre());
@@ -58,15 +56,21 @@ public class ChiriChatConversacionesDAO implements IConversacioneDAO{
         parametros.add(new BasicNameValuePair("json", newConver.toString()));
         Log.d("JSON de conversacion", newConver.toString());
 
+        try {
+            //Creamos la entidad con los datos que le hemos pasado
+            httPostNuevaConver.setEntity(new UrlEncodedFormEntity(parametros));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+
         //Objeto para poder obtener respuesta del server
-        HttpResponse response = httpClient.execute(httpPostNuevoUsuario);
+        HttpResponse response = httpClient.execute(httPostNuevaConver);
         //Obtenemos el codigo de la respuesta
         int respuesta = response.getStatusLine().getStatusCode();
         Log.w("Respueta Insertar conversacion server", "" + respuesta);
         //Si respuesta 200 devuelvo mi conversacion , si no devolvere null
         if (respuesta == 200) {
-
-
 
             //Nos conectamos para recibir los datos de respuesta
             HttpEntity entity = response.getEntity();
@@ -120,9 +124,10 @@ public class ChiriChatConversacionesDAO implements IConversacioneDAO{
             //Bucle para leer todas las lineas
             //En este ejemplo al ser solo 1 la respuesta
             //Pues no hara falta
-            while ((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null){
                 sb.append(line + "\n");
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

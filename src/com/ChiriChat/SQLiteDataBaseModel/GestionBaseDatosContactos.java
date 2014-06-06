@@ -64,7 +64,7 @@ public class GestionBaseDatosContactos {
 
         int local = (isLocal) ? 1 : 0;
 
-        if (contacto != null) {
+        if (contacto != null && contacto != devolverMiContacto(baseDatos)) {
             Log.d("Contacto a insertaner en el metodo de insertar", contacto.toString());
             String sql = "INSERT INTO USUARIOS (id_usuario, nombre, estado, telefono, islocal)" +
                     "values (" + contacto.getId() + ", " +
@@ -72,7 +72,7 @@ public class GestionBaseDatosContactos {
                     " '" + contacto.getEstado() + "', " +
                     contacto.getTelefono() + ", " +
                     local + ")";
-            Log.d("Insertando","------------------------------------");
+            Log.d("Insertando","--------------------------------------------");
             baseDatos.execSQL(sql);
         }
 

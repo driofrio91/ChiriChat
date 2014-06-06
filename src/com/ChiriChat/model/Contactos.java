@@ -14,13 +14,13 @@ import org.json.JSONObject;
  */
 public class Contactos implements Parcelable{
 
-    private int id;
+    private int id_usuario;
     private String nombre;
     private String estado;
     private int telefono;
 
     public Contactos(int id, String nombre, String estado, int telefono) {
-        this.id = id;
+        this.id_usuario = id;
         this.nombre = nombre;
         this.estado = estado;
         this.telefono = telefono;
@@ -36,11 +36,11 @@ public class Contactos implements Parcelable{
     }
 
     public int getId() {
-        return id;
+        return id_usuario;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.id_usuario = id;
     }
 
     public String getNombre() {
@@ -71,7 +71,7 @@ public class Contactos implements Parcelable{
     @Override
     public String toString() {
         return "{" +
-                "id=" + id +
+                "id_usuario=" + id_usuario +
                 ", nombre='" + nombre + '\'' +
                 ", estado='" + estado + '\'' +
                 ", telefono=" + telefono +
@@ -88,7 +88,7 @@ public class Contactos implements Parcelable{
      */
     public Contactos(Parcel in){
 
-        this.id = in.readInt();
+        this.id_usuario = in.readInt();
         this.nombre = in.readString();
         this.estado = in.readString();
         this.telefono = in.readInt();
@@ -106,7 +106,7 @@ public class Contactos implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
+        dest.writeInt(this.id_usuario);
         dest.writeString(this.nombre);
         dest.writeString(this.estado);
         dest.writeInt(this.telefono);
@@ -143,7 +143,7 @@ public class Contactos implements Parcelable{
 
     public Contactos(JSONObject json) {
         try {
-            this.id = json.getInt("id_usuario");
+            this.id_usuario = json.getInt("id_usuario");
             this.nombre = json.getString("nombre");
             this.estado = json.getString("estado");
             this.telefono = json.getInt("telefono");

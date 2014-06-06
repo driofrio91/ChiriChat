@@ -42,6 +42,7 @@ public class GestionBaseDatosConversaciones {
            for (int i = 0; i < contactos.size(); i++) {
                String sqlUsuConv = "INSERT INTO USU_CONV (id_conversacion, id_usuario) " +
                        "VALUES(" + idConversacion + ", " + contactos.get(i).getId() + ")";
+               Log.d("Datos de la talba conversacion", idConversacion+"<->"+contactos.get(i));
                baseDatos.execSQL(sqlUsuConv);
            }
 
