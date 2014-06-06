@@ -3,6 +3,7 @@ package com.ChiriChat.SQLiteDataBaseModel;
 /**
  * Created by Alejandro on 30/05/2014.
  */
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class GestionBaseDatosContactos {
      */
     public void insertarUsuarios(SQLiteDatabase baseDatos) {
         if (baseDatos != null) {
-        	/*String sql = "INSERT INTO USUARIOS (nombre, estado, telefono)"
+            /*String sql = "INSERT INTO USUARIOS (nombre, estado, telefono)"
                     + "values ( 'Alejandro', 'Probando Contactos', 679965326)";*/
             String sql2 = "INSERT INTO USUARIOS (nombre, estado, telefono)"
                     + "values ( 'Danny', 'Probando Contactos2', 679965526)";
@@ -51,29 +52,42 @@ public class GestionBaseDatosContactos {
             //baseDatos.close();
         }
     }
-    
-    public void insertarUsuario(SQLiteDatabase baseDatos, String nombre, int telefono, String estado){
-        Contactos c = contactoPorTelefono(baseDatos, telefono);
-        if (c == null){
-            String sql = "INSERT INTO USUARIOS (nombre, estado, telefono)"
-                    + "values ('"+nombre+"', '"+estado+"', "+ telefono+")";
+
+    public void insertarUsuario(SQLiteDatabase baseDatos, Contactos contacto, boolean isLocal) {
+
+        int local = (isLocal) ? 1 : 0;
+
+        if (contacto == null) {
+            String sql = "INSERT INTO USUARIOS (id_usuario, nombre, estado, telefono, islocal)" +
+                    "values (" + contacto.getId() + ", " +
+                    " '" + contacto.getNombre() + "', " +
+                    " '" + contacto.getEstado() + "', " +
+                    contacto.getTelefono() + ", " +
+                    local + ")";
             baseDatos.execSQL(sql);
         }
 
     }
-    
-    public Contactos devolverMiContacto(SQLiteDatabase baseDatos){
-    	Contactos contacto= null;
-    	String sql = "SELECT * FROM USUARIOS WHERE id_usuario = 1";
+
+    /**
+     * Metodo que devolvera mi contacto.
+     *
+     * @param baseDatos
+     * @return
+     */
+    public Contactos devolverMiContacto(SQLiteDatabase baseDatos) {
+        Contactos contacto = null;
+        String sql = "SELECT * FROM USUARIOS WHERE isLocal = 1";
         Cursor c = baseDatos.rawQuery(sql, null);
 
         if (c.moveToFirst()) {
             contacto = new Contactos(c.getInt(0), c.getString(1),
                     c.getString(2), c.getInt(3));
-            Log.w("Contacto recuperado por telefono", contacto.toString());
+            Log.w("Mi Contacto recuperado", contacto.toString());
         }
-    	return contacto;
+        return contacto;
     }
+
     /**
      * Método que devuelve todos los contactos que estén en la tabla USUARIOS.
      *
@@ -83,9 +97,9 @@ public class GestionBaseDatosContactos {
     public List<Contactos> recuperarContactos(SQLiteDatabase baseDatos) {
 
         List<Contactos> lista_contactos = new ArrayList<Contactos>();
-        String[] valores_recuperar = { "id_usuario", "nombre", "estado",
-                "telefono" };
-        Cursor c = baseDatos.query("USUARIOS", valores_recuperar, " id_usuario > 1", null,
+        String[] valores_recuperar = {"id_usuario", "nombre", "estado",
+                "telefono"};
+        Cursor c = baseDatos.query("USUARIOS", valores_recuperar, " isLocal = 0", null,
                 null, null, null, null);
         if (c.moveToFirst()) {
             do {
@@ -104,13 +118,12 @@ public class GestionBaseDatosContactos {
      * Método que devuelve un objeto contacto por telefono.
      *
      * @param baseDatos Objeto SQLiteDatabase
-     * @param telefono Numero de teléfono del usuario a recuperar.
-     *
+     * @param telefono  Numero de teléfono del usuario a recuperar.
      * @return Objeto contacto.
      */
     public Contactos contactoPorTelefono(SQLiteDatabase baseDatos, int telefono) {
         Contactos contacto = null;
-        String sql = "SELECT * FROM USUARIOS WHERE telefono="+ telefono +"";
+        String sql = "SELECT * FROM USUARIOS WHERE telefono=" + telefono + "";
         Cursor c = baseDatos.rawQuery(sql, null);
 
         if (c.moveToFirst()) {
@@ -121,21 +134,24 @@ public class GestionBaseDatosContactos {
         return contacto;
     }
 
+    /**
+     * Metodo que me devolvera el contacto buscando por ID de contacto
+     * @param baseDatos
+     * @param id_usuario
+     * @return
+     */
     public static Contactos contactoPorID(SQLiteDatabase baseDatos, int id_usuario) {
         Contactos contacto = null;
-        String sql = "SELECT * FROM USUARIOS WHERE id_usuario="+ id_usuario;
+        String sql = "SELECT * FROM USUARIOS WHERE id_usuario=" + id_usuario;
         Cursor c = baseDatos.rawQuery(sql, null);
 
         if (c.moveToFirst()) {
             contacto = new Contactos(c.getInt(0), c.getString(1),
                     c.getString(2), c.getInt(3));
-            Log.d("Contacto recuperado por telefono", contacto.toString());
+            Log.d("Contacto recuperado por ID", contacto.toString());
         }
         return contacto;
     }
-
-
-
 
 
     /**

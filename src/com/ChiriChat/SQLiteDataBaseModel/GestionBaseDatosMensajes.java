@@ -20,19 +20,19 @@ import com.ChiriChat.model.Mensajes;
  */
 public class GestionBaseDatosMensajes {
 
+
     /**
-     * Método que inserta mensajes en base de datos.
-     *
-     * @param baseDatos Objeto SQLiteDatabase
-     * @param texto Contenido del mensaje
-     * @param id_usuario identificador del usuario que envía el mensaje.
-     * @param id_conversacion conversación en la que se insertará el mensaje.
+     * Metodo que insertara un mensaje enla base de datos.
+     * @param baseDatos
+     * @param mensaje
      */
-    public void insertarMensaje(SQLiteDatabase baseDatos, String texto, int id_usuario, int id_conversacion) {
-        String sql = "INSERT INTO MENSAJES (texto, id_usuario, id_conversacion) "
-                + "values ('"+ texto+ "',  "
-                + id_usuario+ ", "
-                + id_conversacion + ")";
+    public void insertarMensaje(SQLiteDatabase baseDatos, Mensajes mensaje) {
+        String sql = "INSERT INTO MENSAJES (id_mensaje, texto, id_usuario, id_conversacion, enviado) "
+                + "values ("+ mensaje.getIdMensaje()+ ",  "
+                + " '"+mensaje.getCadena()+ "', "
+                + mensaje.getIdUsuario() + ", "
+                + mensaje.getIdConversacion()+", "
+                + mensaje.isEnviado()+")";
         baseDatos.execSQL(sql);
     }
 

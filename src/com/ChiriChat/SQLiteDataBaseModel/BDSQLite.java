@@ -23,31 +23,33 @@ public class BDSQLite extends SQLiteOpenHelper {
     
     //Sentencia SQL para crear la tabla de Usuarios
     private static final String SQL_CREATE_CONTACTOS = "CREATE TABLE IF NOT EXISTS USUARIOS"
-            + "(id_usuario INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-            + "nombre TEXT, " +
-            "estado VARCHAR(50), " +
-            "telefono INTEGER NOT NULL)";
+            + "(id_usuario INTEGER PRIMARY KEY NOT NULL, "
+            + "nombre TEXT, "
+            + "estado VARCHAR(50), "
+            + "telefono INTEGER NOT NULL, "
+            + "islocal INTEGER)";
 
     private static final String SQL_CREATE_CONVERSACION = "CREATE TABLE IF NOT EXISTS CONVERSACION"
-            + "(id_conversacion INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-            + " nombre TEXT, " +
-            "version INTEGER, " +
-            "ocultar INTEGER TEXT)";
+            + "(id_conversacion INTEGER PRIMARY KEY NOT NULL, "
+            + " nombre TEXT, "
+            + "version INTEGER, "
+            + "ocultar INTEGER TEXT)";
 
-    private static final String SQL_CREATE_MENSAJES = "CREATE TABLE IF NOT EXISTS MENSAJES" +
-            "(id_mensaje INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-            "texto TEXT, " +
-            "id_usuario INTEGER, " +
-            "id_conversacion INTEGER , " +
-            "FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario), " +
-            "FOREIGN KEY (id_conversacion) REFERENCES CONVERSACION(id_conversacion))";
+    private static final String SQL_CREATE_MENSAJES = "CREATE TABLE IF NOT EXISTS MENSAJES"
+            + "(id_mensaje INTEGER PRIMARY KEY NOT NULL, "
+            + "texto TEXT, "
+            + "id_usuario INTEGER, "
+            + "id_conversacion INTEGER , "
+            + "enviado INTEGER, "
+            + "FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario), "
+            + "FOREIGN KEY (id_conversacion) REFERENCES CONVERSACION(id_conversacion))";
 
-    private static final String SQL_CREATE_USU_CONV = "CREATE TABLE IF NOT EXISTS USU_CONV " +
-            "(id_conversacion INTEGER NOT NULL, " +
-            "id_usuario INTEGER  NULL, " +
-            "PRIMARY KEY (id_conversacion, id_usuario)" +
-            "FOREIGN KEY (id_conversacion) REFERENCES CONVERSACION(id_conversacion) ON DELETE CASCADE," +
-            "FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario) ON DELETE CASCADE)";
+    private static final String SQL_CREATE_USU_CONV = "CREATE TABLE IF NOT EXISTS USU_CONV "
+            + "(id_conversacion INTEGER NOT NULL, "
+            + "id_usuario INTEGER  NULL, "
+            + "PRIMARY KEY (id_conversacion, id_usuario)"
+            + "FOREIGN KEY (id_conversacion) REFERENCES CONVERSACION(id_conversacion) ON DELETE CASCADE,"
+            + "FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario) ON DELETE CASCADE)";
 
 
 
