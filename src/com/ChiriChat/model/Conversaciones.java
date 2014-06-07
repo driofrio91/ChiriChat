@@ -15,7 +15,6 @@ public class Conversaciones extends ArrayList<Conversaciones> implements Parcela
 
     private int id_conversacion;
     private String nombre;
-    private long version;
     private ArrayList <Contactos> contactos;
     private int ocultar;
 
@@ -25,10 +24,9 @@ public class Conversaciones extends ArrayList<Conversaciones> implements Parcela
         this.contactos = contactos;
     }
 
-    public Conversaciones(int id_conversacion, String nombre, long version, ArrayList<Contactos> contactos, int ocultar) {
+    public Conversaciones(int id_conversacion, String nombre, ArrayList<Contactos> contactos, int ocultar) {
         this.id_conversacion = id_conversacion;
         this.nombre = nombre;
-        this.version = version;
         this.contactos = contactos;
         this.ocultar = ocultar;
     }
@@ -47,14 +45,6 @@ public class Conversaciones extends ArrayList<Conversaciones> implements Parcela
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public long getVersion() {
-        return version;
-    }
-
-    public void setVersion(long version) {
-        this.version = version;
     }
 
     public ArrayList<Contactos> getContactos() {
@@ -76,7 +66,7 @@ public class Conversaciones extends ArrayList<Conversaciones> implements Parcela
     @Override
     public String toString() {
         return "conversaciones [id_conversacion=" + id_conversacion
-                + ", nombre=" + nombre + ", version=" + version
+                + ", nombre=" + nombre + ", version="
                 + ", contactos=" + contactos + ", ocultar=" + ocultar + "]";
     }
 
@@ -87,7 +77,6 @@ public class Conversaciones extends ArrayList<Conversaciones> implements Parcela
     public Conversaciones(Parcel parcel) {
         this.id_conversacion = parcel.readInt();
         this.nombre = parcel.readString();
-        this.version = parcel.readLong();
         contactos = new ArrayList<Contactos>();
         parcel.readList(contactos, Contactos.class.getClassLoader());
         this.ocultar = parcel.readInt();
@@ -106,7 +95,6 @@ public class Conversaciones extends ArrayList<Conversaciones> implements Parcela
     public void writeToParcel(Parcel dest, int i) {
         dest.writeInt(this.id_conversacion);
         dest.writeString(this.nombre);
-        dest.writeLong(this.version);
         dest.writeList(this.contactos);
         dest.writeInt(this.ocultar);
 

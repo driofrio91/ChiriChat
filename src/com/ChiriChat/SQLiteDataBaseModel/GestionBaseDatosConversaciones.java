@@ -17,36 +17,41 @@ import com.ChiriChat.model.Conversaciones;
 public class GestionBaseDatosConversaciones {
 
     private GestionBaseDatosUsu_Conv GBDUsuConversaciones = new GestionBaseDatosUsu_Conv(this);
+
     /**
-     * Método que crea una conversación y la inserta en base de datos.
      *
-     * @param baseDatos Objeto SQLiteDatabase
-     * @param contacto  Contacto con el que se creara la conversacion, su nombre es el nombre de la conversacion
+     * @param baseDatos
+     * @param conversacion
+     * @return
      */
-    public Conversaciones crearConversacion(SQLiteDatabase baseDatos, Contactos contacto, ArrayList<Contactos> contactos) {
+    public Conversaciones crearConversacion(SQLiteDatabase baseDatos, Conversaciones conversacion) {
 
         Conversaciones conver = null;
 
-       if(existeConversacion(baseDatos, contacto.getNombre())) {
+       if(existeConversacion(baseDatos, conversacion.getId_conversacion())) {
 
-           conver = recuperarConversacion(baseDatos,contactos);
+           conver = recuperarConversacion(baseDatos,conversacion.getContactos());
 
 
        }else{
 
-           String sql = "INSERT INTO CONVERSACION (nombre,version,ocultar)"
-                   + " values ('" + contacto.getNombre() + "',0,'false')";
+           String sql = "INSERT INTO CONVERSACION (id_conversacion,nombre,ocultar)"
+                   + " values (" + conversacion.getId_conversacion()
+                   + ",'"+conversacion.getNombre()+"','false')";
            baseDatos.execSQL(sql);
-           //Recupero el id de la conversacion qe acabo de crear
-           int idConversacion = recuperarIdConversacionNombre(baseDatos, contacto.getNombre());
-           for (int i = 0; i < contactos.size(); i++) {
+
+           for (int i = 0; i < conversacion.getContactos().size(); i++) {
                String sqlUsuConv = "INSERT INTO USU_CONV (id_conversacion, id_usuario) " +
-                       "VALUES(" + idConversacion + ", " + contactos.get(i).getId() + ")";
-               Log.d("Datos de la talba conversacion", idConversacion+"<->"+contactos.get(i));
+                       "VALUES(" + conversacion.getId_conversacion()
+                       + ", " + conversacion.getContactos().get(i).getId()+ ")";
+               Log.d("Datos de la talba conversacion", conversacion.getId_conversacion()+"<->"+conversacion.getContactos().get(i));
                baseDatos.execSQL(sqlUsuConv);
            }
 
-           conver = new Conversaciones(idConversacion, contacto.getNombre(), 1, contactos, 0);
+           conver = new Conversaciones(conversacion.getId_conversacion(),
+                   conversacion.getContactos().get(1).getNombre(),
+                   conversacion.getContactos(),0);
+
            Log.d("Conversacion creada", conver.toString());
 
        }
@@ -79,13 +84,13 @@ public class GestionBaseDatosConversaciones {
 
     /**
      * Método que comprueba si existe conversación por nombre de usario.
-     *
-     * @param baseDatos Objeto SQLiteDatabase
-     * @param nombre    Nombre de usuario destino.
-     * @return true si existe, false si no existe.
+     * @param baseDatos
+     * @param id
+     * @return
      */
-    public boolean existeConversacion(SQLiteDatabase baseDatos, String nombre) {
-        String sql = "SELECT * FROM CONVERSACION WHERE NOMBRE='" + nombre + "'";
+    public boolean existeConversacion(SQLiteDatabase baseDatos, int id) {
+
+        String sql = "SELECT * FROM CONVERSACION WHERE id_conversacion= " + id + "";
         Cursor c = baseDatos.rawQuery(sql, null);
 
         if (!c.moveToFirst()) {
@@ -123,14 +128,20 @@ public class GestionBaseDatosConversaciones {
         String sql = "SELECT id_conversacion, nombre  FROM CONVERSACION WHERE nombre ='" + contactoDestino.getNombre()+"'" ;
         Cursor c = baseDatosL.rawQuery(sql, null);
         c.moveToFirst();
-        conversacion= new Conversaciones(c.getInt(0), c.getString(1), 1,contactos , 1);
+        conversacion= new Conversaciones(c.getInt(0), c.getString(1),contactos , 1);
 
         return conversacion;
     }
-    
+
+    /**
+     *
+     * @param baseDatosL
+     * @param listacontactos
+     * @return
+     */
     public Conversaciones recuperarConversacion(SQLiteDatabase baseDatosL, ArrayList<Contactos> listacontactos) {
         Conversaciones conversacion = null;
-        String[] valores_recuperar = {"id_conversacion", "nombre", "version", "ocultar"};
+        String[] valores_recuperar = {"id_conversacion", "nombre", "ocultar"};
 
         Cursor c = baseDatosL.query("CONVERSACION", valores_recuperar, null, null,
                 null, null, null, null);
@@ -139,8 +150,8 @@ public class GestionBaseDatosConversaciones {
 
 
         do {
-            conversacion = new Conversaciones(c.getInt(0), c.getString(1), c.getInt(2), listacontactos, c.getInt(3));
-            Log.d("DATOS DE LA CONVERSACION", "" + c.getInt(0) + c.getString(1) + c.getInt(2) + c.getString(3));
+            conversacion = new Conversaciones(c.getInt(0), c.getString(1), listacontactos, c.getInt(2));
+            Log.d("DATOS DE LA CONVERSACION", "" + c.getInt(0) + c.getString(1) + c.getInt(2));
 
         } while (c.moveToNext());
 
@@ -159,7 +170,7 @@ public class GestionBaseDatosConversaciones {
 
         Conversaciones conversacion = null;
 
-        String[] valores_recuperar = {"id_conversacion", "nombre", "version", "ocultar"};
+        String[] valores_recuperar = {"id_conversacion", "nombre", "ocultar"};
 
         Cursor c = baseDatosL.query("CONVERSACION", valores_recuperar, null, null, null, null, null, null);
 
@@ -168,7 +179,7 @@ public class GestionBaseDatosConversaciones {
 
             do {
                 listacontactos = GBDUsuConversaciones.getUsuariosConversacion(baseDatosL,c.getInt(0));
-                conversacion = new Conversaciones(c.getInt(0), c.getString(1), c.getInt(2), listacontactos, c.getInt(3));
+                conversacion = new Conversaciones(c.getInt(0), c.getString(1), listacontactos, c.getInt(2));
 
                 Log.d("Conversacion creada", "->" + conversacion.toString());
                 Log.d("numero de conversaciones, ", String.valueOf(conversacion.size()));

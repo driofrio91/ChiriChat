@@ -51,10 +51,10 @@ public class CrearConversacion extends AsyncTask<Object, Void, Void> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.w("DoinBackground", "-----------333333333---------------");
+        Log.w("DoinBackground", conver.toString());
         if(conver instanceof Conversaciones){
             //REGISTRO LOCAL
-            GBDConversacion.crearConversacion(baseDatos, conver.getContactos().get(1),conver.getContactos());
+            GBDConversacion.crearConversacion(baseDatos, conver);
             Log.w("DoinBackground", "-----------4444444444444444---------------");
 //        }else{
 //            onCancelled();

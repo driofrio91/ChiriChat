@@ -31,8 +31,7 @@ public class BDSQLite extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_CONVERSACION = "CREATE TABLE IF NOT EXISTS CONVERSACION"
             + "(id_conversacion INTEGER PRIMARY KEY NOT NULL, "
-            + " nombre TEXT, "
-            + "version INTEGER, "
+            + "nombre TEXT, "
             + "ocultar INTEGER TEXT)";
 
     private static final String SQL_CREATE_MENSAJES = "CREATE TABLE IF NOT EXISTS MENSAJES"
