@@ -32,10 +32,6 @@ public class ChiriChatContactosDAO implements IContactosDAO {
     //Creo el objeto hhtpCLient para acceder a la conexion web.
     private HttpClient httpClient = new DefaultHttpClient();
 
-    private int idUsuario;
-    private String nombre;
-    private String estado;
-    private int telefono;
 
     @Override
     public Contactos insert(Contactos dto) throws Exception {

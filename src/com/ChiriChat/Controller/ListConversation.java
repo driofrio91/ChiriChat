@@ -70,7 +70,7 @@ public class ListConversation extends Activity {
         editText = (EditText) findViewById(R.id.text_sent_msg);
         buttonSend = (Button) findViewById(R.id.bt_sent_msg);
         lisViewMensajes = (ListView) findViewById(android.R.id.list);
-        
+
 
         bd = BDSQLite.getInstance(this);
         baseDatos = bd.getWritableDatabase();
@@ -262,9 +262,22 @@ public class ListConversation extends Activity {
 
         String cadena = editText.getText().toString().trim();
 
+
+
         if (!cadena.isEmpty()) {
 
-            if (GBDConversacion.contarConversaciones(baseDatos, contactoDestino) == 0) {
+            Mensajes men = new Mensajes(cadena, contactoOrigen.getId());
+
+            allMensajes.add(men);
+
+            Log.d("Mensaje recuperado de la base de datos", allMensajes.toString());
+//
+            adapterMensajes.notifyDataSetChanged();
+//
+//
+            lisViewMensajes.setSelection(allMensajes.size() - 1);
+
+            if (conversacion == null) {
 
 
                 Log.d("Contacto origen******************", contactoOrigen.toString());
@@ -274,10 +287,10 @@ public class ListConversation extends Activity {
                 listaContactos.add(contactoDestino);
                 //CONVERASCION SERVER//////////////////////
 
-                Conversaciones c = new Conversaciones(contactoDestino.getNombre(),listaContactos);
-                Log.d("Conversacion",c.toString());
+                conversacion = new Conversaciones(contactoDestino.getNombre(),listaContactos);
+                Log.d("Conversacion",conversacion.toString());
                 CrearConversacion crearConver = new CrearConversacion(this);
-                crearConver.execute(c);
+                crearConver.execute(conversacion, men);
 
 
                 //CONVERSACION LOCAL//////////////
@@ -290,6 +303,8 @@ public class ListConversation extends Activity {
                //         GBDConversacion.recuperarIdConversacionNombre(baseDatosL, contactoDestino.getNombre()));
               //  men = GBDMensaje.recuperarMensaje(baseDatos, conversacion.getId_conversacion());
             } else {
+                CrearConversacion crearConver = new CrearConversacion(this);
+                crearConver.execute(conversacion, men);
 //                Log.w("Texto del mensaje a insertar", "" + cadena);
 //                //	Log.w("Conversacion a insertar en mensaje", ""+conversacionBundle.toString());
 //
@@ -300,14 +315,6 @@ public class ListConversation extends Activity {
             //Log.w("ID de la conversacion", "" + GBDConversacion.recuperarIdConversacionNombre(baseDatosL, contactoDestino.getNombre()));
 
 
-//            allMensajes.add(men);
-//
-//            Log.d("Mensaje recuperado de la base de datos", allMensajes.toString());
-//
-//            adapterMensajes.notifyDataSetChanged();
-//
-//
-//            lisViewMensajes.setSelection(allMensajes.size() - 1);
 
             editText.setText("");
         }

@@ -27,12 +27,15 @@ public class GestionBaseDatosMensajes {
      * @param mensaje
      */
     public void insertarMensaje(SQLiteDatabase baseDatos, Mensajes mensaje) {
+
+        int enviado = (mensaje.isEnviado())?1:0;
+
         String sql = "INSERT INTO MENSAJES (id_mensaje, texto, id_usuario, id_conversacion, enviado) "
                 + "values ("+ mensaje.getIdMensaje()+ ",  "
                 + " '"+mensaje.getCadena()+ "', "
                 + mensaje.getIdUsuario() + ", "
                 + mensaje.getIdConversacion()+", "
-                + mensaje.isEnviado()+")";
+                + enviado+")";
         baseDatos.execSQL(sql);
     }
 

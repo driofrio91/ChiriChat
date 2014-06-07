@@ -4,6 +4,8 @@ package com.ChiriChat.model;/**
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * @author Danny Riofrio Jimenez
@@ -23,6 +25,26 @@ public class Mensajes implements Parcelable{
         this.enviado = false;
         this.idUsuario = idUsuario;
     }
+
+    public Mensajes(String cadena, int idUsuario) {
+        this.cadena = cadena;
+        this.enviado = false;
+        this.idUsuario = idUsuario;
+    }
+
+    public Mensajes(JSONObject json) {
+        try {
+            this.idMensaje = json.getInt("id");
+            this.idConversacion = json.getInt("idConver");
+            this.cadena = json.getString("texto");
+            this.enviado = true;
+            this.idUsuario = json.getInt("idUsuario");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     public int getIdMensaje() {
         return idMensaje;
