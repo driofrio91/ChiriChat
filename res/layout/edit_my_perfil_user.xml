@@ -5,7 +5,7 @@
             android:layout_width="match_parent"
         >
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout 
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scrollbarAlwaysDrawVerticalTrack="true">
@@ -36,10 +36,9 @@
                       android:id="@+id/contact_My_NombreEtiqueta"
                       android:text="Nombre"/>
 
-            <EditText android:layout_width="wrap_content"
+            <EditText android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:id="@+id/contact_My_nombre"
-                      android:text="Danny"
                       android:textSize="25sp"/>
 
             <TextView android:layout_width="wrap_content"
@@ -48,11 +47,10 @@
                       android:id="@+id/contact_My_TelefonoEtiqueta"
                       android:text="Telefono"/>
 
-            <EditText android:layout_width="wrap_content"
+            <TextView android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:id="@+id/contact_My_Telefono"
                       android:inputType="number"
-                      android:text="000000000"
                       android:textSize="25sp"/>
 
         </LinearLayout>

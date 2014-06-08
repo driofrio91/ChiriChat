@@ -5,5 +5,5 @@
     <string name="ver">Ver</string>
     <string name="menuitem_refresh">Actualizar</string>
     <string name="menuitem_edit_my_perfil">Editar perfil</string>
-    <string name="Idioma">Automatico</string>
+    <string name="Idioma">Seleciona el idioma deseado</string>
 </resources>

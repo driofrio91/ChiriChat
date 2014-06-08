@@ -33,8 +33,10 @@ public class PerfilUser extends Activity {
 
         bundle = getIntent().getExtras();
         if (bundle != null) {
+//            Log.d("Mensaje enviado", getIntent().getParcelableExtra("mensaje").toString());
+//            Log.d("Conversacion", getIntent().getParcelableExtra("conver").toString());
             Contactos contacto = getIntent().getParcelableExtra("contacto");
-            Log.d("telefono", String.valueOf(contacto.getTelefono()));
+//            Log.d("telefono", String.valueOf(contacto.getTelefono()));
             textNombre.setText(contacto.getNombre());
             textTelefono.setText(String.valueOf(contacto.getTelefono()));
             textEstado.setText(contacto.getEstado());
@@ -47,5 +49,10 @@ public class PerfilUser extends Activity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_activity_perfil, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.finish();
     }
 }

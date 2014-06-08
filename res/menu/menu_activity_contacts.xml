@@ -2,16 +2,6 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item   android:id="@+id/menu_settings"
-            android:showAsAction="never"
-            android:icon="@android:drawable/btn_plus"
-            android:title="Opciones"/>
-
-    <item android:id="@+id/search"
-          android:title="buscar"
-          android:icon="@android:drawable/ic_menu_search"
-          android:showAsAction="collapseActionView|ifRoom"
-          android:actionViewClass="android.widget.SearchView"/>
 
 
     <item android:id="@+id/menu_share_contactos"
@@ -27,10 +17,12 @@
           android:orderInCategory="1"
           android:showAsAction="always" />
 
-    <item android:id="@+id/menuBar_my_perfil"
-          android:title="@string/menuitem_edit_my_perfil"
-          android:alphabeticShortcut="r"
-          android:orderInCategory="1"
-          android:showAsAction="ifRoom" />
+    <item android:id="@+id/search"
+          android:title="buscar"
+          android:icon="@android:drawable/ic_menu_search"
+          android:showAsAction="collapseActionView|ifRoom"
+          android:actionViewClass="android.widget.SearchView"/>
+
+
 
 </menu>

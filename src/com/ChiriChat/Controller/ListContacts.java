@@ -2,7 +2,10 @@ package com.ChiriChat.Controller;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -13,7 +16,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ShareActionProvider;
 import com.ChiriChat.Adapter.myAdapterContacts;
+import com.ChiriChat.AsynTask.ActualizarUsuarios;
 import com.ChiriChat.R;
+import com.ChiriChat.SQLiteDataBaseModel.BDSQLite;
+import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosContactos;
+import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosConversaciones;
+import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosMensajes;
 import com.ChiriChat.model.Contactos;
 
 import java.util.ArrayList;
@@ -22,7 +30,6 @@ import java.util.ArrayList;
 public class ListContacts extends Activity {
 
     private ListView listContacts;
-    private ArrayList<Contactos> allContactos = new ArrayList<Contactos>();
 
     private myAdapterContacts adapterContacts;
 
@@ -30,15 +37,19 @@ public class ListContacts extends Activity {
     private ShareActionProvider provider;
 
 
-    /////////////////////////////
-    ////////Ejemplos/////////////
-    /////////////////////////////
-    Contactos contacto1 = new Contactos(0, "Danny", "Danny", 696969696);
+    GestionBaseDatosContactos gb = new GestionBaseDatosContactos();
+    private ArrayList<Contactos> contacts = null;
+    //private ArrayList<Mensajes> listaMensajes = null;
+    private int numeroContactos;
+    private GestionBaseDatosContactos GBDCContactos = new GestionBaseDatosContactos();
+    private GestionBaseDatosMensajes gBDCMensajes = new GestionBaseDatosMensajes();
+    private GestionBaseDatosConversaciones GBDCConversaciones = new GestionBaseDatosConversaciones();
+    BDSQLite bd;
+    private SQLiteDatabase baseDatos;
+    private SQLiteDatabase baseDatosL;
+    private int numeroUsuarios;
 
-    Contactos contacto2 = new Contactos(1, "Alejandro", "Adios", 985698569);
-
-    Contactos thisContacto;
-
+    private ActualizarUsuarios actualizaUsuarios;
     /**
      * Called when the activity is first created.
      */
@@ -47,44 +58,62 @@ public class ListContacts extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_contacts);
 
-
         listContacts = (ListView) findViewById(R.id.listView_Contacts);
+//---------------------------------
+        bd = BDSQLite.getInstance(this);
+        baseDatos = bd.getWritableDatabase();
+        baseDatosL = bd.getReadableDatabase();
+        String sql = "PRAGMA foreign_keys = ON";
+        baseDatos.execSQL(sql);
+        // gb.borrarContactos(baseDatos);
 
-        allContactos.add(contacto1);
+		/*Como son usuarios fijos y solo se van a insertar una vez,
+		comprobamos antes de insertarlos que no existe ningun contacto
+		en la tabla usuarios*/
+        
+        //numeroUsuarios = GBDCContactos.cuentaUsuarios(baseDatosL);
+        if (GBDCContactos.cuentaUsuarios(baseDatosL) <2) {
+        	
+        	gb.insertarUsuarios(baseDatos);
+        } 
 
-        allContactos.add(contacto2);
+        recuperarListaContactos();
 
-
-        adapterContacts = new myAdapterContacts(this, allContactos);
-
-        listContacts.setAdapter(adapterContacts);
+        // Devueleve el numero de contactos
+//        Log.d("NUMERO CONTACTOS", "" + contacts.size());
+//        numeroContactos = contacts.size();
 
         listContacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                lanza(allContactos.get(position));
+                lanza(contacts.get(position));
+                Log.d("CONTACTO PULSADO", contacts.get(position).getNombre());
             }
         });
-        listContacts.setTextFilterEnabled(true);
+        //  listContacts.setTextFilterEnabled(true);
 
-        //Recupero el nombre del contacto
-        Bundle extras = getIntent().getExtras();
+        listContacts.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            // setting onItemLongClickListener and passing the position to the function
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           int position, long arg3) {
+                removeItemFromList(position);
 
-        //Recogemos el contacto que hemos pasabo poer bundle al hacer click en un contacto de la lista
-        if (extras != null){
-            thisContacto = getIntent().getParcelableExtra("thisContacto");
-            //Cambiamos el titulo de la actividad
-            this.setTitle(thisContacto.getNombre());
-            Log.d("ID", thisContacto.toString());
-
-        }
-
+                return true;
+            }
+        });
 
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
     /**
      * Metodo que crea las aopciones de menu, aqui inflamos el layout del menu.
+     *
      * @param menu
      * @return
      */
@@ -108,27 +137,21 @@ public class ListContacts extends Activity {
 
     /**
      * Metodo que controla que opcion de menu pulsamos
+     *
      * @param item
      * @return
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
 
             case R.id.menuBar_Refresh:
-                setRefreshActionButtonState(true);
-                break;
-            case R.id.menuBar_my_perfil:
-               openEditPerfil();
-
-                break;
-            case R.id.menu_settings:
-                Intent i = new Intent(this, Opciones.class);
-                startActivity(i);
+                actualizaUsuarios = new ActualizarUsuarios(this,this);
+                actualizaUsuarios.execute();
                 break;
             default:
-                setRefreshActionButtonState(false);
+                //setRefreshActionButtonState(false);
                 break;
         }
 
@@ -138,6 +161,7 @@ public class ListContacts extends Activity {
 
     /**
      * Metodo que sustituira el boton de actualizar por una ProgresBar
+     *
      * @param refreshing
      */
     public void setRefreshActionButtonState(final boolean refreshing) {
@@ -154,21 +178,42 @@ public class ListContacts extends Activity {
         }
     }
 
-    /**+
+    /**
      * Metodo que devolvera un intent para compartir.
      * Lo usa el ActioProvider
+     *
      * @return
      */
     public Intent doShare() {
         // populate the share intent with data
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, "This is a message for you");
+        intent.putExtra(Intent.EXTRA_TEXT, "Estoy usando Chirichat");
         return intent;
+    }
+
+
+    public void recuperarListaContactos(){
+
+        // Recuperamos todos los usuarios de la tablas usuarios.
+        contacts = (ArrayList<Contactos>) gb.recuperarContactos(baseDatosL);
+
+        if (contacts.isEmpty()){
+            actualizaUsuarios = new ActualizarUsuarios(this,this);
+            actualizaUsuarios.execute();
+            contacts = (ArrayList<Contactos>) gb.recuperarContactos(baseDatosL);
+        }
+
+        adapterContacts = new myAdapterContacts(this, contacts);
+
+        listContacts.setAdapter(adapterContacts);
+
+        adapterContacts.notifyDataSetChanged();
     }
 
     /**
      * Metodo que abre una conversacion con el objeto obtenido de la lista.
+     *
      * @param contacto
      */
     public void lanza(Contactos contacto) {
@@ -178,18 +223,49 @@ public class ListContacts extends Activity {
         Log.d("metodo Contacto", contacto.toString());
         i.putExtras(b);
         startActivity(i);
-
+        this.finish();
     }
 
-    public void openEditPerfil(){
-        Intent i = new Intent(this, EditMyPerfilUser.class);
-        Bundle b = new Bundle();
-        b.putParcelable("contacto", thisContacto);
-
-        i.putExtras(b);
-        startActivity(i);
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, ListChats.class);
+        startActivity(intent);
+        this.finish();
     }
 
 
+    protected void removeItemFromList(int position) {
+        final int deletePosition = position;
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(
+                ListContacts.this);
+
+        alert.setTitle("Eliminar mensaje");
+        alert.setMessage("Quieres eliminar este contacto?");
+        alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO llamada a la base de datos para que elimine este objeto
+
+                // main code on after clicking yes
+                contacts.remove(deletePosition);
+                adapterContacts.notifyDataSetChanged();
+                adapterContacts.notifyDataSetInvalidated();
+
+            }
+        });
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+
+        alert.show();
+
+
+    }
 
 }

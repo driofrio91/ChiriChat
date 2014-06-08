@@ -1,6 +1,7 @@
 package com.ChiriChat.Adapter;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,17 +56,16 @@ public class myAdapterContacts extends BaseAdapter {
             v = inflater.inflate(R.layout.item_contact, null);
             holder = new ViewHolder(v);
             v.setTag(holder);
-
+         //   Log.d("Nuevo", "Vista nueva");
         } else {
-
+            holder = new ViewHolder(v);
             v.setTag(holder);
-
+          //  Log.d("reciclar","reciclado");
         }
 
         holder.setContent(contact);
 
         return v;
     }
-
 
 }

@@ -1,23 +1,32 @@
-package com.ChiriChat.model;/**
- * Created by neosistec on 13/05/2014.
+package com.ChiriChat.model;
+/**
+ * Created by danny on 13/05/2014.
  */
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * @author Danny Riofrio Jimenez
  */
 public class Contactos implements Parcelable{
 
-    private int id;
+    private int id_usuario;
     private String nombre;
     private String estado;
     private int telefono;
 
     public Contactos(int id, String nombre, String estado, int telefono) {
-        this.id = id;
+        this.id_usuario = id;
+        this.nombre = nombre;
+        this.estado = estado;
+        this.telefono = telefono;
+    }
+    
+    public Contactos( String nombre, String estado, int telefono) {
         this.nombre = nombre;
         this.estado = estado;
         this.telefono = telefono;
@@ -27,11 +36,11 @@ public class Contactos implements Parcelable{
     }
 
     public int getId() {
-        return id;
+        return id_usuario;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.id_usuario = id;
     }
 
     public String getNombre() {
@@ -58,19 +67,38 @@ public class Contactos implements Parcelable{
         this.telefono = telefono;
     }
 
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id_usuario=" + id_usuario +
+                ", nombre='" + nombre + '\'' +
+                ", estado='" + estado + '\'' +
+                ", telefono=" + telefono +
+                '}';
+    }
+
     ////////////////////////////////////////////
     ///////////////PARCELABLE///////////////////
     ////////////////////////////////////////////
 
+    /**
+     * Constructor que recibe un objeto Parcel y construye una instancia de la clase
+     * @param in
+     */
     public Contactos(Parcel in){
 
-        this.id = in.readInt();
+        this.id_usuario = in.readInt();
         this.nombre = in.readString();
         this.estado = in.readString();
         this.telefono = in.readInt();
     }
 
 
+    /**
+     * Describir los tipos de objetos especiales contenidas en representación marshalled de este Parcelable.
+     * @return una máscara de bits que indica el conjunto de tipos de objetos especiales movilizados por el Parcelable.
+     */
     @Override
     public int describeContents() {
         return 0;
@@ -78,22 +106,26 @@ public class Contactos implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
+        dest.writeInt(this.id_usuario);
         dest.writeString(this.nombre);
         dest.writeString(this.estado);
         dest.writeInt(this.telefono);
     }
 
-    public void readFromParcerl(Parcel source){
+  /*  public void readFromParcerl(Parcel source){
         this.id = source.readInt();
         this.nombre = source.readString();
         this.estado = source.readString();
         this.telefono = source.readInt();
 
-    }
+    }*/
 
-
-    public static final Parcelable.Creator<Contactos> CREATOR = new Creator<Contactos>() {
+    /**
+     * Crear un Array nueva de la clase Parcelable.
+     * @param size
+     * @return
+     */
+    public static final Parcelable.Creator<Contactos> CREATOR = new Parcelable.Creator<Contactos>() {
 
         public Contactos createFromParcel(Parcel source) {
             return new Contactos(source);
@@ -103,13 +135,22 @@ public class Contactos implements Parcelable{
         }
     };
 
-    @Override
-    public String toString() {
-        return "Contactos{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", estado='" + estado + '\'' +
-                ", telefono=" + telefono +
-                '}';
+
+
+    ///////////////////////////////////
+    //////Constructor JSON/////////////
+    ///////////////////////////////////
+
+    public Contactos(JSONObject json) {
+        try {
+            this.id_usuario = json.getInt("id_usuario");
+            this.nombre = json.getString("nombre");
+            this.estado = json.getString("estado");
+            this.telefono = json.getInt("telefono");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
+
 }
