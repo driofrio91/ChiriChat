@@ -26,7 +26,8 @@
                 android:text="Medium Text"
                 android:layout_margin="10dp"
                 android:layout_gravity="right"
-                android:id="@+id/MensajeRemoto"/>
+                android:id="@+id/MensajeRemoto"
+                android:textColor="#FFFFFF"/>
 
     </LinearLayout>
 

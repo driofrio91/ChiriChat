@@ -2,7 +2,8 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@drawable/fondo_register">
 
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
@@ -30,7 +31,8 @@
                   android:layout_height="wrap_content"
                   android:textAlignment="center"
                   android:gravity="center"
-                  android:text="Login"
+                  android:text="@string/Register"
+                  android:textColor="#FFFFFF"
                   android:textSize="40dp"
                   android:id="@+id/login_Login"/>
 
@@ -50,13 +52,17 @@
                       android:textAlignment="center"
                       android:gravity="center"
                       android:text="Usuario: "
+                      android:textColor="#FFFFFF"
                       android:textSize="18dp"
                       android:id="@+id/login_usuario_etiqueta"/>
 
             <EditText android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:inputType="text"
+                      android:layout_marginLeft="10dp"
                       android:hint="Usuario"
+                      android:background="#FFFFFF"
+                      android:textColor="#000000"
                       android:id="@+id/login_usuario_edit"/>
 
         </LinearLayout>
@@ -72,6 +78,7 @@
                       android:textAlignment="center"
                       android:gravity="center"
                       android:text="Telefono: "
+                      android:textColor="#FFFFFF"
                       android:textSize="18dp"
                       android:id="@+id/login_telefono_etiqueta"/>
 
@@ -79,6 +86,8 @@
                       android:layout_height="wrap_content"
                       android:inputType="number"
                       android:maxLength="9"
+                      android:background="#FFFFFF"
+                      android:textColor="#000000"
                       android:hint="000000000"
                       android:id="@+id/login_telefono_edit"/>
 

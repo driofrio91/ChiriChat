@@ -53,12 +53,7 @@ public class BDSQLite extends SQLiteOpenHelper {
 
 
     public static BDSQLite getInstance(Context ctx) {
-        /** 
-         * use the application context as suggested by CommonsWare.
-         * this will ensure that you dont accidentally leak an Activitys
-         * context (see this article for more information: 
-         * http://android-developers.blogspot.nl/2009/01/avoiding-memory-leaks.html)
-         */
+        
         if (mInstance == null) {
             mInstance = new BDSQLite(ctx.getApplicationContext());
         }

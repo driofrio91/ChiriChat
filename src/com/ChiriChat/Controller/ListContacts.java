@@ -71,11 +71,6 @@ public class ListContacts extends Activity {
 		comprobamos antes de insertarlos que no existe ningun contacto
 		en la tabla usuarios*/
         
-        //numeroUsuarios = GBDCContactos.cuentaUsuarios(baseDatosL);
-        if (GBDCContactos.cuentaUsuarios(baseDatosL) <2) {
-        	
-        	gb.insertarUsuarios(baseDatos);
-        } 
 
         recuperarListaContactos();
 
@@ -125,11 +120,6 @@ public class ListContacts extends Activity {
         MenuInflater inflater = getMenuInflater();
 
         inflater.inflate(R.menu.menu_activity_contacts, menu);
-        //Boton de compartir
-        provider = (ShareActionProvider) menu.findItem(R.id.menu_share_contactos)
-                .getActionProvider();
-
-        provider.setShareIntent(doShare());
 
 
         return super.onCreateOptionsMenu(menu);
@@ -178,19 +168,6 @@ public class ListContacts extends Activity {
         }
     }
 
-    /**
-     * Metodo que devolvera un intent para compartir.
-     * Lo usa el ActioProvider
-     *
-     * @return
-     */
-    public Intent doShare() {
-        // populate the share intent with data
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, "Estoy usando Chirichat");
-        return intent;
-    }
 
 
     public void recuperarListaContactos(){

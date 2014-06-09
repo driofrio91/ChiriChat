@@ -1,10 +1,14 @@
-package com.ChiriChat.AsynTask;/**
+package com.ChiriChat.AsynTask;
+
+/**
  * Created by neosistec on 05/06/2014.
  */
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+
 import com.ChiriChat.Controller.ListContacts;
 import com.ChiriChat.DataAccessObject.InterfacesDAO.IContactosDAO;
 import com.ChiriChat.Gestor.GestorDAOFactory;
@@ -19,74 +23,86 @@ import java.util.List;
  */
 public class ActualizarUsuarios extends AsyncTask<Object, Integer, Object> {
 
-    private Context ctx;
-    private ListContacts listContcts;
-    private IContactosDAO contactosDAO;
-    private List allContacts;
-    //
-    private BDSQLite bd;
-    private SQLiteDatabase baseDatos;
-    private SQLiteDatabase baseDatosL;
-    private GestionBaseDatosContactos GBDContactos = new GestionBaseDatosContactos();
+	private Context ctx;
+	private ListContacts listContcts;
+	private IContactosDAO contactosDAO;
+	private List allContacts;
+	//
+	private BDSQLite bd;
+	private SQLiteDatabase baseDatos;
+	private SQLiteDatabase baseDatosL;
+	private GestionBaseDatosContactos GBDContactos = new GestionBaseDatosContactos();
 
-    public ActualizarUsuarios(Context ctx, ListContacts listContacts) {
-        this.ctx = ctx;
-        this.listContcts = listContacts;
+	private ProgressDialog dialog;
 
-        bd = BDSQLite.getInstance(ctx);
-        baseDatos = bd.getWritableDatabase();
-        baseDatosL = bd.getReadableDatabase();
+	public ActualizarUsuarios(Context ctx, ListContacts listContacts) {
+		this.ctx = ctx;
+		this.listContcts = listContacts;
 
-        try {
-            contactosDAO = GestorDAOFactory.getInstance().getFactory().getContactosDAO();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+		bd = BDSQLite.getInstance(ctx);
+		baseDatos = bd.getWritableDatabase();
+		baseDatosL = bd.getReadableDatabase();
 
+		try {
+			contactosDAO = GestorDAOFactory.getInstance().getFactory()
+					.getContactosDAO();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        listContcts.setRefreshActionButtonState(true);
-    }
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		listContcts.setRefreshActionButtonState(true);
+		int num = GBDContactos.cuentaUsuarios(baseDatosL);
+		if (num == 0) {
+			dialog = new ProgressDialog(ctx, ProgressDialog.STYLE_SPINNER);
+			dialog.setTitle("Insertando usuario en ChiriChat...");
+			dialog.setMessage("Espera por favor...");
+			dialog.setIndeterminate(true);
+			dialog.show();
+		}
+	}
 
-    @Override
-    protected Object doInBackground(Object... p) {
+	@Override
+	protected Object doInBackground(Object... p) {
 
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        try {
+		try {
+			Thread.sleep(4000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		try {
 
-            Contactos micontacto = GBDContactos.devolverMiContacto(baseDatos);
+			Contactos micontacto = GBDContactos.devolverMiContacto(baseDatos);
 
-            allContacts = contactosDAO.getAllSinMiContacto(micontacto);
+			allContacts = contactosDAO.getAllSinMiContacto(micontacto);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        for (int i = 0; i < allContacts.size(); i++) {
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		for (int i = 0; i < allContacts.size(); i++) {
 
-            Contactos c = (Contactos) allContacts.get(i);
+			Contactos c = (Contactos) allContacts.get(i);
 
-            GBDContactos.insertarUsuario(baseDatos, c,false);
-        }
+			GBDContactos.insertarUsuario(baseDatos, c, false);
+		}
 
-        return allContacts;
-    }
+		return allContacts;
+	}
 
+	@Override
+	protected void onPostExecute(Object o) {
+		super.onPostExecute(o);
 
-    @Override
-    protected void onPostExecute(Object o) {
-        super.onPostExecute(o);
+		listContcts.setRefreshActionButtonState(false);
 
-        listContcts.setRefreshActionButtonState(false);
+		listContcts.recuperarListaContactos();
 
-        listContcts.recuperarListaContactos();
-    }
-
+		if (dialog != null) {
+			dialog.cancel();
+		}
+	}
 
 }

@@ -14,12 +14,13 @@ public final class R {
         public static final int mediumViolet=0x7f050000;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
-        public static final int icon_contacto=0x7f020001;
-        public static final int icon_local=0x7f020002;
-        public static final int icon_remoto=0x7f020003;
-        public static final int perfil_prueba=0x7f020004;
-        public static final int send_button_selector=0x7f020005;
+        public static final int fondo_register=0x7f020000;
+        public static final int ic_launcher=0x7f020001;
+        public static final int icon_contacto=0x7f020002;
+        public static final int icon_local=0x7f020003;
+        public static final int icon_remoto=0x7f020004;
+        public static final int perfil_prueba=0x7f020005;
+        public static final int send_button_selector=0x7f020006;
     }
     public static final class id {
         public static final int MensajeLocal=0x7f08001a;
@@ -61,14 +62,13 @@ public final class R {
         public static final int menuBar_Refresh=0x7f08002c;
         public static final int menuBar_my_perfil=0x7f08002a;
         public static final int menu_contacts=0x7f080028;
-        public static final int menu_save=0x7f080030;
+        public static final int menu_save=0x7f08002f;
         public static final int menu_settings=0x7f08002b;
         public static final int menu_share_contactos=0x7f080029;
-        public static final int menu_share_conversacion=0x7f08002f;
+        public static final int menu_share_conversacion=0x7f08002e;
         public static final int nombreChat=0x7f080012;
         public static final int nombreContact=0x7f080015;
-        public static final int perfil=0x7f08002e;
-        public static final int search=0x7f08002d;
+        public static final int perfil=0x7f08002d;
         public static final int text_sent_msg=0x7f08001e;
         public static final int ultimoMensajeChat=0x7f080013;
     }
@@ -95,6 +95,7 @@ public final class R {
     }
     public static final class string {
         public static final int Idioma=0x7f060005;
+        public static final int Register=0x7f060006;
         public static final int app_name=0x7f060000;
         public static final int bt_Send=0x7f060001;
         public static final int menuitem_edit_my_perfil=0x7f060004;

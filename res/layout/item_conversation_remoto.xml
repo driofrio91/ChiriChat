@@ -25,7 +25,8 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Medium Text"
                 android:layout_margin="10dp"
-                android:id="@+id/MensajeLocal"/>
+                android:id="@+id/MensajeLocal"
+                android:textColor="#FFFFFF"/>
 
 
 

@@ -1,7 +1,11 @@
 package com.ChiriChat.Controller;
 
+import IntentService.MiService;
+import IntentService.Reciver;
+import IntentService.Service;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -73,6 +77,13 @@ public class ListChats extends Activity {
         });
 
         adapterChats.notifyDataSetChanged();
+        
+        
+        Intent msgIntent = new Intent(this, MiService.class);;
+        startService(msgIntent);
+        
+       
+        
     }
 
     @Override
@@ -96,6 +107,7 @@ public class ListChats extends Activity {
         switch (item.getItemId()) {
 
             case R.id.menu_contacts:
+            	
                 Intent intent = new Intent(this, ListContacts.class);
                 startActivity(intent);
                 this.finish();

@@ -116,7 +116,7 @@ public class ChiriChatMensajesDAO implements IMensajesDAO {
             //En este ejemplo al ser solo 1 la respuesta
             //Pues no hara falta
             while ((line = reader.readLine()) != null){
-                sb.append(line + "\n");
+                sb.append(line);
             }
 
         } catch (IOException e) {

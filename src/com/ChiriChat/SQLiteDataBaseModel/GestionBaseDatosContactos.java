@@ -14,44 +14,7 @@ import com.ChiriChat.model.Contactos;
 
 
 public class GestionBaseDatosContactos {
-    /**
-     * Método que inserta los usuarios fijos en base de datos.
-     *
-     * @param baseDatos Objeto SQLiteDatabase
-     */
-    public void insertarUsuarios(SQLiteDatabase baseDatos) {
-        if (baseDatos != null) {
-            /*String sql = "INSERT INTO USUARIOS (nombre, estado, telefono)"
-                    + "values ( 'Alejandro', 'Probando Contactos', 679965326)";*/
-            String sql2 = "INSERT INTO USUARIOS (nombre, estado, telefono)"
-                    + "values ( 'Danny', 'Probando Contactos2', 679965526)";
-            String sql3 = "INSERT INTO USUARIOS (nombre, estado, telefono)"
-                    + "values ( 'Felix', 'Probando Contactos3', 679966666)";
-            String sql4 = "INSERT INTO USUARIOS (nombre, estado, telefono)"
-                    + "values ( 'Alvaro', 'Probando Contactos4', 679965533)";
-            String sql5 = "INSERT INTO USUARIOS (nombre, estado, telefono)"
-                    + "values ( 'Sergio', 'Probando Contactos5', 679965522)";
-            String sql6 = "INSERT INTO USUARIOS (nombre, estado, telefono)"
-                    + "values ( 'David', 'Probando Contactos6', 679965511)";
-            String sql7 = "INSERT INTO USUARIOS (nombre, estado, telefono)"
-                    + "values ( 'Jose', 'Probando Contactos7', 679965577)";
-            String sql8 = "INSERT INTO USUARIOS (nombre, estado, telefono)"
-                    + "values ( 'Toni', 'Probando Contactos8', 679965588)";
-            String sql9 = "INSERT INTO USUARIOS (nombre, estado, telefono)"
-                    + "values ( 'Maria', 'Probando Contactos9', 679965599)";
-            //baseDatos.execSQL(sql);
-//            baseDatos.execSQL(sql2);
-//            baseDatos.execSQL(sql3);
-//            baseDatos.execSQL(sql4);
-//            baseDatos.execSQL(sql5);
-//            baseDatos.execSQL(sql6);
-//            baseDatos.execSQL(sql7);
-//            baseDatos.execSQL(sql8);
-//            baseDatos.execSQL(sql9);
 
-            //baseDatos.close();
-        }
-    }
 
     /**
      * Metodo que insertara un usuario en la base de datos.
@@ -62,19 +25,26 @@ public class GestionBaseDatosContactos {
      */
     public void insertarUsuario(SQLiteDatabase baseDatos, Contactos contacto, boolean isLocal) {
 
-        int local = (isLocal) ? 1 : 0;
+    	Contactos contactoExistente = contactoPorID(baseDatos, contacto.getId());
+    	
+        if (!(contactoExistente instanceof Contactos)) {
+			
+        	int local = (isLocal) ? 1 : 0;
 
-        if (contacto != null && contacto != devolverMiContacto(baseDatos)) {
-            Log.d("Contacto a insertaner en el metodo de insertar", contacto.toString());
-            String sql = "INSERT INTO USUARIOS (id_usuario, nombre, estado, telefono, islocal)" +
-                    "values (" + contacto.getId() + ", " +
-                    " '" + contacto.getNombre() + "', " +
-                    " '" + contacto.getEstado() + "', " +
-                    contacto.getTelefono() + ", " +
-                    local + ")";
-            Log.d("Insertando","--------------------------------------------");
-            baseDatos.execSQL(sql);
-        }
+            if (contacto != null && contacto != devolverMiContacto(baseDatos)) {
+                Log.d("Contacto a insertaner en el metodo de insertar", contacto.toString());
+                String sql = "INSERT INTO USUARIOS (id_usuario, nombre, estado, telefono, islocal)" +
+                        "values (" + contacto.getId() + ", " +
+                        " '" + contacto.getNombre() + "', " +
+                        " '" + contacto.getEstado() + "', " +
+                        contacto.getTelefono() + ", " +
+                        local + ")";
+                Log.d("Insertando","--------------------------------------------");
+                baseDatos.execSQL(sql);
+            }
+        	
+        	
+		} 
 
     }
 

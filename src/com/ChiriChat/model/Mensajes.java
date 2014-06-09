@@ -32,6 +32,10 @@ public class Mensajes implements Parcelable{
         this.idUsuario = idUsuario;
     }
 
+    public Mensajes(String cadena) {
+        this.cadena = cadena;
+    }
+
     public Mensajes(JSONObject json) {
         try {
             this.idMensaje = json.getInt("id");
@@ -94,13 +98,7 @@ public class Mensajes implements Parcelable{
 
     @Override
     public String toString() {
-        return "Mensajes{" +
-                "idMensaje=" + idMensaje +
-                ", idConversacion=" + idConversacion +
-                ", cadena='" + cadena + '\'' +
-                ", enviado=" + enviado +
-                ", idUsuario=" + idUsuario +
-                '}';
+        return cadena;
     }
 
 

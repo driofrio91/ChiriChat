@@ -3,11 +3,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
+            android:background="@drawable/fondo_register"
+
         >
 
     <RelativeLayout 
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:scrollbarAlwaysDrawVerticalTrack="true">
 
 
@@ -34,24 +36,28 @@
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:id="@+id/contact_My_NombreEtiqueta"
-                      android:text="Nombre"/>
+                      android:text="Nombre"
+                      android:textColor="#FFFFFF"/>
 
-            <EditText android:layout_width="match_parent"
+            <TextView android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:id="@+id/contact_My_nombre"
-                      android:textSize="25sp"/>
+                      android:textSize="25sp"
+                      android:textColor="#FFFFFF"/>
 
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_marginTop="15dp"
                       android:id="@+id/contact_My_TelefonoEtiqueta"
-                      android:text="Telefono"/>
+                      android:text="Telefono"
+                      android:textColor="#FFFFFF"/>
 
             <TextView android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:id="@+id/contact_My_Telefono"
                       android:inputType="number"
-                      android:textSize="25sp"/>
+                      android:textSize="25sp"
+                      android:textColor="#FFFFFF"/>
 
         </LinearLayout>
 
@@ -67,12 +73,14 @@
                       android:layout_height="wrap_content"
                       android:layout_margin="15dp"
                       android:id="@+id/contact_My_EstadoEtiqueta"
-                      android:text="Estado"/>
+                      android:text="Estado"
+                      android:textColor="#FFFFFF"/>
 
             <EditText android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:id="@+id/contact_My_Estado"
-                      android:textSize="25sp"/>
+                      android:textSize="25sp"
+                      android:textColor="#FFFFFF"/>
 
 
         </LinearLayout>

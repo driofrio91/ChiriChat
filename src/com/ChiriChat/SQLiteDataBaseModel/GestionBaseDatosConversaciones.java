@@ -30,11 +30,11 @@ public class GestionBaseDatosConversaciones {
 
        if(existeConversacion(baseDatos, conversacion.getId_conversacion())) {
 
-           conver = recuperarConversacion(baseDatos,conversacion.getContactos());
+           conver = recuperarConversacion(baseDatos,conversacion.getContactos(), conversacion.getId_conversacion());
 
 
        }else{
-
+           Log.d("conversacion", conversacion.toString());
            String sql = "INSERT INTO CONVERSACION (id_conversacion,nombre,ocultar)"
                    + " values (" + conversacion.getId_conversacion()
                    + ",'"+conversacion.getNombre()+"','false')";
@@ -119,19 +119,19 @@ public class GestionBaseDatosConversaciones {
         return id;
     }
     
-
-    public Conversaciones recuperarConversacionNombre(SQLiteDatabase baseDatosL,Contactos ContactoOrigen, Contactos contactoDestino) {
-    	ArrayList <Contactos> contactos= new ArrayList<Contactos>();
-    	contactos.add(ContactoOrigen);
-    	contactos.add(contactoDestino);
-        Conversaciones conversacion = null;
-        String sql = "SELECT id_conversacion, nombre  FROM CONVERSACION WHERE nombre ='" + contactoDestino.getNombre()+"'" ;
-        Cursor c = baseDatosL.rawQuery(sql, null);
-        c.moveToFirst();
-        conversacion= new Conversaciones(c.getInt(0), c.getString(1),contactos , 1);
-
-        return conversacion;
-    }
+//
+//    public Conversaciones recuperarConversacionNombre(SQLiteDatabase baseDatosL,Contactos ContactoOrigen, Contactos contactoDestino) {
+//    	ArrayList <Contactos> contactos= new ArrayList<Contactos>();
+//    	contactos.add(ContactoOrigen);
+//    	contactos.add(contactoDestino);
+//        Conversaciones conversacion = null;
+//        String sql = "SELECT id_conversacion, nombre  FROM CONVERSACION WHERE nombre ='" + contactoDestino.getNombre()+"'" ;
+//        Cursor c = baseDatosL.rawQuery(sql, null);
+//        c.moveToFirst();
+//        conversacion= new Conversaciones(c.getInt(0), c.getString(1),contactos , 1);
+//
+//        return conversacion;
+//    }
 
     /**
      *
@@ -139,11 +139,13 @@ public class GestionBaseDatosConversaciones {
      * @param listacontactos
      * @return
      */
-    public Conversaciones recuperarConversacion(SQLiteDatabase baseDatosL, ArrayList<Contactos> listacontactos) {
+    public Conversaciones recuperarConversacion(SQLiteDatabase baseDatosL, ArrayList<Contactos> listacontactos, int id) {
+
         Conversaciones conversacion = null;
+
         String[] valores_recuperar = {"id_conversacion", "nombre", "ocultar"};
 
-        Cursor c = baseDatosL.query("CONVERSACION", valores_recuperar, null, null,
+        Cursor c = baseDatosL.query("CONVERSACION", valores_recuperar, "id_conversacion = "+id , null,
                 null, null, null, null);
 
         c.moveToFirst();

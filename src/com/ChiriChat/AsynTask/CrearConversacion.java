@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
+import com.ChiriChat.Controller.ListConversation;
 import com.ChiriChat.DataAccessObject.InterfacesDAO.IConversacioneDAO;
 import com.ChiriChat.DataAccessObject.InterfacesDAO.IMensajesDAO;
 import com.ChiriChat.Gestor.GestorDAOFactory;
@@ -18,7 +20,10 @@ import java.util.List;
 
 public class CrearConversacion extends AsyncTask<Object, Void, Void> {
 
+    private static final String MENSAJE_ERROR = "SERVIDOR CAIDO";
+
     private Context ctx;
+    private ListConversation listConversation;
     private BDSQLite bd;
     private SQLiteDatabase baseDatos;
     private SQLiteDatabase baseDatosL;
@@ -32,9 +37,11 @@ public class CrearConversacion extends AsyncTask<Object, Void, Void> {
     private Conversaciones conver;
     private Mensajes men;
 
-    public CrearConversacion(Context ctx) {
-        this.ctx = ctx;
+    public Mensajes mensajeErrorServer;
 
+    public CrearConversacion(Context ctx, ListConversation listConversation) {
+        this.ctx = ctx;
+        this.listConversation=listConversation;
 
     }
 
@@ -61,8 +68,11 @@ public class CrearConversacion extends AsyncTask<Object, Void, Void> {
         //Comprubo que la conversacion existe, si existe, la recuperara de la DB local
         if (GBDConversacion.existeConversacion(baseDatos, conver.getId_conversacion())) {
 
-            conver = GBDConversacion.recuperarConversacionNombre(baseDatosL, conver.getContactos().get(0),
-                    conver.getContactos().get(1));
+            Log.d("Contacto 1",conver.getContactos().get(0).toString());
+            Log.d("Contacto 2",conver.getContactos().get(1).toString());
+
+
+            conver = GBDConversacion.recuperarConversacion(baseDatos, conver.getContactos(), conver.getId_conversacion());
 
         } else {
             //Si la conversacion no existe la creo en el server y la inserto en la DB local
@@ -70,16 +80,16 @@ public class CrearConversacion extends AsyncTask<Object, Void, Void> {
 
                 //TODO Registro server
                 conver = conversacioneDAO.insert(conver);
-
+                listConversation.setConversacion(conver);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            Log.d("AsynkTask",conver.toString());
+//            Log.d("AsynkTask",conver.toString());
 
             if (conver instanceof Conversaciones) {
                 //REGISTRO LOCAL
-                GBDConversacion.crearConversacion(baseDatos, conver);
+             conver =   GBDConversacion.crearConversacion(baseDatos, conver);
 
             }
         }
@@ -91,15 +101,16 @@ public class CrearConversacion extends AsyncTask<Object, Void, Void> {
         //Lo inserto en el server y lo recupero
         try {
            men =  mensajesDAO.insert(men);
+            //inserto el mensaje en la base de datos local
+            if (men instanceof Mensajes){
+
+                GBDMensajes.insertarMensaje(baseDatos,men);
+
+            }
         } catch (Exception e) {
-            e.printStackTrace();
+            mensajeErrorServer = new Mensajes(MENSAJE_ERROR);
         }
-        //inserto el mensaje en la base de datos local
-        if (men instanceof Mensajes){
 
-            GBDMensajes.insertarMensaje(baseDatos,men);
-
-        }
 
 
         return null;
@@ -111,7 +122,9 @@ public class CrearConversacion extends AsyncTask<Object, Void, Void> {
 
         @Override
         protected void onPostExecute (Void aVoid){
-            super.onPostExecute(aVoid);
+            if (mensajeErrorServer != null){
+                Toast.makeText(ctx,mensajeErrorServer.toString(),Toast.LENGTH_LONG).show();
+            }
         }
 
 }

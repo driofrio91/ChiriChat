@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+			    android:background="@drawable/fondo_register"
         >
 
     <LinearLayout
@@ -55,6 +56,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignBottom="@android:id/list"
                         android:scrollbars="vertical"
+                        
         />
 
 </RelativeLayout>
