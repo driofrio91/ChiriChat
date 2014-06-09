@@ -53,7 +53,7 @@ public class ChiriChatContactosDAO implements IContactosDAO {
         //Añade a la peticion post el parametro json, que contiene los datos a insertar.(json)
         parametros.add(new BasicNameValuePair("json", newUsuario.toString()));
 
-
+        Log.d("JSON de insert usaurio DAO", newUsuario.toString());
         try {
             //Creamos la entidad con los datos que le hemos pasado
             httpPostNuevoUsuario.setEntity(new UrlEncodedFormEntity(parametros));
@@ -86,6 +86,7 @@ public class ChiriChatContactosDAO implements IContactosDAO {
 
             return c;
         }
+
         return null;
     }
 

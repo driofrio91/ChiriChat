@@ -72,7 +72,7 @@ public class ListContacts extends Activity {
 		en la tabla usuarios*/
         
 
-        recuperarListaContactos();
+
 
         // Devueleve el numero de contactos
 //        Log.d("NUMERO CONTACTOS", "" + contacts.size());
@@ -104,6 +104,7 @@ public class ListContacts extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+        recuperarListaContactos();
     }
 
     /**

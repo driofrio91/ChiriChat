@@ -48,7 +48,7 @@
             android:name=".Controller.ListChats"
             android:label="Conversacion" >
         </activity>
-        <service android:name="MiService"></service>
+        <service android:name=".MyService" android:exported="false"></service>
     </application>
 
 </manifest>

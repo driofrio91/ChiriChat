@@ -1,11 +1,11 @@
 package com.ChiriChat.Controller;
 
-import IntentService.MiService;
-import IntentService.Reciver;
-import IntentService.Service;
+
+import IntentService.MyService;
+
 import android.app.Activity;
 import android.content.Intent;
-import android.content.IntentFilter;
+
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,11 +25,8 @@ import com.ChiriChat.model.Contactos;
 import com.ChiriChat.model.Conversaciones;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
-/**
- * Created by danny on 31/05/14.
- */
+
 public class ListChats extends Activity {
 
     private GestionBaseDatosConversaciones GBDConversaciones = new GestionBaseDatosConversaciones();
@@ -72,15 +69,16 @@ public class ListChats extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 openConversacion(allChats.get(position));
-                Log.d("CONVERSACIÓN SELECCIONADA", ""+allChats.get(position).getNombre());
+                Log.d("CONVERSACIï¿½N SELECCIONADA", ""+allChats.get(position).getNombre());
             }
         });
 
         adapterChats.notifyDataSetChanged();
         
         
-        Intent msgIntent = new Intent(this, MiService.class);;
-        startService(msgIntent);
+        Intent msgIntent = new Intent(this, MyService.class);
+        msgIntent.putExtra("estras","hola");
+        this.startService(msgIntent);
         
        
         

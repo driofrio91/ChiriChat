@@ -27,7 +27,7 @@ import java.util.zip.Inflater;
  */
 public class EditMyPerfilUser extends Activity {
 
-    private EditText textNombre;
+    private TextView textNombre;
     private TextView textTelefono;
     private EditText textEstado;
     private ImageView image;
@@ -44,7 +44,7 @@ public class EditMyPerfilUser extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_my_perfil_user);
 
-        textNombre = (EditText) findViewById(R.id.contact_My_nombre);
+        textNombre = (TextView) findViewById(R.id.contact_My_nombre);
         textTelefono = (TextView) findViewById(R.id.contact_My_Telefono);
         textEstado = (EditText) findViewById(R.id.contact_My_Estado);
         image = (ImageView) findViewById(R.id.imageView_My_Contact);

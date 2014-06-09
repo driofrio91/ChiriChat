@@ -56,7 +56,7 @@ public class GestionBaseDatosContactos {
      */
     public Contactos devolverMiContacto(SQLiteDatabase baseDatos) {
         Contactos contacto = null;
-        String sql = "SELECT * FROM USUARIOS WHERE isLocal = 1";
+        String sql = "SELECT * FROM USUARIOS WHERE isLocal = '1'";
         Cursor c = baseDatos.rawQuery(sql, null);
 
         if (c.moveToFirst()) {

@@ -62,7 +62,7 @@ public class Register extends Activity {
 
         miContacto = GBDContactos.devolverMiContacto(baseDatosL);
         conexion = new ComprobarConexionInternet(this);
-        if ((miContacto instanceof Contactos) && miContacto.getTelefono() != 0) {
+        if (miContacto != null) {
             iniciarActividadPrincipal();
         }
 
