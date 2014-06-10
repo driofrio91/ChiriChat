@@ -38,7 +38,7 @@ import java.util.List;
 
 public class CrearConversacion extends AsyncTask<Object, Void, Void> {
 
-    private static final String MENSAJE_ERROR = "SERVIDOR CAIDO";
+    private static final String MENSAJE_ERROR = "Error";
 
     private Context ctx;
     private ListConversation listConversation;
@@ -59,7 +59,7 @@ public class CrearConversacion extends AsyncTask<Object, Void, Void> {
 
     public CrearConversacion(Context ctx, ListConversation listConversation) {
         this.ctx = ctx;
-        this.listConversation=listConversation;
+        this.listConversation = listConversation;
 
     }
 
@@ -68,6 +68,9 @@ public class CrearConversacion extends AsyncTask<Object, Void, Void> {
 
         bd = BDSQLite.getInstance(ctx);
         baseDatos = bd.getWritableDatabase();
+
+        listConversation.desactivarSend(false);
+
     }
 
     @Override
@@ -86,8 +89,8 @@ public class CrearConversacion extends AsyncTask<Object, Void, Void> {
         //Comprubo que la conversacion existe, si existe, la recuperara de la DB local
         if (GBDConversacion.existeConversacion(baseDatos, conver.getId_conversacion())) {
 
-            Log.d("Contacto 1",conver.getContactos().get(0).toString());
-            Log.d("Contacto 2",conver.getContactos().get(1).toString());
+            Log.d("Contacto 1", conver.getContactos().get(0).toString());
+            Log.d("Contacto 2", conver.getContactos().get(1).toString());
 
 
             conver = GBDConversacion.recuperarConversacion(baseDatos, conver.getContactos(), conver.getId_conversacion());
@@ -107,7 +110,7 @@ public class CrearConversacion extends AsyncTask<Object, Void, Void> {
 
             if (conver instanceof Conversaciones) {
                 //REGISTRO LOCAL
-             conver =   GBDConversacion.crearConversacion(baseDatos, conver);
+                conver = GBDConversacion.crearConversacion(baseDatos, conver);
 
             }
         }
@@ -118,11 +121,11 @@ public class CrearConversacion extends AsyncTask<Object, Void, Void> {
 
         //Lo inserto en el server y lo recupero
         try {
-           men =  mensajesDAO.insert(men);
+            men = mensajesDAO.insert(men);
             //inserto el mensaje en la base de datos local
-            if (men instanceof Mensajes){
+            if (men instanceof Mensajes) {
 
-                GBDMensajes.insertarMensaje(baseDatos,men);
+                GBDMensajes.insertarMensaje(baseDatos, men);
 
             }
         } catch (Exception e) {
@@ -130,19 +133,22 @@ public class CrearConversacion extends AsyncTask<Object, Void, Void> {
         }
 
 
-
         return null;
     }
-        @Override
-        protected void onProgressUpdate (Void...values){
 
-        }
+    @Override
+    protected void onProgressUpdate(Void... values) {
 
-        @Override
-        protected void onPostExecute (Void aVoid){
-            if (mensajeErrorServer != null){
-                Toast.makeText(ctx,mensajeErrorServer.toString(),Toast.LENGTH_LONG).show();
-            }
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        if (mensajeErrorServer != null) {
+            Toast.makeText(ctx, mensajeErrorServer.toString(), Toast.LENGTH_LONG).show();
         }
+        if (GBDConversacion.existeConversacion(baseDatos, conver.getId_conversacion())) {
+            listConversation.desactivarSend(true);
+        }
+    }
 
 }

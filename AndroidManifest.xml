@@ -48,7 +48,7 @@
             android:name=".Controller.ListChats"
             android:label="Conversacion" >
         </activity>
-        <service android:name=".MyService" android:exported="false"></service>
+        <service android:name="com.ChiriChat.Service.MyIntentService" />
     </application>
 
 </manifest>

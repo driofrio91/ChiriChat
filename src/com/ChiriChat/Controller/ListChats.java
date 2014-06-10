@@ -19,8 +19,11 @@
 package com.ChiriChat.Controller;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 
+import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,21 +35,20 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ShareActionProvider;
 
+import android.widget.Toast;
 import com.ChiriChat.Adapter.myAdapterChats;
 import com.ChiriChat.R;
 import com.ChiriChat.SQLiteDataBaseModel.BDSQLite;
 import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosConversaciones;
+import com.ChiriChat.Service.MyIntentService;
+import com.ChiriChat.Service.MyService;
+import com.ChiriChat.Service.ProgressReceiver;
 import com.ChiriChat.model.Contactos;
 import com.ChiriChat.model.Conversaciones;
 
 import java.util.ArrayList;
 
 
-import java.util.zip.Inflater;
-
-/**
- * Created by danny on 31/05/14.
- */
 public class ListChats extends Activity {
 
     private GestionBaseDatosConversaciones GBDConversaciones = new GestionBaseDatosConversaciones();
@@ -63,23 +65,24 @@ public class ListChats extends Activity {
     private BDSQLite bd; // Instancia de la base de datos
     private SQLiteDatabase baseDatos; // Instancia de la base de datos escritura
     private SQLiteDatabase baseDatosL;// Instancia de la base de datos lectura
-    
+
     Bundle extra;
 
+    ProgressReceiver rv = new ProgressReceiver(this);
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_chats);
         //bd= BDSQLite.getInstance(this);
-        bd= new BDSQLite(this);
+        bd = new BDSQLite(this);
         baseDatos = bd.getWritableDatabase();
         baseDatosL = bd.getReadableDatabase();
-        
+
         listViewChats = (ListView) findViewById(R.id.listView_Chats);
 
         allChats = GBDConversaciones.recuperarConversaciones(baseDatosL);
 
-        Log.d("Conversaciones Lista",""+allChats.toString());
+        Log.d("Conversaciones Lista", "" + allChats.toString());
 
         adapterChats = new myAdapterChats(this, allChats);
 
@@ -89,19 +92,44 @@ public class ListChats extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 openConversacion(allChats.get(position));
-                Log.d("CONVERSACI�N SELECCIONADA", ""+allChats.get(position).getNombre());
+                Log.d("CONVERSACI�N SELECCIONADA", "" + allChats.get(position).getNombre());
             }
         });
 
         adapterChats.notifyDataSetChanged();
-        
-        
-        Intent msgIntent = new Intent(this, MyService.class);
-        msgIntent.putExtra("estras","hola");
-        this.startService(msgIntent);
-        
-       
-        
+
+
+        Intent msgIntent = new Intent(ListChats.this, MyIntentService.class);
+        stopService(msgIntent);
+        msgIntent.putExtra("iteraciones", 5);
+        startService(msgIntent);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(MyIntentService.ACTION_PROGRESO);
+        filter.addAction(MyIntentService.ACTION_FIN);
+
+        registerReceiver(rv,filter);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    protected void onPause() {
+//        unregisterReceiver(rv);
+        super.onPause();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+
     }
 
     @Override
@@ -125,7 +153,7 @@ public class ListChats extends Activity {
         switch (item.getItemId()) {
 
             case R.id.menu_contacts:
-            	
+
                 Intent intent = new Intent(this, ListContacts.class);
                 startActivity(intent);
                 this.finish();
@@ -187,4 +215,7 @@ public class ListChats extends Activity {
         startActivity(i);
         this.finish();
     }
+
+
 }
+

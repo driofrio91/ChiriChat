@@ -237,7 +237,7 @@ public class ListContacts extends Activity {
         AlertDialog.Builder alert = new AlertDialog.Builder(
                 ListContacts.this);
 
-        alert.setTitle("Eliminar mensaje");
+        alert.setTitle("Eliminar contacto");
         alert.setMessage("Quieres eliminar este contacto?");
         alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override

@@ -65,12 +65,10 @@ public class ChiriChatMensajesDAO implements IMensajesDAO {
         parametros.add(new BasicNameValuePair("json", newUsuario.toString()));
 
 
-        try {
+
             //Creamos la entidad con los datos que le hemos pasado
             httpPostNewMensaje.setEntity(new UrlEncodedFormEntity(parametros));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+
         //Objeto para poder obtener respuesta del server
         HttpResponse response = httpClient.execute(httpPostNewMensaje);
         //Obtenemos el codigo de la respuesta
@@ -120,6 +118,11 @@ public class ChiriChatMensajesDAO implements IMensajesDAO {
 
     @Override
     public List<Mensajes> getAll() throws Exception {
+        return null;
+    }
+
+    @Override
+    public List<Mensajes> mensajesDesde(int mensajeId) {
         return null;
     }
 

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-			    android:background="@drawable/fondo_register"
+
         >
 
     <LinearLayout
@@ -12,7 +12,7 @@
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
             android:background="#e0e0e0"
-            android:alpha="0.85">
+            android:alpha="0.70">
 
         <EditText
                 android:id="@+id/text_sent_msg"
@@ -23,7 +23,7 @@
                 android:gravity="left"
                 android:maxLines="6"
                 android:maxLength="250"
-                android:textColor="#330000"
+                android:textColor="#000000"
                 android:inputType="textCapSentences|textMultiLine"
                 android:background="#FFFFFF"
                 android:layout_alignParentTop="true"

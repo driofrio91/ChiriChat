@@ -17,10 +17,13 @@
 
 package com.ChiriChat.Controller;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -66,6 +69,8 @@ public class EditMyPerfilUser extends Activity {
         textEstado = (EditText) findViewById(R.id.contact_My_Estado);
         image = (ImageView) findViewById(R.id.imageView_My_Contact);
 
+        getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.fondo_register));
+
         bd = BDSQLite.getInstance(this);
         baseDatos = bd.getWritableDatabase();
         baseDatosL = bd.getReadableDatabase();
@@ -88,6 +93,9 @@ public class EditMyPerfilUser extends Activity {
         MenuInflater inflater = getMenuInflater();
 
         inflater.inflate(R.menu.mu_activity_edit_my_perfil, menu);
+
+        ActionBar bar = getActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
         return super.onCreateOptionsMenu(menu);
     }

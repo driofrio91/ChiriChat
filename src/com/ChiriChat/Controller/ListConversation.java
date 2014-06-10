@@ -18,11 +18,14 @@
 
 package com.ChiriChat.Controller;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -88,6 +91,7 @@ public class ListConversation extends Activity {
         buttonSend = (Button) findViewById(R.id.bt_sent_msg);
         lisViewMensajes = (ListView) findViewById(android.R.id.list);
 
+        getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.fondo_register));
 
         bd = BDSQLite.getInstance(this);
         baseDatos = bd.getWritableDatabase();
@@ -252,6 +256,8 @@ public class ListConversation extends Activity {
 
         provider.setShareIntent(doShare());
 
+        ActionBar bar = getActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -343,5 +349,9 @@ public class ListConversation extends Activity {
 
     public void setConversacion(Conversaciones conversacion) {
         this.conversacion = conversacion;
+    }
+
+    public void desactivarSend(boolean accion){
+        buttonSend.setEnabled(accion);
     }
 }
