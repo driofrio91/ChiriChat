@@ -77,6 +77,7 @@ public class EditMyPerfilUser extends Activity {
             textNombre.setText(contacto.getNombre());
             textTelefono.setText(String.valueOf(contacto.getTelefono()));
             textEstado.setText(contacto.getEstado());
+            this.setTitle(contacto.getNombre());
         }
 
     }

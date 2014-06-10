@@ -18,9 +18,6 @@
 
 package com.ChiriChat.Controller;
 
-
-import IntentService.MyService;
-
 import android.app.Activity;
 import android.content.Intent;
 
@@ -45,6 +42,11 @@ import com.ChiriChat.model.Conversaciones;
 import java.util.ArrayList;
 
 
+import java.util.zip.Inflater;
+
+/**
+ * Created by danny on 31/05/14.
+ */
 public class ListChats extends Activity {
 
     private GestionBaseDatosConversaciones GBDConversaciones = new GestionBaseDatosConversaciones();

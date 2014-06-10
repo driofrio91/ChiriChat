@@ -67,10 +67,6 @@ public class Register extends Activity {
         setContentView(R.layout.activity_register);
         getLanguage();
 
-//        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-//        String t = telephonyManager.getDeviceId();
-//        Log.d("imei telefono",t);
-
         nombre = (EditText) findViewById(R.id.login_usuario_edit);
         telefono = (EditText) findViewById(R.id.login_telefono_edit);
 
