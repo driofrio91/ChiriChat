@@ -35,7 +35,7 @@ public class Contactos implements Parcelable{
     private int telefono;
     private String idgcm;
 
-    public Contactos(int id, String nombre, String estado, int telefono,  String idgcm) {
+    public Contactos(int id, String nombre, String estado, int telefono, String idgcm) {
         this.id_usuario = id;
         this.nombre = nombre;
         this.estado = estado;
@@ -47,6 +47,12 @@ public class Contactos implements Parcelable{
         this.nombre = nombre;
         this.estado = estado;
         this.telefono = telefono;
+    }
+
+    public Contactos( int id, String nombre) {
+        this.id_usuario=id;
+        this.nombre = nombre;
+
     }
 
     public Contactos() {
@@ -94,14 +100,33 @@ public class Contactos implements Parcelable{
 
     @Override
     public String toString() {
-        return "Contactos{" +
+        return "{" +
                 "id_usuario=" + id_usuario +
                 ", nombre='" + nombre + '\'' +
                 ", estado='" + estado + '\'' +
                 ", telefono=" + telefono +
-                ", idgcm='" + idgcm + '\'' +
+                ", id_gcm='" + idgcm + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Contactos)) return false;
+
+        Contactos contactos = (Contactos) o;
+
+        if (id_usuario != contactos.id_usuario) return false;
+        if (telefono != contactos.telefono) return false;
+        if (estado != null ? !estado.equals(contactos.estado) : contactos.estado != null) return false;
+        if (idgcm != null ? !idgcm.equals(contactos.idgcm) : contactos.idgcm != null) return false;
+        if (nombre != null ? !nombre.equals(contactos.nombre) : contactos.nombre != null) return false;
+
+        return true;
+    }
+
+
+
 
     ////////////////////////////////////////////
     ///////////////PARCELABLE///////////////////

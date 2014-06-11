@@ -107,7 +107,7 @@ public class ListConversation extends Activity {
             conversacion = getIntent().getParcelableExtra("conversacion");
 
             if (conversacion != null) {
-                contactoDestino = conversacion.getContactos().get(0);
+                contactoDestino = conversacion.getContactos().get(1);
                 //Cambiamos el titulo de la actividad
                 this.setTitle(contactoDestino.getNombre());
 

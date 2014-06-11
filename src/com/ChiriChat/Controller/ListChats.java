@@ -19,8 +19,6 @@
 package com.ChiriChat.Controller;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 
 import android.content.IntentFilter;
@@ -35,14 +33,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ShareActionProvider;
 
-import android.widget.Toast;
 import com.ChiriChat.Adapter.myAdapterChats;
 import com.ChiriChat.R;
 import com.ChiriChat.SQLiteDataBaseModel.BDSQLite;
 import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosConversaciones;
-import com.ChiriChat.Service.MyIntentService;
-import com.ChiriChat.Service.MyService;
-import com.ChiriChat.Service.ProgressReceiver;
 import com.ChiriChat.model.Contactos;
 import com.ChiriChat.model.Conversaciones;
 
@@ -68,7 +62,6 @@ public class ListChats extends Activity {
 
     Bundle extra;
 
-    ProgressReceiver rv = new ProgressReceiver(this);
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

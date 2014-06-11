@@ -21,6 +21,7 @@ package com.ChiriChat.SQLiteDataBaseModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -207,6 +208,22 @@ public class GestionBaseDatosConversaciones {
         }
        // Log.d("numero de conversaciones", String.valueOf(conversacion.size()));
         return conversaciones;
+    }
+
+    public void actualizaAllConversaciones(SQLiteDatabase baseDatos, List<Conversaciones> allConversaciones){
+
+        for (int i = 0; i < allConversaciones.size() ; i++) {
+                Conversaciones converActual = allConversaciones.get(i);
+                actualizaConversacion(baseDatos, converActual);
+        }
+    }
+
+    public void actualizaConversacion(SQLiteDatabase baseDatos, Conversaciones conver){
+
+        ContentValues values = new ContentValues();
+        values.put("nombre", conver.getNombre());
+        baseDatos.update("USUARIOS", values, "id_usuario=" + conver.getId_conversacion(), null);
+
     }
 
 

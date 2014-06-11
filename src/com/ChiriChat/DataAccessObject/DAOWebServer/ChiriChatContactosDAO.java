@@ -54,6 +54,8 @@ public class ChiriChatContactosDAO implements IContactosDAO {
     @Override
     public Contactos insert(Contactos dto) throws Exception {
 
+        Contactos c = null;
+
         //Enviamos una peticion post al insert del usuario.
         HttpPost httpPostNuevoUsuario = new HttpPost("http://chirichatserver.noip.me:85/ws/insertUsuario");
 
@@ -63,7 +65,7 @@ public class ChiriChatContactosDAO implements IContactosDAO {
             newUsuario.put("nombre", dto.getNombre());
             newUsuario.put("telefono", dto.getTelefono());
             newUsuario.put("estado", dto.getEstado());
-            newUsuario.put("idgcm", dto.getIdgcm());
+            newUsuario.put("id_gcm", dto.getIdgcm());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -101,12 +103,13 @@ public class ChiriChatContactosDAO implements IContactosDAO {
             Log.d("InputStreamReader", temp.toString());
             Log.d("JSON ==>", jsonRecibido.toString());
 
-            Contactos c = new Contactos(jsonRecibido);
+             c = new Contactos(jsonRecibido);
 
-            return c;
+
         }
 
-        return null;
+        return c;
+
     }
 
     @Override
@@ -180,7 +183,7 @@ public class ChiriChatContactosDAO implements IContactosDAO {
 
     @Override
     public List getAllSinMiContacto(Contactos dto) throws Exception {
-        List<Contactos> contactos = new ArrayList<Contactos>();
+        List<Contactos> contactos;
 
         contactos = getAll();
         for (int i = 0; i < contactos.size(); i++) {

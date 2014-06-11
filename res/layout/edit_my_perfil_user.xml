@@ -22,7 +22,6 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="40dp"
                 android:layout_below="@+id/linearLayout"
-                android:layout_alignParentStart="true"
                 android:src="@drawable/ic_launcher"
                 />
 
@@ -63,9 +62,7 @@
 
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="match_parent"
-                      android:layout_toStartOf="@id/data_My_users"
                       android:layout_below="@+id/imageView_My_Contact"
-                      android:layout_alignEnd="@+id/data_My_users"
                       android:layout_margin="15dp"
                       android:orientation="vertical">
 

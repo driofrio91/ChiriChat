@@ -55,7 +55,7 @@ public class ListContacts extends Activity {
     private ShareActionProvider provider;
 
 
-    GestionBaseDatosContactos gb = new GestionBaseDatosContactos();
+
     private ArrayList<Contactos> contacts = null;
     //private ArrayList<Mensajes> listaMensajes = null;
     private int numeroContactos;
@@ -116,14 +116,10 @@ public class ListContacts extends Activity {
             }
         });
 
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         recuperarListaContactos();
     }
+
+
 
     /**
      * Metodo que crea las aopciones de menu, aqui inflamos el layout del menu.
@@ -192,13 +188,13 @@ public class ListContacts extends Activity {
     public void recuperarListaContactos(){
 
         // Recuperamos todos los usuarios de la tablas usuarios.
-        contacts = (ArrayList<Contactos>) gb.recuperarContactos(baseDatosL);
+        contacts = (ArrayList<Contactos>) GBDCContactos.recuperarContactos(baseDatosL);
 
-        if (contacts.isEmpty()){
-            actualizaUsuarios = new ActualizarUsuarios(this,this);
-            actualizaUsuarios.execute();
-            contacts = (ArrayList<Contactos>) gb.recuperarContactos(baseDatosL);
-        }
+//        if (contacts.isEmpty()){
+//            actualizaUsuarios = new ActualizarUsuarios(this,this);
+//            actualizaUsuarios.execute();
+//            contacts = (ArrayList<Contactos>) GBDCContactos.recuperarContactos(baseDatosL);
+//        }
 
         adapterContacts = new myAdapterContacts(this, contacts);
 

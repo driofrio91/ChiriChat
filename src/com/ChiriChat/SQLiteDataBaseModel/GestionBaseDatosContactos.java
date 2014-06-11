@@ -22,6 +22,7 @@ package com.ChiriChat.SQLiteDataBaseModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -36,14 +37,15 @@ public class GestionBaseDatosContactos {
      *
      * @param baseDatos
      * @param contacto
+     * @param isLocal
      */
-    public void insertarUsuario(SQLiteDatabase baseDatos, Contactos contacto) {
+    public void insertarUsuario(SQLiteDatabase baseDatos, Contactos contacto, boolean isLocal) {
 
-    	Contactos contactoExistente = contactoPorID(baseDatos, contacto.getId());
-    	
+        Contactos contactoExistente = contactoPorID(baseDatos, contacto.getId());
+
         if (!(contactoExistente instanceof Contactos)) {
-			
-        	//int local = (isLocal) ? 1 : 0;
+
+            String idGcm = (contacto.getIdgcm() != "null") ? contacto.getIdgcm() : "no";
 
             if (contacto != null && contacto != devolverMiContacto(baseDatos)) {
                 Log.d("Contacto a insertaner en el metodo de insertar", contacto.toString());
@@ -52,15 +54,18 @@ public class GestionBaseDatosContactos {
                         " '" + contacto.getNombre() + "', " +
                         " '" + contacto.getEstado() + "', " +
                         contacto.getTelefono() + ", '" +
-                        contacto.getIdgcm() + "')";
-                Log.d("Insertando","--------------------------------------------");
+                        idGcm + "')";
+                Log.d("Insertando", "--------------------------------------------");
                 baseDatos.execSQL(sql);
             }
         	
         	
 		} 
 
-    }
+
+        }
+
+
 
     /**
      * Metodo que devolvera mi contacto.
@@ -70,7 +75,7 @@ public class GestionBaseDatosContactos {
      */
     public Contactos devolverMiContacto(SQLiteDatabase baseDatos) {
         Contactos contacto = null;
-        String sql = "SELECT * FROM USUARIOS WHERE idgcm IS NOT NULL";
+        String sql = "SELECT * FROM USUARIOS WHERE idgcm NOT LIKE 'no'";
         Cursor c = baseDatos.rawQuery(sql, null);
 
         if (c.moveToFirst()) {
@@ -91,8 +96,8 @@ public class GestionBaseDatosContactos {
 
         List<Contactos> lista_contactos = new ArrayList<Contactos>();
         String[] valores_recuperar = {"id_usuario", "nombre", "estado",
-                "telefono"};
-        Cursor c = baseDatos.query("USUARIOS", valores_recuperar, " idgcm = null", null,
+                "telefono", "idgcm"};
+        Cursor c = baseDatos.query("USUARIOS", valores_recuperar, " idgcm LIKE 'no'", null,
                 null, null, null, null);
         if (c.moveToFirst()) {
             do {
@@ -129,11 +134,12 @@ public class GestionBaseDatosContactos {
 
     /**
      * Metodo que me devolvera el contacto buscando por ID de contacto
+     *
      * @param baseDatos
      * @param id_usuario
      * @return
      */
-    public static Contactos contactoPorID(SQLiteDatabase baseDatos, int id_usuario) {
+    public Contactos contactoPorID(SQLiteDatabase baseDatos, int id_usuario) {
         Contactos contacto = null;
         String sql = "SELECT * FROM USUARIOS WHERE id_usuario=" + id_usuario;
         Cursor c = baseDatos.rawQuery(sql, null);
@@ -171,6 +177,43 @@ public class GestionBaseDatosContactos {
         //baseDatos.close();
         return lineas;
 
+    }
+
+    /**
+     * Metodo que recorrera una lista de contactos y por cada uno llamara al metodo que los actualiza.
+     *
+     * @param baseDatos
+     * @param allContacts
+     */
+    public void actualizaAllContactos(SQLiteDatabase baseDatos, List<Contactos> allContacts) {
+        //Recorro la lista de usuarios que me devuleve el servidor
+
+        for (int i = 0; i < allContacts.size(); i++) {
+
+            Contactos contactoActual = allContacts.get(i);
+
+            if (contactoPorID(baseDatos, contactoActual.getId()) != null){
+                actualizaContacto(baseDatos, contactoActual);
+            }else{
+                insertarUsuario(baseDatos, contactoActual, false);
+            }
+
+        }
+    }
+
+    /**
+     * Metodo que actualizara un contactos con los valores del contacto que se le pasa.
+     *
+     * @param baseDatos
+     * @param contact
+     */
+    public void actualizaContacto(SQLiteDatabase baseDatos, Contactos contact) {
+        ContentValues values = new ContentValues();
+        values.put("nombre", contact.getNombre());
+        values.put("estado", contact.getEstado());
+        values.put("telefono", contact.getTelefono());
+        values.put("idgcm", "no");
+        baseDatos.update("USUARIOS", values, "id_usuario=" + contact.getId(), null);
     }
 
 }

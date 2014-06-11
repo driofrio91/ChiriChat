@@ -29,7 +29,6 @@
 
         <TextView android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:textAlignment="center"
                   android:gravity="center"
                   android:text="@string/Register"
                   android:textColor="#FFFFFF"
@@ -49,7 +48,6 @@
 
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:textAlignment="center"
                       android:gravity="center"
                       android:text="Usuario: "
                       android:textColor="#FFFFFF"
@@ -58,7 +56,6 @@
 
             <EditText android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:textAlignment="center"
                       android:gravity="left"
                       android:inputType="text"
                       android:layout_marginLeft="7dp"
@@ -77,7 +74,6 @@
 
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:textAlignment="center"
                       android:gravity="center"
                       android:text="Telefono: "
                       android:textColor="#FFFFFF"
