@@ -42,7 +42,7 @@ public class BDSQLite extends SQLiteOpenHelper {
             + "nombre TEXT, "
             + "estado VARCHAR(50), "
             + "telefono INTEGER NOT NULL, "
-            + "islocal INTEGER)";
+            + "idgcm TEXT)";
 
     private static final String SQL_CREATE_CONVERSACION = "CREATE TABLE IF NOT EXISTS CONVERSACION"
             + "(id_conversacion INTEGER PRIMARY KEY NOT NULL, "

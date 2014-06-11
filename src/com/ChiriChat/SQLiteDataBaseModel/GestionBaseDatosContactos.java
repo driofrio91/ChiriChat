@@ -36,24 +36,23 @@ public class GestionBaseDatosContactos {
      *
      * @param baseDatos
      * @param contacto
-     * @param isLocal
      */
-    public void insertarUsuario(SQLiteDatabase baseDatos, Contactos contacto, boolean isLocal) {
+    public void insertarUsuario(SQLiteDatabase baseDatos, Contactos contacto) {
 
     	Contactos contactoExistente = contactoPorID(baseDatos, contacto.getId());
     	
         if (!(contactoExistente instanceof Contactos)) {
 			
-        	int local = (isLocal) ? 1 : 0;
+        	//int local = (isLocal) ? 1 : 0;
 
             if (contacto != null && contacto != devolverMiContacto(baseDatos)) {
                 Log.d("Contacto a insertaner en el metodo de insertar", contacto.toString());
-                String sql = "INSERT INTO USUARIOS (id_usuario, nombre, estado, telefono, islocal)" +
+                String sql = "INSERT INTO USUARIOS (id_usuario, nombre, estado, telefono, idgcm)" +
                         "values (" + contacto.getId() + ", " +
                         " '" + contacto.getNombre() + "', " +
                         " '" + contacto.getEstado() + "', " +
-                        contacto.getTelefono() + ", " +
-                        local + ")";
+                        contacto.getTelefono() + ", '" +
+                        contacto.getIdgcm() + "')";
                 Log.d("Insertando","--------------------------------------------");
                 baseDatos.execSQL(sql);
             }
@@ -71,12 +70,12 @@ public class GestionBaseDatosContactos {
      */
     public Contactos devolverMiContacto(SQLiteDatabase baseDatos) {
         Contactos contacto = null;
-        String sql = "SELECT * FROM USUARIOS WHERE isLocal = '1'";
+        String sql = "SELECT * FROM USUARIOS WHERE idgcm IS NOT NULL";
         Cursor c = baseDatos.rawQuery(sql, null);
 
         if (c.moveToFirst()) {
             contacto = new Contactos(c.getInt(0), c.getString(1),
-                    c.getString(2), c.getInt(3));
+                    c.getString(2), c.getInt(3), c.getString(4));
             Log.w("Mi Contacto recuperado", contacto.toString());
         }
         return contacto;
@@ -93,12 +92,12 @@ public class GestionBaseDatosContactos {
         List<Contactos> lista_contactos = new ArrayList<Contactos>();
         String[] valores_recuperar = {"id_usuario", "nombre", "estado",
                 "telefono"};
-        Cursor c = baseDatos.query("USUARIOS", valores_recuperar, " isLocal = 0", null,
+        Cursor c = baseDatos.query("USUARIOS", valores_recuperar, " idgcm = null", null,
                 null, null, null, null);
         if (c.moveToFirst()) {
             do {
                 Contactos contactos = new Contactos(c.getInt(0), c.getString(1),
-                        c.getString(2), c.getInt(3));
+                        c.getString(2), c.getInt(3), c.getString(4));
                 lista_contactos.add(contactos);
                 Log.d("Contactos recuperado de DB", contactos.toString());
             } while (c.moveToNext());
@@ -122,7 +121,7 @@ public class GestionBaseDatosContactos {
 
         if (c.moveToFirst()) {
             contacto = new Contactos(c.getInt(0), c.getString(1),
-                    c.getString(2), c.getInt(3));
+                    c.getString(2), c.getInt(3), c.getString(4));
             Log.d("Contacto recuperado por telefono", contacto.toString());
         }
         return contacto;
@@ -141,7 +140,7 @@ public class GestionBaseDatosContactos {
 
         if (c.moveToFirst()) {
             contacto = new Contactos(c.getInt(0), c.getString(1),
-                    c.getString(2), c.getInt(3));
+                    c.getString(2), c.getInt(3), c.getString(4));
             Log.d("Contacto recuperado por ID", contacto.toString());
         }
         return contacto;

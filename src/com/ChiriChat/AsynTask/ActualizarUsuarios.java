@@ -9,6 +9,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 
+import android.util.Log;
 import com.ChiriChat.Controller.ListContacts;
 import com.ChiriChat.DataAccessObject.InterfacesDAO.IContactosDAO;
 import com.ChiriChat.Gestor.GestorDAOFactory;
@@ -75,7 +76,10 @@ public class ActualizarUsuarios extends AsyncTask<Object, Integer, Object> {
 		}
 		try {
 
+
+
 			Contactos micontacto = GBDContactos.devolverMiContacto(baseDatos);
+            Log.d("*/*/*/*/*/*/*/*/*",micontacto.toString());
 
 			allContacts = contactosDAO.getAllSinMiContacto(micontacto);
 
@@ -86,7 +90,7 @@ public class ActualizarUsuarios extends AsyncTask<Object, Integer, Object> {
 
 			Contactos c = (Contactos) allContacts.get(i);
 
-			GBDContactos.insertarUsuario(baseDatos, c, false);
+			GBDContactos.insertarUsuario(baseDatos, c);
 		}
 
 		return allContacts;

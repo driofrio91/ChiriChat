@@ -99,16 +99,16 @@ public class ListChats extends Activity {
         adapterChats.notifyDataSetChanged();
 
 
-        Intent msgIntent = new Intent(ListChats.this, MyIntentService.class);
-        stopService(msgIntent);
-        msgIntent.putExtra("iteraciones", 5);
-        startService(msgIntent);
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(MyIntentService.ACTION_PROGRESO);
-        filter.addAction(MyIntentService.ACTION_FIN);
-
-        registerReceiver(rv,filter);
+//        Intent msgIntent = new Intent(ListChats.this, MyIntentService.class);
+//        stopService(msgIntent);
+//        msgIntent.putExtra("iteraciones", 5);
+//        startService(msgIntent);
+//
+//        IntentFilter filter = new IntentFilter();
+//        filter.addAction(MyIntentService.ACTION_PROGRESO);
+//        filter.addAction(MyIntentService.ACTION_FIN);
+//
+//        registerReceiver(rv,filter);
 
     }
 

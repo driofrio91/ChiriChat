@@ -63,6 +63,7 @@ public class ChiriChatContactosDAO implements IContactosDAO {
             newUsuario.put("nombre", dto.getNombre());
             newUsuario.put("telefono", dto.getTelefono());
             newUsuario.put("estado", dto.getEstado());
+            newUsuario.put("idgcm", dto.getIdgcm());
         } catch (JSONException e) {
             e.printStackTrace();
         }

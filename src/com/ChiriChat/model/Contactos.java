@@ -33,12 +33,14 @@ public class Contactos implements Parcelable{
     private String nombre;
     private String estado;
     private int telefono;
+    private String idgcm;
 
-    public Contactos(int id, String nombre, String estado, int telefono) {
+    public Contactos(int id, String nombre, String estado, int telefono,  String idgcm) {
         this.id_usuario = id;
         this.nombre = nombre;
         this.estado = estado;
         this.telefono = telefono;
+        this.idgcm = idgcm;
     }
     
     public Contactos( String nombre, String estado, int telefono) {
@@ -82,14 +84,22 @@ public class Contactos implements Parcelable{
         this.telefono = telefono;
     }
 
+    public String getIdgcm() {
+        return idgcm;
+    }
+
+    public void setIdgcm(String idgcm) {
+        this.idgcm = idgcm;
+    }
 
     @Override
     public String toString() {
-        return "{" +
+        return "Contactos{" +
                 "id_usuario=" + id_usuario +
                 ", nombre='" + nombre + '\'' +
                 ", estado='" + estado + '\'' +
                 ", telefono=" + telefono +
+                ", idgcm='" + idgcm + '\'' +
                 '}';
     }
 
@@ -107,6 +117,7 @@ public class Contactos implements Parcelable{
         this.nombre = in.readString();
         this.estado = in.readString();
         this.telefono = in.readInt();
+        this.idgcm = in.readString();
     }
 
 
@@ -125,6 +136,7 @@ public class Contactos implements Parcelable{
         dest.writeString(this.nombre);
         dest.writeString(this.estado);
         dest.writeInt(this.telefono);
+        dest.writeString(this.idgcm);
     }
 
   /*  public void readFromParcerl(Parcel source){
@@ -162,6 +174,7 @@ public class Contactos implements Parcelable{
             this.nombre = json.getString("nombre");
             this.estado = json.getString("estado");
             this.telefono = json.getInt("telefono");
+            this.idgcm = json.getString("id_gcm");
         } catch (JSONException e) {
             e.printStackTrace();
         }
