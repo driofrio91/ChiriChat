@@ -126,7 +126,6 @@ public class myAdapterMensajes extends BaseAdapter {
     @Override
     public int getItemViewType(int position) {
 
-        //TODO sustituir por la condicion de que los mensajes sean de locales o remotos
        int idUser = itemMensajes.get(position).getIdUsuario();
         int idMiuser = miContacto.getId();
         if (idUser != idMiuser){

@@ -134,8 +134,6 @@ public class GCMIntentService extends IntentService {
         }
 
 
-
-
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 

@@ -207,7 +207,7 @@ public class ListChats extends Activity {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action.equals(ListChats.class.getName())) {
-
+                Log.d("----------------",".............................................");
                 adapterChats.notifyDataSetChanged();
             }
         }
