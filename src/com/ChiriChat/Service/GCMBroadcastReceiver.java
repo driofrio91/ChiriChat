@@ -1,6 +1,4 @@
-package com.ChiriChat.Service;/**
- * Created by neosistec on 11/06/2014.
- */
+package com.ChiriChat.Service;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -24,7 +22,7 @@ public class GCMBroadcastReceiver extends WakefulBroadcastReceiver
         Mensajes men = new Mensajes(intent.getExtras().get("mensaje").toString());
 
         Log.d("Contexto =>", men.toString());
-//        Log.d("Contexto =>" , intent.getExtras().get("contacto").toString());
+
 
         startWakefulService(context, (intent.setComponent(comp)));
 

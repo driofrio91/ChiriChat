@@ -24,6 +24,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import com.ChiriChat.R;
+import com.ChiriChat.SQLiteDataBaseModel.BDSQLite;
+import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosContactos;
+import com.ChiriChat.model.Contactos;
 import com.ChiriChat.model.Mensajes;
 
 import java.util.ArrayList;
@@ -35,11 +38,14 @@ public class myAdapterMensajes extends BaseAdapter {
     private ArrayList<Mensajes> itemMensajes;
     private LayoutInflater inflater;
 
-    public myAdapterMensajes(Activity activity, ArrayList<Mensajes> itemMensajes) {
+    private Contactos miContacto;
+
+    public myAdapterMensajes(Activity activity, ArrayList<Mensajes> itemMensajes, Contactos miContacto) {
 
         this.activity = activity;
         this.itemMensajes = itemMensajes;
         inflater = LayoutInflater.from(activity);
+        this.miContacto = miContacto;
     }
 
     public ArrayList<Mensajes> getItemMensajes() {
@@ -121,8 +127,9 @@ public class myAdapterMensajes extends BaseAdapter {
     public int getItemViewType(int position) {
 
         //TODO sustituir por la condicion de que los mensajes sean de locales o remotos
-
-        if (itemMensajes.get(position).getCadena().contains("1")){
+       int idUser = itemMensajes.get(position).getIdUsuario();
+        int idMiuser = miContacto.getId();
+        if (idUser != idMiuser){
 
             return 0;
 

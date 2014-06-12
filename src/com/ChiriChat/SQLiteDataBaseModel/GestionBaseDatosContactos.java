@@ -45,7 +45,7 @@ public class GestionBaseDatosContactos {
 
         if (!(contactoExistente instanceof Contactos)) {
 
-            String idGcm = (contacto.getIdgcm() != null) ? contacto.getIdgcm() : "no";
+            String idGcm = (contacto.getIdgcm() != "null") ? contacto.getIdgcm() : "no";
 
             if (contacto != null && contacto != devolverMiContacto(baseDatos)) {
                 Log.d("Contacto a insertaner en el metodo de insertar", contacto.toString());
@@ -192,10 +192,13 @@ public class GestionBaseDatosContactos {
 
             Contactos contactoActual = allContacts.get(i);
 
-            if (contactoPorID(baseDatos, contactoActual.getId()) != null){
-                actualizaContacto(baseDatos, contactoActual);
-            }else{
-                insertarUsuario(baseDatos, contactoActual, false);
+            if (contactoActual.getId() != devolverMiContacto(baseDatos).getId()){
+
+                if (contactoPorID(baseDatos, contactoActual.getId()) != null){
+                    actualizaContacto(baseDatos, contactoActual);
+                }else{
+                    insertarUsuario(baseDatos, contactoActual, false);
+                }
             }
 
         }
@@ -214,6 +217,7 @@ public class GestionBaseDatosContactos {
         values.put("telefono", contact.getTelefono());
         values.put("idgcm", "no");
         baseDatos.update("USUARIOS", values, "id_usuario=" + contact.getId(), null);
+        Log.d("contacto", contact.toString());
     }
 
 }

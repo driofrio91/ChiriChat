@@ -21,8 +21,7 @@ package com.ChiriChat.Controller;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.*;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -108,11 +107,11 @@ public class ListConversation extends Activity {
 
             if (conversacion != null) {
 
-//                for (int i = 0; i < conversacion.getContactos().size() ; i++) {
-//                    if (contactoOrigen.getId() != conversacion.getContactos().get(i).getId()){
-//                        contactoDestino = conversacion.getContactos().get(i);
-//                    }
-//                }
+                for (int i = 0; i < conversacion.getContactos().size() ; i++) {
+                    if (contactoOrigen.getId() != conversacion.getContactos().get(i).getId()){
+                        contactoDestino = conversacion.getContactos().get(i);
+                    }
+                }
 
                 //Cambiamos el titulo de la actividad
                 this.setTitle(conversacion.getNombre());
@@ -121,7 +120,7 @@ public class ListConversation extends Activity {
 
                 allMensajes = GBDMensaje.recuperarMensajes(baseDatos, conversacion.getId_conversacion());
 
-                adapterMensajes = new myAdapterMensajes(this, allMensajes);
+                adapterMensajes = new myAdapterMensajes(this, allMensajes , contactoOrigen);
 
                 lisViewMensajes.setAdapter(adapterMensajes);
 
@@ -155,10 +154,13 @@ public class ListConversation extends Activity {
                     allMensajes = new ArrayList<Mensajes>();
                 }
 
-                adapterMensajes = new myAdapterMensajes(this, allMensajes);
+                adapterMensajes = new myAdapterMensajes(this, allMensajes, contactoOrigen);
 
                 lisViewMensajes.setAdapter(adapterMensajes);
 
+
+                Log.d("Contacto origen******************", contactoOrigen.toString());
+                Log.d("Contacto destino******************", contactoDestino.toString());
             }
 
         }
@@ -186,6 +188,9 @@ public class ListConversation extends Activity {
                 return true;
             }
         });
+
+        registerReceiver(receiver, new IntentFilter(this.getClass().getName()));
+
     }
 
     @Override
@@ -196,7 +201,7 @@ public class ListConversation extends Activity {
         }
     }
 
-    protected void removeItemFromList(int position) {
+    protected void removeItemFromList(final int position) {
         final int deletePosition = position;
 
         AlertDialog.Builder alert = new AlertDialog.Builder(
@@ -207,12 +212,14 @@ public class ListConversation extends Activity {
         alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO llamada a la base de datos para que elimine este objeto
+
+                GBDMensaje.borrarMensaje(baseDatos, allMensajes.get(position).getIdMensaje());
 
                 // main code on after clicking yes
                 allMensajes.remove(deletePosition);
                 adapterMensajes.notifyDataSetChanged();
                 adapterMensajes.notifyDataSetInvalidated();
+
 
             }
         });
@@ -360,4 +367,14 @@ public class ListConversation extends Activity {
     public void desactivarSend(boolean accion){
         buttonSend.setEnabled(accion);
     }
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(ListConversation.class.getName())) {
+                adapterMensajes.notifyDataSetChanged();
+            }
+        }
+    };
 }

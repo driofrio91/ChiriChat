@@ -89,8 +89,8 @@ public class CrearConversacion extends AsyncTask<Object, Void, Void> {
         //Comprubo que la conversacion existe, si existe, la recuperara de la DB local
         if (GBDConversacion.existeConversacion(baseDatos, conver.getId_conversacion())) {
 
-            Log.d("Contacto 1", conver.getContactos().get(0).toString());
-            Log.d("Contacto 2", conver.getContactos().get(1).toString());
+      //      Log.d("Contacto 1", conver.getContactos().get(0).toString());
+      //     Log.d("Contacto 2", conver.getContactos().get(1).toString());
 
 
             conver = GBDConversacion.recuperarConversacion(baseDatos, conver.getContactos(), conver.getId_conversacion());

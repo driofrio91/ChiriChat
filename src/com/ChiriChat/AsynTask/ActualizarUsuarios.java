@@ -75,19 +75,21 @@ public class ActualizarUsuarios extends AsyncTask<Object, Integer, Object> {
             e.printStackTrace();
         }
 
+        GBDContactos.actualizaAllContactos(baseDatos, allContacts);
+
+        Log.d("Mi contacto despues de actualiar", GBDContactos.devolverMiContacto(baseDatos).toString());
+
+        List<Conversaciones> allConver = GBDConversacione.recuperarConversaciones(baseDatosL);
+
+        GBDConversacione.actualizaAllConversaciones(baseDatos, allConver);
+
         return this.allContacts;
     }
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
 
-        GBDContactos.actualizaAllContactos(baseDatos, allContacts);
-
         listContcts.setRefreshActionButtonState(false);
-
-        List<Conversaciones> allConver = GBDConversacione.recuperarConversaciones(baseDatosL);
-
-        GBDConversacione.actualizaAllConversaciones(baseDatos, allConver);
 
         listContcts.recuperarListaContactos();
 
