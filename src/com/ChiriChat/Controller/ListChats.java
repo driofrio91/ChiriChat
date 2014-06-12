@@ -19,6 +19,8 @@
 package com.ChiriChat.Controller;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 
 import android.content.IntentFilter;
@@ -91,17 +93,8 @@ public class ListChats extends Activity {
 
         adapterChats.notifyDataSetChanged();
 
+        registerReceiver(receiver, new IntentFilter(this.getClass().getName()));
 
-//        Intent msgIntent = new Intent(ListChats.this, MyIntentService.class);
-//        stopService(msgIntent);
-//        msgIntent.putExtra("iteraciones", 5);
-//        startService(msgIntent);
-//
-//        IntentFilter filter = new IntentFilter();
-//        filter.addAction(MyIntentService.ACTION_PROGRESO);
-//        filter.addAction(MyIntentService.ACTION_FIN);
-//
-//        registerReceiver(rv,filter);
 
     }
 
@@ -209,6 +202,15 @@ public class ListChats extends Activity {
         this.finish();
     }
 
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(ListChats.class.getName())) {
 
+                adapterChats.notifyDataSetChanged();
+            }
+        }
+    };
 }
 

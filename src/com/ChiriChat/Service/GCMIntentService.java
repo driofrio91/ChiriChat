@@ -38,6 +38,7 @@ public class GCMIntentService extends IntentService {
     private GestionBaseDatosConversaciones GBDConversacion = new GestionBaseDatosConversaciones();
     private GestionBaseDatosMensajes GBDMensajes = new GestionBaseDatosMensajes();
     private GestionBaseDatosContactos GBDContactos = new GestionBaseDatosContactos();
+    private Contactos miContacto = GBDContactos.devolverMiContacto(baseDatosL);
 
     public GCMIntentService() {
         super("GCMIntentService");
@@ -79,9 +80,12 @@ public class GCMIntentService extends IntentService {
                 contactConver.add(GBDContactos.devolverMiContacto(baseDatosL));
                 contactConver.add(GBDContactos.contactoPorID(baseDatosL,men.getIdUsuario()));
 
-                Conversaciones conver = new Conversaciones(men.getIdConversacion(),contacto.getNombre(),contactConver, 0);
+                Conversaciones conver = GBDConversacion.recuperarConversacion(baseDatosL,contactConver, men.getIdConversacion());
+                if (conver == null){
+                    conver = new Conversaciones(men.getIdConversacion(),contacto.getNombre(),contactConver, 0);
 
-                GBDConversacion.crearConversacion(baseDatos, conver);
+                    GBDConversacion.crearConversacion(baseDatos, conver);
+                }
 
 
                 //Inseratbdo el mensaje nuevo
@@ -110,7 +114,7 @@ public class GCMIntentService extends IntentService {
         Intent intent = new Intent(ListChats.class.getName());
         intent.putExtra("mensaje", msg);
         PendingIntent contIntent = PendingIntent.getActivity(
-                this, 0, intent, PendingIntent.FLAG_NO_CREATE);
+                this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
 
         mBuilder.setContentIntent(contIntent);

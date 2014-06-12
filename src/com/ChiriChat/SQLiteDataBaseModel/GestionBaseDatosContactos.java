@@ -45,7 +45,7 @@ public class GestionBaseDatosContactos {
 
         if (!(contactoExistente instanceof Contactos)) {
 
-            String idGcm = (contacto.getIdgcm() != "null") ? contacto.getIdgcm() : "no";
+            String idGcm = (contacto.getIdgcm() != null) ? contacto.getIdgcm() : "no";
 
             if (contacto != null && contacto != devolverMiContacto(baseDatos)) {
                 Log.d("Contacto a insertaner en el metodo de insertar", contacto.toString());

@@ -107,9 +107,15 @@ public class ListConversation extends Activity {
             conversacion = getIntent().getParcelableExtra("conversacion");
 
             if (conversacion != null) {
-                contactoDestino = conversacion.getContactos().get(1);
+
+//                for (int i = 0; i < conversacion.getContactos().size() ; i++) {
+//                    if (contactoOrigen.getId() != conversacion.getContactos().get(i).getId()){
+//                        contactoDestino = conversacion.getContactos().get(i);
+//                    }
+//                }
+
                 //Cambiamos el titulo de la actividad
-                this.setTitle(contactoDestino.getNombre());
+                this.setTitle(conversacion.getNombre());
 
                 Log.d("conversacion pasada por bunble", conversacion.toString());
 

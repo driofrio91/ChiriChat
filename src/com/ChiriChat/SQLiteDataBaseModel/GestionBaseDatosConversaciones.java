@@ -166,11 +166,11 @@ public class GestionBaseDatosConversaciones {
         c.moveToFirst();
 
 
-        do {
+        while (c.moveToNext()) {
             conversacion = new Conversaciones(c.getInt(0), c.getString(1), listacontactos, c.getInt(2));
             Log.d("DATOS DE LA CONVERSACION", "" + c.getInt(0) + c.getString(1) + c.getInt(2));
 
-        } while (c.moveToNext());
+        }
 
         c.close();
 
