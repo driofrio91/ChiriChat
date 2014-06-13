@@ -27,7 +27,7 @@ import com.ChiriChat.DataAccessObject.InterfacesDAO.IMensajesDAO;
 import com.ChiriChat.Factory.FactoryDAO;
 
 /**
- * Created by danny on 27/05/14.
+ * Clase que devolvera objetos de nuestras clases DAO.
  */
 public class ChiriChatServerFactoryDAO implements FactoryDAO {
     @Override

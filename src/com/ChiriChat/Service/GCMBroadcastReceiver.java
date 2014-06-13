@@ -26,8 +26,18 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 import com.ChiriChat.model.Mensajes;
 
+/**
+ * Servicio que estara escuchado todas las acciones del GCM
+ */
 public class GCMBroadcastReceiver extends WakefulBroadcastReceiver
 {
+
+    /**
+     * Metodo que se ejecutara cada vez que el servico reciba algo,
+     * pasa el mensaje por bundle.
+     * @param context
+     * @param intent
+     */
     @Override
     public void onReceive(Context context, Intent intent)
     {

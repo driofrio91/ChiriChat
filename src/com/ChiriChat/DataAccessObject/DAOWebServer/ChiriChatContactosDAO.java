@@ -18,14 +18,9 @@
 
 package com.ChiriChat.DataAccessObject.DAOWebServer;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-
+import android.util.Log;
+import com.ChiriChat.DataAccessObject.InterfacesDAO.IContactosDAO;
+import com.ChiriChat.model.Contactos;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -37,11 +32,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
-import com.ChiriChat.Controller.Register;
-import com.ChiriChat.DataAccessObject.InterfacesDAO.IContactosDAO;
-import com.ChiriChat.model.Contactos;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Clasde que extiendo de IContactosDAO, tendremos en ella los metodos CRUD y lo que

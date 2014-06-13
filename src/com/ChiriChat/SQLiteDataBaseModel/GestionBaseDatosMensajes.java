@@ -18,14 +18,12 @@
 
 package com.ChiriChat.SQLiteDataBaseModel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
 import com.ChiriChat.model.Mensajes;
+
+import java.util.ArrayList;
 
 
 /**
@@ -121,6 +119,11 @@ public class GestionBaseDatosMensajes {
     }
 
 
+    /**
+     * Metodo que elimina el mensaje con el id que le haya pasado
+     * @param baseDatos
+     * @param id
+     */
     public void borrarMensaje(SQLiteDatabase baseDatos, int id){
         baseDatos.delete("MENSAJES","id_mensaje = "+id, null);
     }

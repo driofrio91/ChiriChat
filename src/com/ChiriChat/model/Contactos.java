@@ -24,6 +24,9 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Clase Contactos
+ */
 public class Contactos implements Parcelable{
 
     private int id_usuario;
@@ -161,13 +164,7 @@ public class Contactos implements Parcelable{
         dest.writeString(this.idgcm);
     }
 
-  /*  public void readFromParcerl(Parcel source){
-        this.id = source.readInt();
-        this.nombre = source.readString();
-        this.estado = source.readString();
-        this.telefono = source.readInt();
 
-    }*/
 
     /**
      * Crear un Array nueva de la clase Parcelable.

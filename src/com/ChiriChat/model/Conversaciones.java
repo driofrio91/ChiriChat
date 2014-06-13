@@ -26,6 +26,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Clase Conversaciones
+ */
 public class Conversaciones extends ArrayList<Conversaciones> implements Parcelable{
 
     private int id_conversacion;

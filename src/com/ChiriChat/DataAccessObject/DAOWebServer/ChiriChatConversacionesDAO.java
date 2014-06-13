@@ -37,13 +37,23 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Clasde que extiendo de IConversacioneDAO, tendremos en ella los metodos CRUD y lo que
+ * nos hayamos declarado el la interfaz.
+ */
 public class ChiriChatConversacionesDAO implements IConversacioneDAO{
 
     //Creo el objeto hhtpCLient para acceder a la conexion web.
     private HttpClient httpClient = new DefaultHttpClient();
 
-
+    /**
+     * Metodo que insertara un mensaje en el web-service. Por medio de una peticio post, enviara
+     * un objeto json, con los datos de las conversacion. Obtendra la respuesta del servidor y
+     * contruira la conversacion para retornarlo.
+     * @param dto
+     * @return
+     * @throws Exception
+     */
     @Override
     public Conversaciones insert(Conversaciones dto) throws Exception {
         //Enviamos una peticion post al insert de conversacion.
@@ -51,7 +61,7 @@ public class ChiriChatConversacionesDAO implements IConversacioneDAO{
 
         //Creo el objeto Jason con los datos del contacto que se registra en la app.
         JSONObject newConver = new JSONObject();
-        Log.d("Insert Conversacones DAO","-.--------------------------------------------------------");
+
         try {
             newConver.put("nombre", dto.getNombre());
             newConver.put("owner", dto.getNombre());
@@ -132,6 +142,12 @@ public class ChiriChatConversacionesDAO implements IConversacioneDAO{
         return null;
     }
 
+    /**
+     * Metoto al que se le pasara un InputStream y devolera una cadena.
+     * Este metodo es llamado para tratar las respuesta del servidor.
+     * @param is
+     * @return
+     */
     @Override
     public String StreamToString(InputStream is) {
         //Creamos el Buffer

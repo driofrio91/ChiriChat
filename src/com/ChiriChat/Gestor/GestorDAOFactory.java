@@ -22,7 +22,8 @@ import com.ChiriChat.Factory.Factories.ChiriChatServerFactoryDAO;
 import com.ChiriChat.Factory.FactoryDAO;
 
 /**
- * Created by danny on 28/05/14.
+ * Esta clase implementara el patron singlenton, asisolo se creara una instancia
+ * de nuestra factoria.
  */
 public class GestorDAOFactory {
 

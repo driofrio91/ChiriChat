@@ -23,7 +23,9 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
+/**
+ * Clase mensajes
+ */
 public class Mensajes implements Parcelable{
 
     private int idMensaje;
@@ -105,10 +107,7 @@ public class Mensajes implements Parcelable{
     }
 
 
-       /* @Override
-    public String toString() {
-        return cadena;
-    }*/
+
 
     @Override
     public String toString() {

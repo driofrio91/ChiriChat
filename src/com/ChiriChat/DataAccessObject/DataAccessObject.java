@@ -20,9 +20,7 @@ package com.ChiriChat.DataAccessObject;
 
 import java.util.List;
 
-/**
- * Created by danny on 27/05/14.
- */
+
 public interface DataAccessObject<T> {
 
     public T insert(T dto) throws Exception;

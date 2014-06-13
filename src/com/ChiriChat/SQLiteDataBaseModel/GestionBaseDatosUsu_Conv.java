@@ -24,13 +24,10 @@ import android.util.Log;
 import com.ChiriChat.model.Contactos;
 import com.ChiriChat.model.Conversaciones;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Danny Riofrio Jimenez
- */
+
 public class GestionBaseDatosUsu_Conv {
 
     private GestionBaseDatosContactos GBDContactos = new GestionBaseDatosContactos();

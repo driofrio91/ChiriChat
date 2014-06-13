@@ -21,7 +21,6 @@ package com.ChiriChat.AsynTask;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 import com.ChiriChat.Controller.ListConversation;
 import com.ChiriChat.DataAccessObject.InterfacesDAO.IConversacioneDAO;
@@ -32,8 +31,6 @@ import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosConversaciones;
 import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosMensajes;
 import com.ChiriChat.model.Conversaciones;
 import com.ChiriChat.model.Mensajes;
-
-import java.util.List;
 
 /**
  * Esta clase extiende de AsyncTask.

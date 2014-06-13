@@ -35,15 +35,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ShareActionProvider;
 import android.widget.Toast;
 import com.ChiriChat.Adapter.myAdapterContacts;
 import com.ChiriChat.AsynTask.ActualizarUsuarios;
 import com.ChiriChat.R;
 import com.ChiriChat.SQLiteDataBaseModel.BDSQLite;
 import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosContactos;
-import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosConversaciones;
-import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosMensajes;
 import com.ChiriChat.model.Contactos;
 
 import java.util.ArrayList;

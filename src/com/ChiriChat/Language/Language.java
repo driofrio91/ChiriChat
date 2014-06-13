@@ -25,13 +25,19 @@ import android.util.DisplayMetrics;
 import java.util.Locale;
 
 /**
- * @author Danny Riofrio Jimenez
+ * Clase en la que se almacenara en un archvos de prefenrancia el idioma con el que
+ * esta actualmente la aplicacion
  */
 public class Language {
 
     private static final String LANGUAGE = "language";
+    //Variable LOCALE que almacenara la localizacion actual
     private static Locale myLocale;
 
+    /**
+     * Metodo que almacenara el idioma actual.
+     * @param lang
+     */
     public static void setLocal(String lang) {
         myLocale = new Locale(lang);
         Resources res = Resources.getSystem();

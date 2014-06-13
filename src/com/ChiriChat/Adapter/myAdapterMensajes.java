@@ -24,8 +24,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import com.ChiriChat.R;
-import com.ChiriChat.SQLiteDataBaseModel.BDSQLite;
-import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosContactos;
 import com.ChiriChat.model.Contactos;
 import com.ChiriChat.model.Mensajes;
 

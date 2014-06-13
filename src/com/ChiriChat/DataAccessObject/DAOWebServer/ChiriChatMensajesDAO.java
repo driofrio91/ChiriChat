@@ -36,21 +36,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by danny on 27/05/14.
+ * Clasde que extiendo de IMensajesDAO, tendremos en ella los metodos CRUD y lo que
+ * nos hayamos declarado el la interfaz.
  */
 public class ChiriChatMensajesDAO implements IMensajesDAO {
 
     //Creo el objeto hhtpCLient para acceder a la conexion web.
     private HttpClient httpClient = new DefaultHttpClient();
 
-
+    /**
+     * Metodo en el que insertara un objeto mensaje en el web-service a traves de una peticion
+     * POST, transformara el mensaje a objeto JSON a enviar, leera la respues del servidor y
+     * construira el objeto mensaje que se retorna.
+     * @param dto
+     * @return
+     * @throws Exception
+     */
     @Override
     public Mensajes insert(Mensajes dto) throws Exception {
 
         //Enviamos una peticion post al insert del usuario.
         HttpPost httpPostNewMensaje = new HttpPost("http://chirichatserver.noip.me:85/ws/newMensaje");
 
-        //Creo el objeto Jason con los datos del contacto que se registra en la app.
+        //Creo el objeto JSON con los datos del contacto que se registra en la app.
         JSONObject newUsuario = new JSONObject();
         try {
             newUsuario.put("idConver", dto.getIdConversacion());
@@ -126,6 +134,12 @@ public class ChiriChatMensajesDAO implements IMensajesDAO {
         return null;
     }
 
+    /**
+     * Metoto al que se le pasara un InputStream y devolera una cadena.
+     * Este metodo es llamado para tratar las respuesta del servidor.
+     * @param is
+     * @return
+     */
     @Override
     public String StreamToString(InputStream is) {
         //Creamos el Buffer

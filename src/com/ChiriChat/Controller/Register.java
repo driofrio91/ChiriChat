@@ -24,12 +24,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.ChiriChat.AsynTask.RegistroUsuarioServer;
 import com.ChiriChat.Language.Language;
 import com.ChiriChat.R;

@@ -129,9 +129,9 @@ public class GestionBaseDatosContactos {
     /**
      * Metodo que me devolvera el contacto buscando por ID de contacto
      *
-     * @param baseDatos
-     * @param id_usuario
-     * @return
+     * @param baseDatos instancia de la basede datos
+     * @param id_usuario id delsuario
+     * @return contacto en contrado, si no hay contacto retorna null
      */
     public Contactos contactoPorID(SQLiteDatabase baseDatos, int id_usuario) {
         Contactos contacto = null;
