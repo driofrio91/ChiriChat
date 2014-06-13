@@ -119,4 +119,9 @@ public class GestionBaseDatosMensajes {
         lineas = c.getInt(0);
         return lineas;
     }
+
+
+    public void borrarMensaje(SQLiteDatabase baseDatos, int id){
+        baseDatos.delete("MENSAJES","id_mensaje = "+id, null);
+    }
 }

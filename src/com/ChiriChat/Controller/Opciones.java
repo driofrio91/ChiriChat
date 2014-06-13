@@ -18,15 +18,19 @@
 
 package com.ChiriChat.Controller;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,9 +39,7 @@ import com.ChiriChat.R;
 
 import java.util.Locale;
 
-/**
- * Created by danny on 30/05/2014.
- */
+
 public class Opciones extends Activity {
 
     private static final String LANGUAGE = "language";
@@ -45,8 +47,8 @@ public class Opciones extends Activity {
     private static final String ENGLISH = "en";
 
     private ListView listview;
-    private String[] idiomas = new String[]{"Idioma del sistema","Español","Ingles"};
-    Locale myLocale;
+    private String[] idiomas = new String[]{"System language","Español","English"};
+    private Locale myLocale;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,6 +92,16 @@ public class Opciones extends Activity {
         this.finish();
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        ActionBar bar = getActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
     /**
      * Metodo que cambiara el leguaje actual de la app
      * @param lang
@@ -102,7 +114,7 @@ public class Opciones extends Activity {
         Configuration conf = res.getConfiguration();
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
-        Intent refresh = new Intent(this, ListContacts.class);
+        Intent refresh = new Intent(this, ListChats.class);
         startActivity(refresh);
         setLanguage(lang);
         finish();

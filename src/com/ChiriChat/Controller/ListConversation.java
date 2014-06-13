@@ -21,8 +21,7 @@ package com.ChiriChat.Controller;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.*;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -46,7 +45,7 @@ import com.ChiriChat.model.Mensajes;
 import java.util.ArrayList;
 
 /**
- * Created by neosistec on 13/05/2014.
+ * Clase en la que se mostrara la conversacion actual, con la lista de mensajes.
  */
 public class ListConversation extends Activity {
 
@@ -54,13 +53,9 @@ public class ListConversation extends Activity {
     private Button buttonSend;
     private ListView lisViewMensajes;
 
-    private Mensajes men;
-
     private myAdapterMensajes adapterMensajes;
 
     private ArrayList<Mensajes> allMensajes;
-
-    private Contactos contacto;
 
     private ShareActionProvider provider;
 
@@ -68,7 +63,8 @@ public class ListConversation extends Activity {
     private GestionBaseDatosConversaciones GBDConversacion = new GestionBaseDatosConversaciones();
     private GestionBaseDatosContactos GBDContactos = new GestionBaseDatosContactos();
     private GestionBaseDatosMensajes GBDMensaje = new GestionBaseDatosMensajes();
-
+    //Instancia de la clase ComprobarConexionInternet
+    private ComprobarConexionInternet comprobarInternet;
 
     private BDSQLite bd; // Instancia de la base de datos
     private SQLiteDatabase baseDatos; // Instancia de la base de datos escritura
@@ -76,13 +72,16 @@ public class ListConversation extends Activity {
 
     private Bundle extras;
     private Conversaciones conversacion;
-
-
+    //Instancia con dos contactos en los que tendremos el nuestro que sera el origen de la conversacione
+    //y el destino que sera el otro usuario de la conversacion
     private Contactos contactoOrigen;
     private Contactos contactoDestino;
 
     private ArrayList<Contactos> listaContactos = new ArrayList<Contactos>();
 
+    /**
+     * @param savedInstanceState
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_conversation);
@@ -90,8 +89,11 @@ public class ListConversation extends Activity {
         editText = (EditText) findViewById(R.id.text_sent_msg);
         buttonSend = (Button) findViewById(R.id.bt_sent_msg);
         lisViewMensajes = (ListView) findViewById(android.R.id.list);
-
+        //Con esta linea de codigo se colocara en el fondo de la pantalla una imagen
+        //esto impedira que la imagen se se mueva al salir el teclado de android
         getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.fondo_register));
+
+        comprobarInternet = new ComprobarConexionInternet(this);
 
         bd = BDSQLite.getInstance(this);
         baseDatos = bd.getWritableDatabase();
@@ -108,11 +110,11 @@ public class ListConversation extends Activity {
 
             if (conversacion != null) {
 
-//                for (int i = 0; i < conversacion.getContactos().size() ; i++) {
-//                    if (contactoOrigen.getId() != conversacion.getContactos().get(i).getId()){
-//                        contactoDestino = conversacion.getContactos().get(i);
-//                    }
-//                }
+                for (int i = 0; i < conversacion.getContactos().size(); i++) {
+                    if (contactoOrigen.getId() != conversacion.getContactos().get(i).getId()) {
+                        contactoDestino = conversacion.getContactos().get(i);
+                    }
+                }
 
                 //Cambiamos el titulo de la actividad
                 this.setTitle(conversacion.getNombre());
@@ -121,13 +123,12 @@ public class ListConversation extends Activity {
 
                 allMensajes = GBDMensaje.recuperarMensajes(baseDatos, conversacion.getId_conversacion());
 
-                adapterMensajes = new myAdapterMensajes(this, allMensajes);
+                adapterMensajes = new myAdapterMensajes(this, allMensajes, contactoOrigen);
 
                 lisViewMensajes.setAdapter(adapterMensajes);
 
-
             } else {
-
+                //Si hemos entrado a esta actividad a traves de contactos, recojeremos un contacto
                 contactoDestino = getIntent().getParcelableExtra("contacto");
 
                 Log.d("Contacto origen******************", contactoOrigen.toString());
@@ -135,8 +136,6 @@ public class ListConversation extends Activity {
 
                 listaContactos.add(contactoOrigen);
                 listaContactos.add(contactoDestino);
-
-
 
                 //Cambiamos el titulo de la actividad
                 this.setTitle(contactoDestino.getNombre());
@@ -147,18 +146,20 @@ public class ListConversation extends Activity {
                 if (idConver != 0) {
 
                     conversacion = GBDConversacion.recuperarConversacion(baseDatosL, listaContactos, idConver);
+                    //si el contacto tiene conversaciones recuperamos la lista de mensajes de ese usuario
                     allMensajes = GBDMensaje.recuperarMensajes(baseDatosL, idConver);
-
 
                 } else {
 
                     allMensajes = new ArrayList<Mensajes>();
                 }
 
-                adapterMensajes = new myAdapterMensajes(this, allMensajes);
+                adapterMensajes = new myAdapterMensajes(this, allMensajes, contactoOrigen);
 
                 lisViewMensajes.setAdapter(adapterMensajes);
 
+                Log.d("Contacto origen******************", contactoOrigen.toString());
+                Log.d("Contacto destino******************", contactoDestino.toString());
             }
 
         }
@@ -186,8 +187,13 @@ public class ListConversation extends Activity {
                 return true;
             }
         });
+
+
     }
 
+    /**
+     * En este metodo tendremos que decirle que nos muestre siempre el ultimo mensaje de la lista
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -196,27 +202,33 @@ public class ListConversation extends Activity {
         }
     }
 
-    protected void removeItemFromList(int position) {
+    /***
+     * Metodo para eliminar un usuario de la lista y de la base datos.
+     * @param position
+     */
+    protected void removeItemFromList(final int position) {
         final int deletePosition = position;
 
         AlertDialog.Builder alert = new AlertDialog.Builder(
                 ListConversation.this);
 
-        alert.setTitle("Eliminar mensaje");
-        alert.setMessage("Quieres eliminar este mensaje?");
-        alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+        alert.setTitle(R.string.eliminarMensaje);
+        alert.setMessage(R.string.eliminaMensajePregunta);
+        alert.setPositiveButton(R.string.Si, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO llamada a la base de datos para que elimine este objeto
+
+                GBDMensaje.borrarMensaje(baseDatos, allMensajes.get(position).getIdMensaje());
 
                 // main code on after clicking yes
                 allMensajes.remove(deletePosition);
                 adapterMensajes.notifyDataSetChanged();
                 adapterMensajes.notifyDataSetInvalidated();
 
+
             }
         });
-        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        alert.setNegativeButton(R.string.No, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -228,14 +240,24 @@ public class ListConversation extends Activity {
 
     }
 
+
+    /**
+     * Alamacenamos el estado de la actividad para que al girar el movil
+     * no vuelva a reninicar la actividad
+     * @param outState
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
+        //almacenamos la lista de mnsajes
         ArrayList<Mensajes> valores = adapterMensajes.getItemMensajes();
         outState.putParcelableArrayList("list", valores);
     }
 
+    /**
+     * Recuperamos el estado de la actividad
+     * @param savedInstanceState
+     */
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -250,14 +272,18 @@ public class ListConversation extends Activity {
 
     }
 
-
+    /***
+     * Inflamos el menu correspondiente a esta actividad.
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
 
         inflater.inflate(R.menu.menu_activity_conversation, menu);
-
+        //Le añadimos el boton share
         provider = (ShareActionProvider) menu.findItem(R.id.menu_share_conversacion).getActionProvider();
 
         provider.setShareIntent(doShare());
@@ -268,6 +294,11 @@ public class ListConversation extends Activity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Metodo que comprobara que opcion del menu se ha pulsado.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -284,7 +315,9 @@ public class ListConversation extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    /**
+     * Metoto que destruira la actividad al pulsar atras.
+     */
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, ListChats.class);
@@ -298,35 +331,38 @@ public class ListConversation extends Activity {
         String cadena = editText.getText().toString().trim();
 
 
-        if (!cadena.isEmpty()) {
+        if (comprobarInternet.available()) {
 
-            Mensajes men = new Mensajes(cadena, contactoOrigen.getId());
+            if (!cadena.isEmpty()) {
 
-            allMensajes.add(men);
+                Mensajes men = new Mensajes(cadena, contactoOrigen.getId());
 
-            Log.d("Mensaje recuperado de la base de datos", allMensajes.toString());
+                allMensajes.add(men);
 
-            adapterMensajes.notifyDataSetChanged();
+                Log.d("Mensaje recuperado de la base de datos", allMensajes.toString());
+
+                adapterMensajes.notifyDataSetChanged();
 
 
-            lisViewMensajes.setSelection(allMensajes.size() - 1);
+                lisViewMensajes.setSelection(allMensajes.size() - 1);
 
-            if (conversacion == null) {
+                if (conversacion == null) {
 
-                conversacion = new Conversaciones(contactoDestino.getNombre(), listaContactos);
-                Log.d("Conversacion", conversacion.toString());
+                    conversacion = new Conversaciones(contactoDestino.getNombre(), listaContactos);
+                    Log.d("Conversacion", conversacion.toString());
 
+                }
+                CrearConversacion crearConver = new CrearConversacion(this, this);
+                crearConver.execute(conversacion, men);
+
+                editText.setText("");
             }
-            CrearConversacion crearConver = new CrearConversacion(this, this);
-            crearConver.execute(conversacion, men);
 
-            editText.setText("");
         }
 
     }
 
     /**
-     * 
      * Metodo que devolvera un intent para compartir.
      * Lo usa el ActioProvider
      *
@@ -336,28 +372,34 @@ public class ListConversation extends Activity {
         // populate the share intent with data
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        Mensajes mensajeShare;
-
-        if(allMensajes.size() > 0){
-
-            mensajeShare = allMensajes.get(allMensajes.size()-1);
-
-        }else{
-            mensajeShare = new Mensajes("Chateando con "+contactoOrigen.getNombre()+" en chirichat");
-        }
+        Mensajes mensajeShare = new Mensajes(R.string.chateandoCon + contactoOrigen.getNombre() + R.string.enChiriChat);
         intent.putExtra(Intent.EXTRA_TEXT, mensajeShare.toString());
         return intent;
     }
 
+    /**
+     * Metodo que nos devolvera la conversacion actual
+     * @return
+     */
     public Conversaciones getConversacion() {
         return conversacion;
     }
 
+    /**
+     * metodo que modificara la conversacion actual
+     * @param conversacion
+     */
     public void setConversacion(Conversaciones conversacion) {
         this.conversacion = conversacion;
     }
 
-    public void desactivarSend(boolean accion){
+    /***
+     * Metodo que desactiva o activa el boton enviar
+     * @param accion
+     */
+    public void desactivarSend(boolean accion) {
         buttonSend.setEnabled(accion);
     }
+
+
 }

@@ -20,11 +20,14 @@ package com.ChiriChat.Adapter;
 
 import android.view.View;
 
-
+/**
+ * Clase holder.
+ * Esta clase sera una clase abstracta queno norequiere implementacion ninguna de sus
+ * metodos
+ */
 public abstract class BaseHolder {
-
-
-
+    //Metodo que inicializara las vistas
     public void getView(View v){};
+    //Metodo que modificara el contenido de las vistas
     public void setContent(Object o){};
 }

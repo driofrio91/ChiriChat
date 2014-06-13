@@ -35,7 +35,10 @@ import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosContactos;
 import com.ChiriChat.model.Contactos;
 
 
-
+/**
+ * Clase enla que se mostraran los datos del perfil de usuario.
+ * Por el momento no se puede editarlos datos.
+ */
 public class EditMyPerfilUser extends Activity {
 
     private TextView textNombre;
@@ -66,9 +69,9 @@ public class EditMyPerfilUser extends Activity {
         baseDatos = bd.getWritableDatabase();
         baseDatosL = bd.getReadableDatabase();
         
-        
+        //Recupero mi usuaario de la base da datos
         contacto = GBDContactos.devolverMiContacto(baseDatosL);
-
+        //Si recupero un usuario lo muestro en pantalla
         if (contacto instanceof Contactos){
             textNombre.setText(contacto.getNombre());
             textTelefono.setText(String.valueOf(contacto.getTelefono()));
@@ -78,6 +81,11 @@ public class EditMyPerfilUser extends Activity {
 
     }
 
+    /**
+     * Metodo que inicializara la barra de menu y la pintara de color negro
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 

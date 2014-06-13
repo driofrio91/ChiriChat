@@ -5,6 +5,6 @@
     <item android:id="@+id/menu_save"
           android:showAsAction="ifRoom"
           android:icon="@android:drawable/ic_menu_save"
-          android:title="menus"/>
+          android:title="@string/guardar"/>
 
 </menu>

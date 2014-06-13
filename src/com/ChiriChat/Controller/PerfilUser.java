@@ -18,7 +18,10 @@
 
 package com.ChiriChat.Controller;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -29,7 +32,7 @@ import com.ChiriChat.R;
 import com.ChiriChat.model.Contactos;
 
 /**
- * Created by danny on 29/05/14.
+ * Clase en la que se muestra la informacion de los contactos
  */
 public class PerfilUser extends Activity {
 
@@ -51,10 +54,9 @@ public class PerfilUser extends Activity {
 
         bundle = getIntent().getExtras();
         if (bundle != null) {
-//            Log.d("Mensaje enviado", getIntent().getParcelableExtra("mensaje").toString());
-//            Log.d("Conversacion", getIntent().getParcelableExtra("conver").toString());
+
             Contactos contacto = getIntent().getParcelableExtra("contacto");
-//            Log.d("telefono", String.valueOf(contacto.getTelefono()));
+
             textNombre.setText(contacto.getNombre());
             textTelefono.setText(String.valueOf(contacto.getTelefono()));
             textEstado.setText(contacto.getEstado());
@@ -62,13 +64,25 @@ public class PerfilUser extends Activity {
         }
     }
 
+    /**
+     * Metodo que inflara la vista del menu perteneciente a esta actividad.
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_activity_perfil, menu);
+
+        ActionBar bar = getActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Metodo que destruira la actividad al pulsar el boton atras.
+     */
     @Override
     public void onBackPressed() {
         this.finish();

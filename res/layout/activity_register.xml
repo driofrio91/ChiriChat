@@ -14,7 +14,7 @@
 
         <Button android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Registrar"
+                android:text="@string/Register"
                 android:id="@+id/login_registrar"
                 android:onClick="registrar"/>
 
@@ -49,7 +49,7 @@
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:gravity="center"
-                      android:text="Usuario: "
+                      android:text="@string/usuarioDosPuntos"
                       android:textColor="#FFFFFF"
                       android:textSize="18dp"
                       android:id="@+id/login_usuario_etiqueta"/>
@@ -59,7 +59,7 @@
                       android:gravity="left"
                       android:inputType="text"
                       android:layout_marginLeft="7dp"
-                      android:hint="Usuario"
+                      android:hint="@string/usuario"
                       android:background="#FFFFFF"
                       android:textColor="#000000"
                       android:id="@+id/login_usuario_edit"/>
@@ -75,7 +75,7 @@
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:gravity="center"
-                      android:text="Telefono: "
+                      android:text="@string/telefonoDosPuntos"
                       android:textColor="#FFFFFF"
                       android:textSize="18dp"
                       android:id="@+id/login_telefono_etiqueta"/>

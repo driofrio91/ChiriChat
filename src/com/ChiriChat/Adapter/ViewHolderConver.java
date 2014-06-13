@@ -24,7 +24,9 @@ import android.widget.TextView;
 import com.ChiriChat.R;
 import com.ChiriChat.model.Conversaciones;
 
-
+/**
+ * Clase viewholder, inicializa las vistas delitem donde se mostrara los datos del contacto
+ */
 public class ViewHolderConver extends BaseHolder {
 
     ImageView image;
@@ -35,6 +37,10 @@ public class ViewHolderConver extends BaseHolder {
         getView(v);
     }
 
+    /**
+     * Obtiene las vista que vayamos usar por si id.
+     * @param v
+     */
     @Override
     public void getView(View v) {
         image = (ImageView) v.findViewById(R.id.imageChat);
@@ -42,6 +48,10 @@ public class ViewHolderConver extends BaseHolder {
         ultimoMensaje = (TextView) v.findViewById(R.id.ultimoMensajeChat);
     }
 
+    /**
+     * Modifica el comtenido de ls vistas con el objeto que le hayamos.
+     * @param o
+     */
     @Override
     public void setContent(Object o) {
         Conversaciones conversaciones = (Conversaciones) o;

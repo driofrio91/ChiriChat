@@ -37,15 +37,14 @@ public class GestionBaseDatosContactos {
      *
      * @param baseDatos
      * @param contacto
-     * @param isLocal
      */
-    public void insertarUsuario(SQLiteDatabase baseDatos, Contactos contacto, boolean isLocal) {
+    public void insertarUsuario(SQLiteDatabase baseDatos, Contactos contacto) {
 
         Contactos contactoExistente = contactoPorID(baseDatos, contacto.getId());
 
         if (!(contactoExistente instanceof Contactos)) {
 
-            String idGcm = (contacto.getIdgcm() != null) ? contacto.getIdgcm() : "no";
+            String idGcm = (contacto.getIdgcm() != null) ? contacto.getIdgcm() : "null";
 
             if (contacto != null && contacto != devolverMiContacto(baseDatos)) {
                 Log.d("Contacto a insertaner en el metodo de insertar", contacto.toString());
@@ -58,14 +57,8 @@ public class GestionBaseDatosContactos {
                 Log.d("Insertando", "--------------------------------------------");
                 baseDatos.execSQL(sql);
             }
-        	
-        	
-		} 
-
-
         }
-
-
+    }
 
     /**
      * Metodo que devolvera mi contacto.
@@ -75,7 +68,7 @@ public class GestionBaseDatosContactos {
      */
     public Contactos devolverMiContacto(SQLiteDatabase baseDatos) {
         Contactos contacto = null;
-        String sql = "SELECT * FROM USUARIOS WHERE idgcm NOT LIKE 'no'";
+        String sql = "SELECT * FROM USUARIOS WHERE idgcm NOT LIKE '%null%'";
         Cursor c = baseDatos.rawQuery(sql, null);
 
         if (c.moveToFirst()) {
@@ -97,7 +90,7 @@ public class GestionBaseDatosContactos {
         List<Contactos> lista_contactos = new ArrayList<Contactos>();
         String[] valores_recuperar = {"id_usuario", "nombre", "estado",
                 "telefono", "idgcm"};
-        Cursor c = baseDatos.query("USUARIOS", valores_recuperar, " idgcm LIKE 'no'", null,
+        Cursor c = baseDatos.query("USUARIOS", valores_recuperar, " idgcm LIKE 'null'", null,
                 null, null, null, null);
         if (c.moveToFirst()) {
             do {
@@ -114,6 +107,7 @@ public class GestionBaseDatosContactos {
 
     /**
      * Método que devuelve un objeto contacto por telefono.
+     * Vias futuras
      *
      * @param baseDatos Objeto SQLiteDatabase
      * @param telefono  Numero de teléfono del usuario a recuperar.
@@ -155,6 +149,7 @@ public class GestionBaseDatosContactos {
 
     /**
      * Método que borra todos los datos de la tabla USUARIOS.
+     * Vias futuras
      *
      * @param baseDatos Objeto SQLiteDatabase
      */
@@ -164,6 +159,7 @@ public class GestionBaseDatosContactos {
 
     /**
      * Método que devuelve el número de usuarios en base de datos.
+     * Vias futuras
      *
      * @param baseDatos Objeto SQLiteDatabase
      * @return Número de usuarios.
@@ -192,10 +188,13 @@ public class GestionBaseDatosContactos {
 
             Contactos contactoActual = allContacts.get(i);
 
-            if (contactoPorID(baseDatos, contactoActual.getId()) != null){
-                actualizaContacto(baseDatos, contactoActual);
-            }else{
-                insertarUsuario(baseDatos, contactoActual, false);
+            if (contactoActual.getId() != devolverMiContacto(baseDatos).getId()) {
+
+                if (contactoPorID(baseDatos, contactoActual.getId()) != null) {
+                    actualizaContacto(baseDatos, contactoActual);
+                } else {
+                    insertarUsuario(baseDatos, contactoActual);
+                }
             }
 
         }
@@ -212,8 +211,9 @@ public class GestionBaseDatosContactos {
         values.put("nombre", contact.getNombre());
         values.put("estado", contact.getEstado());
         values.put("telefono", contact.getTelefono());
-        values.put("idgcm", "no");
+        values.put("idgcm", "null");
         baseDatos.update("USUARIOS", values, "id_usuario=" + contact.getId(), null);
+        Log.d("contacto", contact.toString());
     }
 
 }

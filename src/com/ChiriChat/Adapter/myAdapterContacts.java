@@ -29,7 +29,9 @@ import com.ChiriChat.model.Contactos;
 
 import java.util.ArrayList;
 
-
+/**
+ * Clase que se encargfara de cargar los item de los contacto y mostrarlos en la vista.
+ */
 public class myAdapterContacts extends BaseAdapter {
 
     private Activity activity;
@@ -72,11 +74,11 @@ public class myAdapterContacts extends BaseAdapter {
             v = inflater.inflate(R.layout.item_contact, null);
             holder = new ViewHolder(v);
             v.setTag(holder);
-         //   Log.d("Nuevo", "Vista nueva");
+
         } else {
             holder = new ViewHolder(v);
             v.setTag(holder);
-          //  Log.d("reciclar","reciclado");
+
         }
 
         holder.setContent(contact);

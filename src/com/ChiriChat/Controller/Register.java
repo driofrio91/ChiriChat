@@ -38,12 +38,14 @@ import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosContactos;
 import com.ChiriChat.model.Contactos;
 
 /**
- * Created by danny on 30/05/2014.
+ * Clase que pedira el registro del usuario en el primer uso
  */
 public class Register extends Activity {
 
-    private static final String ESTADO = ":)";
+    private static final String ESTADO = "Disponible";
+
     int telef;
+
     private static final String LANGUAGE = "language";
 
 
@@ -60,7 +62,11 @@ public class Register extends Activity {
     private ComprobarConexionInternet conexion;
 
 
-
+    /**
+     * En el metodo onCreatese iniciaran las vista y se comprobara que si estamos registrados para
+     * iniciar actividad principal (ListChats), si no nos pedira que nos regisrtremos.
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,15 +88,21 @@ public class Register extends Activity {
 
     }
 
+    /**
+     * Metodo comprobara que tengamos conexion a internet y si hemos introducido algo
+     * en el formulario, contruira el objeto contacto con los mis datos, y se lo
+     * pasara a la tarea asincronica que nos registrara en el server
+     * @param v
+     */
     public void registrar(View v){
         if	(conexion.available()){
             if (nombre.getText().length() >= 0 && telefono.getText().length() == 9){
                 telef= Integer.parseInt(telefono.getText().toString());
+
                 //REGISTRO EN WEB
                 miContacto =new Contactos( nombre.getText().toString(), ESTADO,telef );
                 try {
 
-                    //  miContacto = contactoDAO.insert(miContacto);
                     RegistroUsuarioServer registro = new RegistroUsuarioServer(this, this);
                     registro.execute(miContacto);
 
@@ -100,7 +112,7 @@ public class Register extends Activity {
                 }
 
             }else{
-                Toast toast = Toast.makeText(this, "Datos incorrectos", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(this, R.string.datosIncorrectos, Toast.LENGTH_LONG);
                 toast.show();
             }
         }
@@ -110,7 +122,7 @@ public class Register extends Activity {
 
 
     /**
-     * Metoto que conprueba que ya exista registro del dispositivo
+     * Que inicia la actividad principal y finaliza esta actividad.
      */
     public void iniciarActividadPrincipal() {
 
@@ -120,13 +132,15 @@ public class Register extends Activity {
 
     }
 
+    /**
+     * Metodo que obtiene el lenguaje actual, obtendra el lenguaje por defecto del sistema
+     * a la hora de insalar.
+     */
     public void getLanguage() {
         SharedPreferences prefs = getSharedPreferences(
                 Register.class.getSimpleName(), Context.MODE_PRIVATE);
         String language = prefs.getString(LANGUAGE, "");
 
-        //Log.d("PREFERS", prefs.getAll().toString());
-        //Log.d("Idioma ---->", language);
         Language.setLocal(language);
         startActivity(this.getIntent());
 

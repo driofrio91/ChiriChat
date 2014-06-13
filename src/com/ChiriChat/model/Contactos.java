@@ -24,9 +24,6 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * @author Danny Riofrio Jimenez
- */
 public class Contactos implements Parcelable{
 
     private int id_usuario;

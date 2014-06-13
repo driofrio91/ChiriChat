@@ -35,34 +35,48 @@ import com.ChiriChat.model.Mensajes;
 
 import java.util.List;
 
-
+/**
+ * Esta clase extiende de AsyncTask.
+ * Esta tarea es la mas compleja ya que se encarga de crear la conversacion si no existe,
+ * si existe recuperarla para poder trajar con ella y de insertar los mensajes nuevos.
+ */
 public class CrearConversacion extends AsyncTask<Object, Void, Void> {
 
     private static final String MENSAJE_ERROR = "Error";
-
+    //Contexto de la aplicacion
     private Context ctx;
+    //variable tipo de la clase ListConversation
     private ListConversation listConversation;
+    //Varaibles de acceso a la base da datos local
     private BDSQLite bd;
     private SQLiteDatabase baseDatos;
     private SQLiteDatabase baseDatosL;
-
+    //Varaibles de acceso al DAO
     private IConversacioneDAO conversacioneDAO;
     private IMensajesDAO mensajesDAO;
-
+    //Variable para trabajar con los datos de conversaciones y mensajes
     private GestionBaseDatosConversaciones GBDConversacion = new GestionBaseDatosConversaciones();
     private GestionBaseDatosMensajes GBDMensajes = new GestionBaseDatosMensajes();
 
     private Conversaciones conver;
     private Mensajes men;
-
+    //Mensaje que solo se creara cuando haya ocurrido un error al insertar datos en el  webservice
     public Mensajes mensajeErrorServer;
 
+    /**
+     * Constructor
+     * @param ctx contexto de la aplicacion
+     * @param listConversation ListConversation
+     */
     public CrearConversacion(Context ctx, ListConversation listConversation) {
         this.ctx = ctx;
         this.listConversation = listConversation;
 
     }
 
+    /**
+     * Este metodo se ejecutara antes de toda la tarea, aqui se podra modificar la vista.
+     */
     @Override
     protected void onPreExecute() {
 
@@ -73,6 +87,12 @@ public class CrearConversacion extends AsyncTask<Object, Void, Void> {
 
     }
 
+    /**
+     * Metodo donde se ejecuta la parte mas pesada de la tarea. en el se accede al DAO,
+     * a la base de datos local.
+     * @param params
+     * @return
+     */
     @Override
     protected Void doInBackground(Object... params) {
 
@@ -89,9 +109,6 @@ public class CrearConversacion extends AsyncTask<Object, Void, Void> {
         //Comprubo que la conversacion existe, si existe, la recuperara de la DB local
         if (GBDConversacion.existeConversacion(baseDatos, conver.getId_conversacion())) {
 
-            Log.d("Contacto 1", conver.getContactos().get(0).toString());
-            Log.d("Contacto 2", conver.getContactos().get(1).toString());
-
 
             conver = GBDConversacion.recuperarConversacion(baseDatos, conver.getContactos(), conver.getId_conversacion());
 
@@ -106,9 +123,9 @@ public class CrearConversacion extends AsyncTask<Object, Void, Void> {
                 e.printStackTrace();
             }
 
-//            Log.d("AsynkTask",conver.toString());
 
             if (conver instanceof Conversaciones) {
+
                 //REGISTRO LOCAL
                 conver = GBDConversacion.crearConversacion(baseDatos, conver);
 
@@ -124,11 +141,13 @@ public class CrearConversacion extends AsyncTask<Object, Void, Void> {
             men = mensajesDAO.insert(men);
             //inserto el mensaje en la base de datos local
             if (men instanceof Mensajes) {
-
+                //Insertaremos el mensaje el el webservice a traves del DAO
                 GBDMensajes.insertarMensaje(baseDatos, men);
 
             }
         } catch (Exception e) {
+            //Si pasa cualquir cosa a la hora de recuperar el mensaje insertado
+            //se counstrira el mensaje de error que lo mostrara al Toast
             mensajeErrorServer = new Mensajes(MENSAJE_ERROR);
         }
 
@@ -141,6 +160,11 @@ public class CrearConversacion extends AsyncTask<Object, Void, Void> {
 
     }
 
+    /**
+     * Metodo que se ejecutara despues de que el metodo doInBackground haya terminado,
+     * en el podremos acceder a la vista.
+     * @param aVoid
+     */
     @Override
     protected void onPostExecute(Void aVoid) {
         if (mensajeErrorServer != null) {

@@ -18,13 +18,14 @@
 
 package com.ChiriChat.Controller;
 
+import android.app.ActionBar;
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-
-import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -34,42 +35,43 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ShareActionProvider;
-
 import com.ChiriChat.Adapter.myAdapterChats;
 import com.ChiriChat.R;
 import com.ChiriChat.SQLiteDataBaseModel.BDSQLite;
 import com.ChiriChat.SQLiteDataBaseModel.GestionBaseDatosConversaciones;
-import com.ChiriChat.model.Contactos;
 import com.ChiriChat.model.Conversaciones;
 
 import java.util.ArrayList;
 
-
+/**
+ * Clase en la que estara todas las coversaciones.
+ * Esta sera la clase principal, de manera que siempre se habrira esta clase para que
+ * puedas acceder desde ella a todas las demas.
+ */
 public class ListChats extends Activity {
-
+    //Instancia de la clase que trabaja la lista de conversaciones
     private GestionBaseDatosConversaciones GBDConversaciones = new GestionBaseDatosConversaciones();
-    private ListView listViewChats;
 
+    private ListView listViewChats;
     private myAdapterChats adapterChats;
 
-    private Menu optionsMenu;
+    //Variable del boton Share
     private ShareActionProvider provider;
-
+    //Lista de conversaciones
     private ArrayList<Conversaciones> allChats = new ArrayList<Conversaciones>();
-    private Contactos thisContacto;
 
+    //Instancias de la base de datos.
     private BDSQLite bd; // Instancia de la base de datos
     private SQLiteDatabase baseDatos; // Instancia de la base de datos escritura
     private SQLiteDatabase baseDatosL;// Instancia de la base de datos lectura
 
-    Bundle extra;
 
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_chats);
-        //bd= BDSQLite.getInstance(this);
-        bd = new BDSQLite(this);
+        //Instancia de la base de datos para trabajar
+        bd= BDSQLite.getInstance(this);
         baseDatos = bd.getWritableDatabase();
         baseDatosL = bd.getReadableDatabase();
 
@@ -83,18 +85,28 @@ public class ListChats extends Activity {
 
         listViewChats.setAdapter(adapterChats);
 
+        setTitle(R.string.tituloConver);
+
         listViewChats.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 openConversacion(allChats.get(position));
-                Log.d("CONVERSACI�N SELECCIONADA", "" + allChats.get(position).getNombre());
+                Log.d("CONVERSACIOSELECCIONADA", "" + allChats.get(position).getNombre());
+            }
+        });
+
+        listViewChats.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            // setting onItemLongClickListener and passing the position to the function
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           int position, long arg3) {
+                removeItemFromList(position);
+
+                return true;
             }
         });
 
         adapterChats.notifyDataSetChanged();
-
-        registerReceiver(receiver, new IntentFilter(this.getClass().getName()));
-
 
     }
 
@@ -106,7 +118,7 @@ public class ListChats extends Activity {
 
     @Override
     protected void onPause() {
-//        unregisterReceiver(rv);
+
         super.onPause();
 
     }
@@ -120,19 +132,27 @@ public class ListChats extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
+        //Inflamos la vista del menu que le corresponde a la actividad
         MenuInflater inflate = getMenuInflater();
 
         inflate.inflate(R.menu.menu_activity_chats, menu);
-
+        //Iniciamos la variable de boton share
         provider = (ShareActionProvider) menu.findItem(R.id.menu_share_contactos)
                 .getActionProvider();
-
+        //Le asignamos el metodo a la accion de compartir.
         provider.setShareIntent(doShare());
+
+        ActionBar bar = getActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Metodo que se encargara de las opciones selecionadas del menu
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -159,6 +179,9 @@ public class ListChats extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Metodo que al pulsar atras finalizara la actividad finalizando la alicacion.
+     */
     @Override
     public void onBackPressed() {
         this.finish();
@@ -175,15 +198,18 @@ public class ListChats extends Activity {
         // populate the share intent with data
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, "This is a message for you");
+        intent.putExtra(Intent.EXTRA_TEXT, R.string.usandoChiriChat);
         return intent;
     }
 
 
+    /**
+     * Metodo que abrira al actividad de editar perfil
+     */
     public void openEditPerfil() {
         Intent i = new Intent(this, EditMyPerfilUser.class);
         startActivity(i);
-//        extra.putString(nombre, value);
+
     }
 
     /**
@@ -202,15 +228,42 @@ public class ListChats extends Activity {
         this.finish();
     }
 
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(ListChats.class.getName())) {
+    /**
+     * Metodo que eliminara la conversaion seleccionada de la lista de conversaciones.
+     * @param position
+     */
+    protected void removeItemFromList(int position) {
+        final int deletePosition = position;
 
+        AlertDialog.Builder alert = new AlertDialog.Builder(
+                ListChats.this);
+
+        alert.setTitle("Eliminar conversacion");
+        alert.setMessage("Quieres eliminar esta conversacion?");
+        alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+
+                // main code on after clicking yes
+                allChats.remove(deletePosition);
                 adapterChats.notifyDataSetChanged();
+                adapterChats.notifyDataSetInvalidated();
+
             }
-        }
-    };
+        });
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+
+        alert.show();
+
+
+    }
+
 }
 

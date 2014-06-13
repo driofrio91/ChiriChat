@@ -22,13 +22,22 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
+import com.ChiriChat.R;
 
+/**
+ * Clase donde esta el metodo ue comprueba que hay conexion a internet.
+ */
 public class ComprobarConexionInternet {
 	private Context ctx;
 	public ComprobarConexionInternet(Context context){
 		this.ctx = context;
 	}
-	
+
+    /**
+     * Metodo que comprueba si hay conexion a internet.
+     * si no hay conexion se mostrara un mensaje de error
+     * @return
+     */
 	public boolean available(){
 		ConnectivityManager conex = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 		if(conex != null){
@@ -40,7 +49,7 @@ public class ComprobarConexionInternet {
 				}
 			}			
 		}
-		Toast t= Toast.makeText(ctx, "No tenemos conexi�n", Toast.LENGTH_LONG);
+		Toast t= Toast.makeText(ctx, R.string.errorConeccion, Toast.LENGTH_LONG);
 		t.show();
 		return false;
 	}

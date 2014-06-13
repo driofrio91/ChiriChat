@@ -35,7 +35,7 @@
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:id="@+id/contact_My_NombreEtiqueta"
-                      android:text="Nombre"
+                      android:text="@string/nombre"
                       android:textColor="#FFFFFF"/>
 
             <TextView android:layout_width="match_parent"
@@ -48,7 +48,7 @@
                       android:layout_height="wrap_content"
                       android:layout_marginTop="15dp"
                       android:id="@+id/contact_My_TelefonoEtiqueta"
-                      android:text="Telefono"
+                      android:text="@string/telefono"
                       android:textColor="#FFFFFF"/>
 
             <TextView android:layout_width="match_parent"
@@ -70,7 +70,7 @@
                       android:layout_height="wrap_content"
                       android:layout_margin="15dp"
                       android:id="@+id/contact_My_EstadoEtiqueta"
-                      android:text="Estado"
+                      android:text="@string/estado"
                       android:textColor="#FFFFFF"/>
 
             <TextView android:layout_width="match_parent"

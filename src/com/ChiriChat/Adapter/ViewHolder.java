@@ -24,7 +24,9 @@ import android.widget.TextView;
 import com.ChiriChat.R;
 import com.ChiriChat.model.Contactos;
 
-
+/**
+ * Clase view holder solo tendra una vista, inflara el item de la vista.
+ */
 public class ViewHolder extends BaseHolder{
 
     ImageView image;

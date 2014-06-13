@@ -25,7 +25,9 @@ import android.widget.TextView;
 import com.ChiriChat.R;
 import com.ChiriChat.model.Mensajes;
 
-
+/**
+ * Clase en la que inicializaremos las vistas de uno del los items de chats
+ */
 public class BaseHolderLocal extends BaseHolder {
 
     private ImageView image;

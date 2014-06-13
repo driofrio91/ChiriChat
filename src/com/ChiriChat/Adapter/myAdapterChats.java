@@ -29,7 +29,11 @@ import com.ChiriChat.model.Conversaciones;
 
 import java.util.ArrayList;
 
-
+/**
+ * Apadter personalizado en que que inflaremos nuesteras vistas yls rellenaremos con los
+ * onjetos que contenga la arrayList
+ *
+ */
 public class myAdapterChats extends BaseAdapter {
 
     private Activity activity;
@@ -71,11 +75,11 @@ public class myAdapterChats extends BaseAdapter {
             v = inflater.inflate(R.layout.item_chat, null);
             holder = new ViewHolderConver(v);
             v.setTag(holder);
-         //   Log.d("Nuevo", "Vista nueva");
+
         } else {
             holder = new ViewHolderConver(v);
             v.setTag(holder);
-           // Log.d("reciclar","reciclado");
+
         }
 
         holder.setContent(conver);

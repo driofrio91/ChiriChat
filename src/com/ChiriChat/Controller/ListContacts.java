@@ -19,11 +19,14 @@
 package com.ChiriChat.Controller;
 
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -33,6 +36,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ShareActionProvider;
+import android.widget.Toast;
 import com.ChiriChat.Adapter.myAdapterContacts;
 import com.ChiriChat.AsynTask.ActualizarUsuarios;
 import com.ChiriChat.R;
@@ -52,20 +56,18 @@ public class ListContacts extends Activity {
     private myAdapterContacts adapterContacts;
 
     private Menu optionsMenu;
-    private ShareActionProvider provider;
+
 
 
 
     private ArrayList<Contactos> contacts = null;
-    //private ArrayList<Mensajes> listaMensajes = null;
-    private int numeroContactos;
+
     private GestionBaseDatosContactos GBDCContactos = new GestionBaseDatosContactos();
-    private GestionBaseDatosMensajes gBDCMensajes = new GestionBaseDatosMensajes();
-    private GestionBaseDatosConversaciones GBDCConversaciones = new GestionBaseDatosConversaciones();
-    BDSQLite bd;
+
+    private BDSQLite bd;
     private SQLiteDatabase baseDatos;
     private SQLiteDatabase baseDatosL;
-    private int numeroUsuarios;
+
 
     private ActualizarUsuarios actualizaUsuarios;
     /**
@@ -83,18 +85,8 @@ public class ListContacts extends Activity {
         baseDatosL = bd.getReadableDatabase();
         String sql = "PRAGMA foreign_keys = ON";
         baseDatos.execSQL(sql);
-        // gb.borrarContactos(baseDatos);
 
-		/*Como son usuarios fijos y solo se van a insertar una vez,
-		comprobamos antes de insertarlos que no existe ningun contacto
-		en la tabla usuarios*/
-        
-
-
-
-        // Devueleve el numero de contactos
-//        Log.d("NUMERO CONTACTOS", "" + contacts.size());
-//        numeroContactos = contacts.size();
+        setTitle(R.string.tituloContactos);
 
         listContacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -103,7 +95,7 @@ public class ListContacts extends Activity {
                 Log.d("CONTACTO PULSADO", contacts.get(position).getNombre());
             }
         });
-        //  listContacts.setTextFilterEnabled(true);
+
 
         listContacts.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             // setting onItemLongClickListener and passing the position to the function
@@ -117,6 +109,8 @@ public class ListContacts extends Activity {
         });
 
         recuperarListaContactos();
+
+        toastInfo();
     }
 
 
@@ -136,6 +130,8 @@ public class ListContacts extends Activity {
 
         inflater.inflate(R.menu.menu_activity_contacts, menu);
 
+        ActionBar bar = getActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -156,7 +152,7 @@ public class ListContacts extends Activity {
                 actualizaUsuarios.execute();
                 break;
             default:
-                //setRefreshActionButtonState(false);
+
                 break;
         }
 
@@ -189,12 +185,6 @@ public class ListContacts extends Activity {
 
         // Recuperamos todos los usuarios de la tablas usuarios.
         contacts = (ArrayList<Contactos>) GBDCContactos.recuperarContactos(baseDatosL);
-
-//        if (contacts.isEmpty()){
-//            actualizaUsuarios = new ActualizarUsuarios(this,this);
-//            actualizaUsuarios.execute();
-//            contacts = (ArrayList<Contactos>) GBDCContactos.recuperarContactos(baseDatosL);
-//        }
 
         adapterContacts = new myAdapterContacts(this, contacts);
 
@@ -238,7 +228,7 @@ public class ListContacts extends Activity {
         alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO llamada a la base de datos para que elimine este objeto
+
 
                 // main code on after clicking yes
                 contacts.remove(deletePosition);
@@ -258,6 +248,12 @@ public class ListContacts extends Activity {
         alert.show();
 
 
+    }
+
+    public void toastInfo(){
+        if(contacts.isEmpty()){
+            Toast.makeText(this,R.string.actualizeContactos, Toast.LENGTH_LONG).show();
+        }
     }
 
 }
