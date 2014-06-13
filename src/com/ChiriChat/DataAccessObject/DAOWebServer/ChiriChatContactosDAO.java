@@ -44,13 +44,22 @@ import com.ChiriChat.DataAccessObject.InterfacesDAO.IContactosDAO;
 import com.ChiriChat.model.Contactos;
 
 /**
- *
+ * Clasde que extiendo de IContactosDAO, tendremos en ella los metodos CRUD y lo que
+ * nos hayamos declarado el la interfaz.
  */
 public class ChiriChatContactosDAO implements IContactosDAO {
     //Creo el objeto hhtpCLient para acceder a la conexion web.
     private HttpClient httpClient = new DefaultHttpClient();
 
-
+    /**
+     * Inserta un Contactoo en el servidor a traves de una petidion POST, crea el objeto JSON
+     * para enviarlo, recupera el codigo del response, y si ha tenido exito la operacion
+     * se recupera lo que el servidor devuelve, contruyo el objeto Contacto y lo devuelvo, si
+     * ha avido algun error devolvera un null.
+     * @param dto
+     * @return
+     * @throws Exception
+     */
     @Override
     public Contactos insert(Contactos dto) throws Exception {
 
@@ -127,6 +136,12 @@ public class ChiriChatContactosDAO implements IContactosDAO {
         return null;
     }
 
+    /**
+     * Metodo que recuperara todos los usuario del web-service, contruira los objetos
+     * contactos y los almacenara en una lista, que sera la que devuelva.
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<Contactos> getAll() throws Exception {
 
@@ -181,6 +196,13 @@ public class ChiriChatContactosDAO implements IContactosDAO {
         return allContacts;
     }
 
+    /**
+     * Metodo que llamara al metodo @see getAll() y eliminara nuestro contacto de la lista,
+     * devolvera la lista de contactos sin nuestro contacto.
+     * @param dto
+     * @return
+     * @throws Exception
+     */
     @Override
     public List getAllSinMiContacto(Contactos dto) throws Exception {
         List<Contactos> contactos;
@@ -197,6 +219,12 @@ public class ChiriChatContactosDAO implements IContactosDAO {
         return contactos;
     }
 
+    /**
+     * Metoto al que se le pasara un InputStream y devolera una cadena.
+     * Este metodo es llamado para tratar las respuesta del servidor.
+     * @param is
+     * @return
+     */
     @Override
     public String StreamToString(InputStream is) {
         //Creamos el Buffer
