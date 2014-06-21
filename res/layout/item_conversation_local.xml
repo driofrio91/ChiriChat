@@ -20,14 +20,15 @@
             android:layout_toLeftOf="@+id/imagenRemoto">
 
         <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Medium Text"
                 android:layout_margin="10dp"
-                android:layout_gravity="right"
+                android:gravity="right"
                 android:id="@+id/MensajeRemoto"
-                android:textColor="#FFFFFF"/>
+                android:background="#ff98bed9"
+                android:textColor="#000000"/>
 
     </LinearLayout>
 

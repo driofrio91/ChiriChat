@@ -6,9 +6,9 @@
              android:minWidth="56dp">
 
     <ProgressBar
-                android:id="@+id/manuBar_ProgressBar"
+            android:id="@+id/manuBar_ProgressBar"
             android:layout_width="32dp"
-                 android:layout_height="32dp"
-                 android:layout_gravity="center"/>
+            android:layout_height="32dp"
+            android:layout_gravity="center"/>
 
 </FrameLayout>

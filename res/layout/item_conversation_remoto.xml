@@ -20,13 +20,14 @@
                   android:layout_toRightOf="@+id/imageLocal">
 
         <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Medium Text"
                 android:layout_margin="10dp"
                 android:id="@+id/MensajeLocal"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#000000"
+                android:background="#ffbdffbf"/>
 
 
 

@@ -60,7 +60,9 @@ public class Opciones extends Activity {
 
         ArrayAdapter<String> adaptador =
                 new ArrayAdapter<String>(this,
-                        android.R.layout.simple_selectable_list_item, idiomas);
+                        R.layout.list_view_simple, idiomas);
+
+
 
         listview.setAdapter(adaptador);
 

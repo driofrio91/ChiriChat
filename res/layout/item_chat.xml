@@ -32,7 +32,7 @@
                 android:gravity="center_vertical"
                 android:text="Nombre de la persona del chat"
                 android:textSize="16sp"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 />
 
 
@@ -43,7 +43,7 @@
                 android:layout_margin="5dp"
                 android:singleLine="true"
                 android:text="Ultimo mensaje"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:textSize="14sp" />
 
     </LinearLayout>
