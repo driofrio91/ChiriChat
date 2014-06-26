@@ -374,7 +374,11 @@ public class ListConversation extends Activity {
         // populate the share intent with data
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        Mensajes mensajeShare = new Mensajes(R.string.chateandoCon + contactoOrigen.getNombre() + R.string.enChiriChat);
+
+        String men1 = getResources().getString(R.string.chateandoCon);
+        String men2 = getResources().getString(R.string.enChiriChat);
+
+        Mensajes mensajeShare = new Mensajes(men1 + contactoOrigen.getNombre() + men2);
         intent.putExtra(Intent.EXTRA_TEXT, mensajeShare.toString());
         return intent;
     }
