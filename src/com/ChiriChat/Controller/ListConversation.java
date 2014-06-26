@@ -328,8 +328,6 @@ public class ListConversation extends Activity {
     }
 
     public void send(View view) {
-
-
         String cadena = editText.getText().toString().trim();
 
 
