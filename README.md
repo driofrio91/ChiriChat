@@ -15,17 +15,18 @@ Funcionalidad
 ==============
 La funcionalidad depende de la pantalla en la que estes en sese momento:
 
-  -Desde la pantalla de registro, tendras que registrarte, si no no podras avanzar.
+
+    -Desde la pantalla de registro, tendras que registrarte, si no no podras avanzar.
   
-  -Desde la pantalla de Conversaciones, el usuario podra acceder a Contactos con el icono que hay en la barra de 
-  menu, tambien podra acceder a su perfil, podra eliminar conversaciones manteniendo pulsada la conversacion que
-  se quiera eliminar. 
+    -Desde la pantalla de Conversaciones, el usuario podra acceder a Contactos con el icono que hay en la barra de 
+      menu, tambien podra acceder a su perfil, podra eliminar conversaciones manteniendo pulsada la conversacion que
+      se quiera eliminar. 
   
-  -Desde la pantalla de Contactos se podra actualizar los contactos y eliminar un contacto de la misma manera que 
-  conversaciones.
+    -Desde la pantalla de Contactos se podra actualizar los contactos y eliminar un contacto de la misma manera que 
+      conversaciones.
   
-  -Desde la pantalla de Perfil se podra editar los datos, menos el numenro de telefono (Por implementar).
+    -Desde la pantalla de Perfil se podra editar los datos, menos el numenro de telefono (Por implementar).
   
-  -Desde la pantalla de Conversacion el usuario podra acceder al perfil con el que esta manteniendo la conversacion;
-  tambien podra eliminar mensajes de la misma manere que conversaciones.
+    -Desde la pantalla de Conversacion el usuario podra acceder al perfil con el que esta manteniendo la conversacion;
+      tambien podra eliminar mensajes de la misma manere que conversaciones.
   
